@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="USERS")
+@Table(name = "USERS")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -21,8 +21,8 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "username")
-	private String username;
+	@Column(name = "email")
+	private String email;
 
 	@JsonIgnore
 	@Column(name = "password")
@@ -34,8 +34,17 @@ public class User implements UserDetails {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "email")
-	private String email;
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "city")
+	private String city;
+
+	@Column(name = "state")
+	private String state;
+
+	@Column(name = "phone_number")
+	private String phoneNumber;
 
 	@Column(name = "enabled")
 	private boolean enabled;
@@ -55,14 +64,6 @@ public class User implements UserDetails {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getPassword() {
@@ -113,6 +114,12 @@ public class User implements UserDetails {
 		this.email = email;
 	}
 
+	//username is email, user details problem
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
 	@Override
 	public boolean isEnabled() {
 		return enabled;
@@ -128,6 +135,38 @@ public class User implements UserDetails {
 
 	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
 		this.lastPasswordResetDate = lastPasswordResetDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	@JsonIgnore

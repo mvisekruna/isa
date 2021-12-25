@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface UserService {
     User findById(Long id);
-    User findByUsername(String username);
-    List<User> findAll ();
-    User save(UserRequest userRequest);
+
+    User findByEmail(String email);
+
+    List<User> findAll();
+
+    User register(UserRequest userRequest);
 }

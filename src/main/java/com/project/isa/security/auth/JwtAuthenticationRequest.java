@@ -1,24 +1,24 @@
 package com.project.isa.security.auth;
 
 public class JwtAuthenticationRequest {
-    private String username;
+    private String email;
     private String password;
 
     public JwtAuthenticationRequest() {
         super();
     }
 
-    public JwtAuthenticationRequest(String username, String password) {
-        this.setUsername(username);
+    public JwtAuthenticationRequest(String email, String password) {
+        this.setEmail(email);
         this.setPassword(password);
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUsername(String email) {
-        this.username = email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -5,7 +5,7 @@ public class UserRequest {
 
     private Long id;
 
-    private String username;
+    private String email;
 
     private String password;
 
@@ -13,14 +13,20 @@ public class UserRequest {
 
     private String lastname;
 
-    private String email;
+    private String address;
 
-    public String getUsername() {
-        return username;
+    private String city;
+
+    private String state;
+
+    private String phoneNumber;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -55,12 +61,35 @@ public class UserRequest {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

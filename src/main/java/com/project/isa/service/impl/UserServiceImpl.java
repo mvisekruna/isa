@@ -7,11 +7,12 @@ import com.project.isa.request.UserRequest;
 import com.project.isa.service.RoleService;
 import com.project.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
@@ -26,9 +27,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private EmailServiceImpl emailService;
+
     @Override
-    public User findByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public User findById(Long id) throws AccessDeniedException {
@@ -40,20 +44,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserRequest userRequest) {
+    public User register(UserRequest userRequest) {
         User u = new User();
 
-        u.setUsername(userRequest.getUsername());
+        u.setEmail(userRequest.getEmail());
         u.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-
         u.setFirstName(userRequest.getFirstname());
         u.setLastName(userRequest.getLastname());
-        u.setEnabled(true);
-        u.setEmail(userRequest.getEmail());
+        u.setAddress(userRequest.getAddress());
+        u.setCity(userRequest.getCity());
+        u.setState(userRequest.getState());
+        u.setPhoneNumber(userRequest.getPhoneNumber());
+        u.setEnabled(false);
 
         List<Role> roles = roleService.findByName("ROLE_USER");
         u.setRoles(roles);
+        u = this.userRepository.save(u);
 
-        return this.userRepository.save(u);
+        try {
+            emailService.sendNotificaitionAsync(userRequest, u.getId());
+        } catch (MailException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return u;
+    }
+
+    public User activateAccount(String email) {
+        User user = findByEmail(email);
+        user.setEnabled(true);
+        System.out.println("aktiviran");
+        return userRepository.save(user);
     }
 }
