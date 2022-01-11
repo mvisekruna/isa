@@ -10,4 +10,10 @@ public class BoatRequest {
     private String boatName;
 
     private String boatLocation;
+
+    private String boatDescription;
+
+    private String boatPrice;
+
+    private String boatReview;
 }

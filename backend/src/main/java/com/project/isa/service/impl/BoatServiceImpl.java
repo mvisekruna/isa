@@ -37,6 +37,9 @@ public class BoatServiceImpl implements BoatService {
 
         b.setBoatName(boatRequest.getBoatName());
         b.setBoatLocation(boatRequest.getBoatLocation());
+        b.setBoatDescription(boatRequest.getBoatDescription());
+        b.setBoatPrice(boatRequest.getBoatPrice());
+        b.setBoatReview(boatRequest.getBoatReview());
         User boatOwner = userService.findById(boatRequest.getBoatOwner());
         b.setBoatOwner(boatOwner);
 

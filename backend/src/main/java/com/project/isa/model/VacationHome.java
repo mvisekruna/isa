@@ -25,4 +25,10 @@ public class VacationHome {
     @Column(name = "vacation_home_location")
     private String vacationHomeLocation;
 
+    @Column(name = "vacation_home_price")
+    private String vacationHomePrice;
+
+    @Column(name = "vacation_home_review")
+    private String vacationHomeReview;
+
 }

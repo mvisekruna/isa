@@ -9,6 +9,4 @@ public interface BoatService {
     Boat findById(Long id);
     List<Boat> findAll();
     Boat save(BoatRequest boatRequest);
-
-
 }

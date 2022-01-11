@@ -1,0 +1,28 @@
+<div class="card my-5">
+    <div class="card-body">
+        <h2>{{ title }}</h2>
+        <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Adventure name</th>
+                    <th scope="col">Adventure location</th>
+                    <th scope="col">Adventure description</th>
+                    <th scope="col">Adventure price</th>
+                    <th scope="col">Adventure review</th>
+                    <th scope="col">Tutor</th>
+                </tr>
+            <tbody>
+                <tr *ngFor="let adventure of adventures | search:terms" id="adventure">
+                    <td>{{ adventure.id }}</td>
+                    <td>{{ adventure.adventureName }}</td>
+                    <td>{{ adventure.adventureAddress }}</td>
+                    <td>{{ adventure.adventureDescription }}</td>
+                    <td>{{ adventure.adventurePrice }}</td>
+                    <td>{{ adventure.adventureReview }}</td>
+                    <td>{{ adventure.adventureTutor.firstName }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="card my-5">
+    <div class="card-body" >
+        <form (ngSubmit)="onSubmit()" #form="ngForm" name="addPromo" #r="ngForm" novalidate>
+            <div class="form-group">
+      <h2>New promotion:</h2>
+      <p>Start date:</p>
+      <input type="datetime-local"  class="form-control"  id="startPromo"  name="startPromo"  [ngModel]="promotionRequest.startPromo | date:'yyyy-MM-ddTHH:mm'" />
+      <p>End date:</p>
+      <input type="datetime-local"  class="form-control"  id="endPromo"  name="endPromo"  [ngModel]="promotionRequest.endPromo | date:'yyyy-MM-ddTHH:mm'" />
+      <p>Description:</p>
+
+      <input type="text"  class="form-control"  id="description"  name="description"  [(ngModel)]="promotionRequest.description" />
+      <p>Pharmacy id:</p>
+
+      <input type="text"   [(ngModel)]="promotionRequest.adventurePromotionId"
+            class="form-control" 
+            id="adventurePromotionId" 
+            name="adventurePromotionId" 
+            placeholder="Enter adventure promotion id"
+            >
+        <button type="submit" 
+        class="btn btn-info" >Add</button>
+        </div>
+        </form>
+    </div>
+</div>

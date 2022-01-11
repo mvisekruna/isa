@@ -1,0 +1,27 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h2>{{ title }}</h2>
+    <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Vacation home owner</th>
+          <th scope="col">Vacation home name</th>
+          <th scope="col">Vacation home location</th>
+          <th scope="col">Vacation home price</th>
+          <th scope="col">Vacation home review</th>
+          
+        </tr>
+      <tbody>
+        <tr *ngFor="let vacationHome of vacationHomes | search:terms" id="vacationHome">
+          <td>{{ vacationHome.id }}</td>
+          <td>{{ vacationHome.vacationHomeOwner.firstName }}</td>
+          <td>{{ vacationHome.vacationHomeName }}</td>
+          <td>{{ vacationHome.vacationHomeLocation }}</td>
+          <td>{{ vacationHome.vacationHomePrice }}</td>
+          <td>{{ vacationHome.vacationHomeReview }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

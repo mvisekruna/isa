@@ -58,6 +58,8 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
 
+	private boolean firstLogin;
+
 	public Long getId() {
 		return id;
 	}
@@ -169,6 +171,14 @@ public class User implements UserDetails {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+
 	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
@@ -186,4 +196,5 @@ public class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
 }

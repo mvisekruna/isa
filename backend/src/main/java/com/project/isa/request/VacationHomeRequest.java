@@ -10,4 +10,8 @@ public class VacationHomeRequest {
     private String vacationHomeName;
 
     private String vacationHomeLocation;
+
+    private String vacationHomePrice;
+
+    private String vacationHomeReview;
 }

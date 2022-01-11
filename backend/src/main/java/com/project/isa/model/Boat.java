@@ -25,4 +25,13 @@ public class Boat {
     @Column(name = "boat_location")
     private String boatLocation;
 
+    @Column(name = "boat_description")
+    private String boatDescription;
+
+    @Column(name = "boat_price")
+    private String boatPrice;
+
+    @Column(name = "boat_review")
+    private String boatReview;
+
 }
