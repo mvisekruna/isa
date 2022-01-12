@@ -24,8 +24,11 @@ import { VacationHomeListComponent } from './components/vacation-home-list/vacat
 import { BoatListComponent } from './components/boat-list/boat-list.component';
 import { AdventureListComponent } from './components/adventure-list/adventure-list.component';
 import { HomePageUserComponent } from './components/home-page/home-page-user/home-page-user.component';
-import { HistoryComponent } from './history/history.component';
+import { HistoryComponent } from './components/history/history.component';
 import { AddPromotionComponent } from './components/add-promotion/add-promotion.component';
+import { BoatHistoryComponent } from './components/boat-history/boat-history.component';
+import { AdventureHistoryComponent } from './components/adventure-history/adventure-history.component';
+import { VacationHomeHistoryComponent } from './components/vacation-home-history/vacation-home-history.component';
 
 
 @NgModule({
@@ -45,6 +48,9 @@ import { AddPromotionComponent } from './components/add-promotion/add-promotion.
     HomePageUserComponent,
     HistoryComponent,
     AddPromotionComponent,
+    BoatHistoryComponent,
+    AdventureHistoryComponent,
+    VacationHomeHistoryComponent
    
   ],
   imports: [

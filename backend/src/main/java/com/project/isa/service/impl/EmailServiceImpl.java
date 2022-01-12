@@ -35,10 +35,10 @@ public class EmailServiceImpl {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 
-        String htmlMsg = "<h3>Hello "+userRequest.getFirstName()+"</h3><br> <p>to activate Your account visit <a href=\"http://localhost:8080/api/activateacc/"+id.toString()+"\">link</a></p>";
+        String htmlMsg = "<h3>Hello</h3> <br> <p>to activate this account visit <a href=\"http://localhost:8080/api/activateacc/"+id.toString()+"\">link</a></p>";
         System.out.println(htmlMsg);
         mimeMessage.setContent(htmlMsg, "text/html");
-        helper.setTo(userRequest.getEmail());
+        helper.setTo("admin@example.com");
         helper.setSubject("Verification");
         helper.setFrom(environment.getProperty("spring.mail.username"));
         javaMailSender.send(mimeMessage);
@@ -50,10 +50,10 @@ public class EmailServiceImpl {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 
-        String htmlMsg = "<h3>Hello "+currentUser.getFirstName()+"</h3><br> <p>to delete Your account visit <a href=\"http://localhost:8080/api/deactivateacc/"+currentUser.getId().toString()+"\">link</a></p>";
+        String htmlMsg = "<h3>Hello</h3> <br> <p>to delete the account visit <a href=\"http://localhost:8080/api/deactivateacc/"+currentUser.getId().toString()+"\">link</a></p>";
         System.out.println(htmlMsg);
         mimeMessage.setContent(htmlMsg, "text/html");
-        helper.setTo(currentUser.getEmail());
+        helper.setTo("admin@example.com");
         helper.setSubject("Verification");
         helper.setFrom(environment.getProperty("spring.mail.username"));
         javaMailSender.send(mimeMessage);

@@ -32,5 +32,8 @@ public class BoatReservation {
     @ManyToOne
     private User user;
 
+    @Column
+    private String status;
+
 
 }

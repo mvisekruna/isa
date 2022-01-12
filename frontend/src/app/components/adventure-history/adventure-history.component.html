@@ -1,0 +1,33 @@
+
+<div class="card my-5">
+    <div class="card-body">
+      <h2>{{ title }}</h2>
+      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Adventure name</th>
+            <th scope="col">Adventure location</th>
+            <th scope="col">Start date</th>
+            <th scope="col">End date</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Price</th>
+            <th scope="col">Status</th>
+            <th scope="col">Cancel</th>
+          </tr>
+        <tbody>
+          <tr *ngFor="let reservationHistory of adventureReservations">
+            <td>{{ reservationHistory.id }}</td>
+            <td>{{ reservationHistory.adventureName }}</td>
+            <td>{{ reservationHistory.adventureAddress }}</td>
+            <td>{{ reservationHistory.startDate | date }}</td>
+            <td>{{ reservationHistory.endDate | date}}</td>
+            <td>{{ reservationHistory.duration }}</td>
+            <td>{{ reservationHistory.price }}</td>
+            <td>{{ reservationHistory.status }}</td>
+            <td><button *ngIf="reservationHistory.canCancel">Cancel</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -35,7 +35,6 @@ export class UserServiceService {
   public getMyInfo(email: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.userUrl}/{email}`, email, { headers });
-
   }
 
   public addUser(body: any): Observable<User> {

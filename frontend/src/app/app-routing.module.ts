@@ -10,7 +10,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { TutorListComponent } from './components/tutor-list/tutor-list.component';
 import { VacationHomeListComponent } from './components/vacation-home-list/vacation-home-list.component';
 import { AdventureListComponent } from './components/adventure-list/adventure-list.component';
-import { HistoryComponent } from './history/history.component';
+import { HistoryComponent } from './components/history/history.component';
 import { AddPromotionComponent } from './components/add-promotion/add-promotion.component';
 
 const routes: Routes = [

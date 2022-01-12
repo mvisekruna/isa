@@ -31,4 +31,7 @@ public class VacationHomeReservation {
 
     @ManyToOne
     private User user;
+
+    @Column
+    private String status;
 }

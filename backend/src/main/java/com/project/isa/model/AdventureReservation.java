@@ -34,4 +34,8 @@ public class AdventureReservation {
 
     @ManyToOne
     private User user;
+
+    @Column
+    private String status;
+
 }

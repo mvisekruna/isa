@@ -72,7 +72,7 @@ export class LoginFormComponent implements OnInit {
                 });
           } else {
             console.log("User didn't activate the account");
-            alert("User didn't activate the account!");
+            alert("The account isn't active or it is deleted!");
           }
         } else { alert("User with that email doesn't exist"); }
       });
