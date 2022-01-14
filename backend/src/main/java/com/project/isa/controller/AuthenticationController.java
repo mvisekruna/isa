@@ -80,6 +80,22 @@ public class AuthenticationController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    @PostMapping("/signup/admin")
+    public ResponseEntity<User> addAdmin(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+
+        User existUser = this.userService.findByEmail(userRequest.getEmail());
+
+        if (existUser != null) {
+            throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+        }
+
+        User user = this.userService.registerAdmin(userRequest);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
     //@PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {

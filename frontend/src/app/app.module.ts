@@ -16,19 +16,24 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { SearchPipe } from './search.pipe';
 import { DataTablesModule } from 'angular-datatables';
 import { RegisterNewUserComponent } from './components/register-new-user/register-new-user.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
-
 import { AgmCoreModule } from '@agm/core';
 import { TutorListComponent } from './components/tutor-list/tutor-list.component';
-import { VacationHomeListComponent } from './components/vacation-home-list/vacation-home-list.component';
-import { BoatListComponent } from './components/boat-list/boat-list.component';
-import { AdventureListComponent } from './components/adventure-list/adventure-list.component';
+import { VacationHomeListComponent } from './components/vacation-home/vacation-home-list/vacation-home-list.component';
+import { BoatListComponent } from './components/boat/boat-list/boat-list.component';
+import { AdventureListComponent } from './components/adventure/adventure-list/adventure-list.component';
 import { HomePageUserComponent } from './components/home-page/home-page-user/home-page-user.component';
 import { HistoryComponent } from './components/history/history.component';
-import { AddPromotionComponent } from './components/add-promotion/add-promotion.component';
-import { BoatHistoryComponent } from './components/boat-history/boat-history.component';
-import { AdventureHistoryComponent } from './components/adventure-history/adventure-history.component';
-import { VacationHomeHistoryComponent } from './components/vacation-home-history/vacation-home-history.component';
+import { AdventureHistoryComponent } from './components/adventure/adventure-history/adventure-history.component';
+import { HomePageAdminComponent } from './components/home-page/home-page-admin/home-page-admin.component';
+import { PromotionListComponent } from './components/promotion/promotion-list/promotion-list.component';
+import { AdventureDetailsComponent } from './components/adventure/adventure-details/adventure-details.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { BoatHistoryComponent } from './components/boat/boat-history/boat-history.component';
+import { VacationHomeDetailsComponent } from './components/vacation-home/vacation-home-details/vacation-home-details.component';
+import { VacationHomeHistoryComponent } from './components/vacation-home/vacation-home-history/vacation-home-history.component';
+import { AddPromotionComponent } from './components/promotion/add-promotion/add-promotion.component';
+import { BoatDetailsComponent } from './components/boat/boat-details/boat-details.component';
+import { AddAdminComponent } from './components/add-admin/add-admin.component';
 
 
 @NgModule({
@@ -50,7 +55,13 @@ import { VacationHomeHistoryComponent } from './components/vacation-home-history
     AddPromotionComponent,
     BoatHistoryComponent,
     AdventureHistoryComponent,
-    VacationHomeHistoryComponent
+    VacationHomeHistoryComponent,
+    HomePageAdminComponent,
+    PromotionListComponent,
+    BoatDetailsComponent,
+    AdventureDetailsComponent,
+    VacationHomeDetailsComponent,
+    AddAdminComponent
    
   ],
   imports: [

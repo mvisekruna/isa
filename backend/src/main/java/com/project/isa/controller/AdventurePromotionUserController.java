@@ -32,7 +32,7 @@ public class AdventurePromotionUserController {
     }
 
     @GetMapping("/subscribe/{id}")
-    @PreAuthorize("hasRole('PATIENT')")
+    @PreAuthorize("hasRole('USER')")
     public void subscribe(@PathVariable Long id) {
         adventurePromotionUserService.subscribe(id);
     }

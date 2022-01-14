@@ -42,6 +42,7 @@ public class BoatReservationResponse {
                 .toDays(boatReservation.getEndDate().getTime() - boatReservation.getStartDate().getTime())
                 % 365;
         this.duration = (int) difference_In_Days ;
+        this.status = boatReservation.getStatus().name();
 
         Instant dbInstant = boatReservation.getStartDate().toInstant();
 
@@ -55,21 +56,6 @@ public class BoatReservationResponse {
             this.canCancel = false;
         }
 
-        switch (boatReservation.getStatus()) {
-            case "1":
-                this.status = "NEW";
-                break;
-            case "2":
-                this.status = "CANCELED";
-                break;
-            case "3":
-                this.status = "FINISHED";
-                break;
-            case "4":
-                this.status = "IN_PROGRESS";
-                break;
-
-        }
     }
 
 }

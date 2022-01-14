@@ -1,5 +1,7 @@
 package com.project.isa.controller;
 
+import com.project.isa.model.BoatReservation;
+import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.request.UserEmailRequest;
 import com.project.isa.response.UserHistoryResponse;
 import com.project.isa.service.ReservationService;
@@ -14,12 +16,24 @@ import java.text.ParseException;
 @CrossOrigin
 public class ReservationController {
 
-
     @Autowired
     private ReservationService reservationService;
 
     @PostMapping
     public UserHistoryResponse getAllReservations(@RequestBody UserEmailRequest userEmailRequest) throws ParseException {
         return reservationService.getAllReservations(userEmailRequest.getEmail());
+    }
+
+    @PostMapping(value = "/cancel/adventure")
+    public UserHistoryResponse cancelAdventureReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
+            return reservationService.cancelAdventureReservation(cancelReservationRequest);
+    }
+    @PostMapping(value = "/cancel/vacationHome")
+    public UserHistoryResponse cancelVacationHomeReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
+          return reservationService.cancelVacationHomeReservation(cancelReservationRequest);
+    }
+    @PostMapping(value = "/cancel/boat")
+    public UserHistoryResponse cancelBoatReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
+         return reservationService.cancelBoatReservation(cancelReservationRequest);
     }
 }

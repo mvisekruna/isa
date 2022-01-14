@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CancelReservationRequest } from '../model/cancel-reservation-request';
 import { ReservationHistoryResponse } from '../model/reservation-history-response';
 import { UserEmailRequest } from '../model/user-email-request';
 
@@ -18,4 +19,22 @@ export class ReservationServiceService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<ReservationHistoryResponse>(`${this.reservationUrl}`, userEmailRequest, { headers });
   }
+  public cancelBoatReservation(cancelReservationRequest: CancelReservationRequest): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.reservationUrl}/cancel/boat`, cancelReservationRequest, { headers });
+  }
+
+  public cancelAdventureReservation(cancelReservationRequest: CancelReservationRequest): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.reservationUrl}/cancel/adventure`, cancelReservationRequest, { headers });
+  }
+
+  public cancelVacationHomeReservation(cancelReservationRequest: CancelReservationRequest): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.reservationUrl}/cancel/vacationHome`,cancelReservationRequest, { headers });
+  }
+
+  
+
+
 }

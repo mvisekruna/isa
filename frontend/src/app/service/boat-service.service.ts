@@ -16,4 +16,8 @@ export class BoatServiceService {
   public loadAll(): Observable<Boat[]> {
     return this.http.get<Boat[]>(`${this.boatUrl}/all`)
   }
+
+  public getOne(id): Observable<Boat> {
+    return this.http.get<Boat>(`${this.boatUrl}/one/`.concat(id))
+  }
 }

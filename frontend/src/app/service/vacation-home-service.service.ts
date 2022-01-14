@@ -16,4 +16,8 @@ export class VacationHomeServiceService {
   public loadAll(): Observable<VacationHome[]> {
     return this.http.get<VacationHome[]>(`${this.vacationHomeUrl}/all`);
   }
+
+  public getOne(id): Observable<VacationHome> {
+    return this.http.get<VacationHome>(`${this.vacationHomeUrl}/one/`.concat(id))
+  }
 }

@@ -6,7 +6,7 @@
       </div>
     </div>
   </div>
-  <div class="form-group" *ngIf="!changeInfo && !changePass" id="changeInfo">
+  <div class="form-group col-md-12" *ngIf="!changeInfo && !changePass" id="changeInfo">
     <p>
       <strong>Email:</strong> {{userInfo.email}}<br />
       <strong>First name:</strong> {{userInfo.firstName}}<br />
@@ -16,17 +16,15 @@
       <strong>State:</strong> {{userInfo.state}}<br />
       <strong>Phone number:</strong> {{userInfo.phoneNumber}}<br />
     </p>
-
-    <div class="card my-5" *ngIf="isDr">
-      <div class="card-body">
-        <h3>Working schedule</h3>
-      </div>
-    </div>
+    <div>
     <button (click)="changeInfoFun()" type="submit" class="btn btn-info">Update my profile</button>
     &nbsp;
-    <button (click)="changePassFun()" type="submit" class="btn btn-info">Change my password</button><br /><br />
+    <button (click)="changePassFun()" type="submit" class="btn btn-info">Change my password</button>
+    &nbsp;
+    <button (click)="deleteAccountFun()" type="submit" class="btn btn-info">Delete account</button><br /><br />
   </div>
-  <div class="form-group" *ngIf="changeInfo" id="changeInfo">
+  </div>
+  <div class="form-group col-md-12" *ngIf="changeInfo" id="changeInfo">
     <p>
       <strong>Name:</strong><input type="text" class="form-control" id="firstName" name="firstName"
         placeholder={{userInfo.firstName}} value={{userInfo.firstName}}> <br />
@@ -45,7 +43,7 @@
     &nbsp;
     <button (click)="cancelFun()" type="submit" class="btn btn-info">Cancel</button>
   </div>
-  <div class="form-group" *ngIf="changePass" id="changePass">
+  <div class="form-group col-md-12" *ngIf="changePass" id="changePass">
     <p>
       <strong>Old password:</strong><input type="password" class="form-control" id="oldpass" name="oldpass"> <br />
       <strong>New password:</strong> <input type="password" class="form-control" id="newpass" name="newpass"> <br />
@@ -54,11 +52,7 @@
     &nbsp;
     <button (click)="cancelPassFun()" type="submit" class="btn btn-info">Cancel</button>
   </div>
-  <div>
-    <button (click)="deleteAccountFun()" type="submit" class="btn btn-info">Delete account</button>
-  </div>
   <div class="form-group">
-
     &nbsp;
   </div>
 </div>

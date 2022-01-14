@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         u = this.userRepository.save(u);
 
         try {
-            emailService.sendNotificaitionAsync(userRequest, u.getId());
+            emailService.sendNotificationAsync(userRequest, u.getId());
         } catch (MailException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -85,6 +85,27 @@ public class UserServiceImpl implements UserService {
 
         return u;
     }
+
+    @Override
+    public User registerAdmin(UserRequest userRequest) {
+        User u = new User();
+
+        u.setEmail(userRequest.getEmail());
+        u.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        u.setFirstName(userRequest.getFirstName());
+        u.setLastName(userRequest.getLastName());
+        u.setAddress(userRequest.getAddress());
+        u.setCity(userRequest.getCity());
+        u.setState(userRequest.getState());
+        u.setFirstLogin(true);
+        u.setPhoneNumber(userRequest.getPhoneNumber());
+        u.setEnabled(true);
+
+        List<Role> roles = roleService.findByName("ROLE_ADMIN");
+        u.setRoles(roles);
+        u = this.userRepository.save(u);
+
+        return u;    }
 
     @Override
     public User update(UserUpdateRequest userUpdateRequest) {

@@ -9,6 +9,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @EnableAutoConfiguration
@@ -27,5 +29,11 @@ public class PromotionController {
     @PreAuthorize("hasRole('ADMIN')")
     public Promotion addPromotionToAdventure(@RequestBody PromotionRequest promotionRequest) {
         return promotionService.addPromotionToAdventure(promotionRequest);
+    }
+
+    @GetMapping("/getalladventurepromotions")
+    @PreAuthorize("hasRole('USER')")
+    public List<Promotion> loadAllAdventurePromotions() {
+        return promotionService.findAllAdventurePromotions();
     }
 }

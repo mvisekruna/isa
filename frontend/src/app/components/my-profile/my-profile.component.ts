@@ -38,7 +38,9 @@ export class MyProfileComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('ROLES') == 'ROLE_USER') {
       this.isUser = true;
-    } else { this.isDr = true; }
+    } else if (localStorage.getItem('ROLES') != 'ROLE_ADMIN') {
+      this.isDr = true;
+  }
     this.title = "My profile";
     this.info = {
       email: localStorage.getItem("USERNAME"),

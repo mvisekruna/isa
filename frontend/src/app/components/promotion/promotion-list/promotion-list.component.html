@@ -1,0 +1,30 @@
+<div class="card my-5">
+    <div class="card-body">
+        <h2>{{ title }}</h2>
+        <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Promotion description</th>
+                    <th scope="col">Promotion start</th>
+                    <th scope="col">Promotion end</th>
+                    <th scope="col">Promotion adventure</th>
+                    <th scope="col">Promotion boat</th>
+                    <th scope="col">Promotion vacation home</th>
+                    <th>Subscribe</th>
+                </tr>
+            <tbody>
+                <tr *ngFor="let promotion of promotions | search:terms" id="promotion">
+                    <td>{{ promotion.id }}</td>
+                    <td>{{ promotion.description }}</td>
+                    <td>{{ promotion.startPromo| date }}</td>
+                    <td>{{ promotion.endPromo| date }}</td>
+                    <td>{{ promotion.adventurePromotion.adventureName }}</td>
+                    <td>{{ promotion.boatPromotion }}</td>
+                    <td>{{ promotion.vacationHomePromotion }}</td>
+                    <td><button (click)="subscribeFun(promotion.id)">Choose</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

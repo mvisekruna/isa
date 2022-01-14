@@ -30,7 +30,7 @@ public class EmailServiceImpl {
     PromotionService promotionService;
 
     @Async
-    public void sendNotificaitionAsync(UserRequest userRequest, Long id) throws MailException, InterruptedException, MessagingException {
+    public void sendNotificationAsync(UserRequest userRequest, Long id) throws MailException, InterruptedException, MessagingException {
         System.out.println("Slanje emaila...");
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");

@@ -11,6 +11,7 @@ public interface UserService {
     User findByEmail(String email);
     List<User> findAll();
     User register(UserRequest userRequest);
+    User registerAdmin(UserRequest userRequest);
     User update(UserUpdateRequest userUpdateRequest);
 
 

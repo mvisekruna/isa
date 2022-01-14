@@ -16,4 +16,8 @@ export class AdventureServiceService {
   public loadAll(): Observable<Adventure[]> {
     return this.http.get<Adventure[]>(`${this.adventureUrl}/all`);
   }
+
+  public getOne(id): Observable<Adventure> {
+    return this.http.get<Adventure>(`${this.adventureUrl}/one/`.concat(id))
+  }
 }

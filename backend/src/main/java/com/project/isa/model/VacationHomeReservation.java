@@ -1,5 +1,6 @@
 package com.project.isa.model;
 
+import com.project.isa.enumeration.ReservationStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,5 +34,5 @@ public class VacationHomeReservation {
     private User user;
 
     @Column
-    private String status;
+    private ReservationStatus status;
 }

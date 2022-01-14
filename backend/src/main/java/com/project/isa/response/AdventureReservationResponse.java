@@ -49,6 +49,7 @@ public class AdventureReservationResponse {
                 .toDays(adventureReservation.getEndDate().getTime() - adventureReservation.getStartDate().getTime())
                 % 365;
         this.duration = (int) difference_In_Days;
+        this.status = adventureReservation.getStatus().name();
 
         Instant dbInstant = adventureReservation.getStartDate().toInstant();
 
@@ -61,22 +62,6 @@ public class AdventureReservationResponse {
         else {
             this.canCancel = false;
         }
-
-        switch (adventureReservation.getStatus()) {
-            case "1":
-                this.status = "NEW";
-                break;
-            case "2":
-                this.status = "CANCELED";
-                break;
-            case "3":
-                this.status = "FINISHED";
-                break;
-            case "4":
-                this.status = "IN_PROGRESS";
-                break;
-        }
-
     }
 
 }

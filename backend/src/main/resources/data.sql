@@ -77,17 +77,17 @@ INSERT INTO ADVENTURE (adventure_name, adventure_address, adventure_description,
 INSERT INTO ADVENTURE (adventure_name, adventure_address, adventure_description, adventure_price, adventure_review, adventure_tutor_id) VALUES ('adventure2', 'address2', 'description2', '200', '4', 6);
 INSERT INTO ADVENTURE (adventure_name, adventure_address, adventure_description, adventure_price, adventure_review, adventure_tutor_id) VALUES ('adventure3', 'address3', 'description3', '300', '5', 7);
 
-INSERT INTO BOAT_RESERVATION (end_date,start_date,boat_id, price, user_id) VALUE ('2020-01-05 12-30', '2020-01-02 12-30', 1, 283.3,2);
-INSERT INTO BOAT_RESERVATION (end_date,start_date,boat_id, price, user_id) VALUE ('2020-01-10 12-30', '2020-01-05 12-30', 1, 211.3,2);
-INSERT INTO BOAT_RESERVATION (end_date,start_date,boat_id, price, user_id) VALUE ('2020-01-16 12-30', '2020-01-12 12-30', 1, 183.3,2);
+INSERT INTO BOAT_RESERVATION (end_date,start_date,boat_id, price, user_id, status) VALUE ('2022-01-05 12-30', '2022-01-02 12-30', 1, 283.3,2,0);
+INSERT INTO BOAT_RESERVATION (end_date,start_date,boat_id, price, user_id, status) VALUE ('2022-01-15 12-30', '2022-01-09 12-30', 1, 211.3,2,0);
+INSERT INTO BOAT_RESERVATION (end_date,start_date,boat_id, price, user_id, status) VALUE ('2022-01-29 12-30', '2022-01-20 12-30', 1, 183.3,2,0);
 
-INSERT INTO VACATION_HOME_RESERVATION (end_date, price, start_date, user_id, vacation_home_id) VALUES ('2020-01-05 12-30', 568.98, '2020-01-02 12-30',2,1);
-INSERT INTO VACATION_HOME_RESERVATION (end_date, price, start_date, user_id, vacation_home_id) VALUES ('2020-01-10 12-30', 895.4, '2020-01-05 12-30',2,2);
-INSERT INTO VACATION_HOME_RESERVATION (end_date, price, start_date, user_id, vacation_home_id) VALUES ('2020-01-16 12-30', 89.5, '2020-01-12 12-30',2,3);
+INSERT INTO VACATION_HOME_RESERVATION (end_date, price, start_date, user_id, vacation_home_id, status) VALUES ('2022-01-05 12-30', 568.98, '2022-01-02 12-30',2,1,0);
+INSERT INTO VACATION_HOME_RESERVATION (end_date, price, start_date, user_id, vacation_home_id, status) VALUES ('2022-01-15 12-30', 895.4, '2022-01-09 12-30',2,2,0);
+INSERT INTO VACATION_HOME_RESERVATION (end_date, price, start_date, user_id, vacation_home_id, status) VALUES ('2022-01-29 12-30', 89.5, '2022-01-20 12-30',2,3,0);
 
-INSERT INTO ADVENTURE_RESERVATION (end_date, number_of_people, price, start_date, adventure_id, user_id) VALUES ('2020-01-05 12-30', 2, 568.98, '2020-01-02 12-30', 1, 2);
-INSERT INTO ADVENTURE_RESERVATION (end_date, number_of_people, price, start_date, adventure_id, user_id) VALUES ('2020-01-10 12-30', 3,  895.4, '2020-01-05 12-30', 2, 2);
-INSERT INTO ADVENTURE_RESERVATION (end_date, number_of_people, price, start_date, adventure_id, user_id) VALUES ('2020-01-16 12-30', 4, 89.5, '2020-01-12 12-30',3, 2);
+INSERT INTO ADVENTURE_RESERVATION (end_date, number_of_people, price, start_date, adventure_id, user_id, status) VALUES ('2022-01-05 12-30', 2, 568.98, '2022-01-02 12-30', 1, 2,0);
+INSERT INTO ADVENTURE_RESERVATION (end_date, number_of_people, price, start_date, adventure_id, user_id, status) VALUES ('2022-01-15 12-30', 3,  895.4, '2022-01-09 12-30', 2, 2,0);
+INSERT INTO ADVENTURE_RESERVATION (end_date, number_of_people, price, start_date, adventure_id, user_id, status) VALUES ('2022-01-29 12-30', 4, 89.5, '2022-01-20 12-30',3, 2,0);
 
 
 

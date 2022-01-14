@@ -42,12 +42,11 @@ public class VacationHomeReservationResponse {
                 .toDays(vacationHomeReservation.getEndDate().getTime() - vacationHomeReservation.getStartDate().getTime())
                 % 365;
         this.duration = (int) difference_In_Days ;
-        this.status = vacationHomeReservation.getStatus();
+        this.status = vacationHomeReservation.getStatus().name();
 
         Instant dbInstant = vacationHomeReservation.getStartDate().toInstant();
 
         Instant plus3Days = ZonedDateTime.now().plusDays(3).toInstant();
-
 
         if(plus3Days.isBefore(dbInstant) ) {
             this.canCancel = true;
@@ -56,19 +55,5 @@ public class VacationHomeReservationResponse {
             this.canCancel = false;
         }
 
-        switch (vacationHomeReservation.getStatus()) {
-            case "1":
-                this.status = "NEW";
-                break;
-            case "2":
-                this.status = "CANCELED";
-                break;
-            case "3":
-                this.status = "FINISHED";
-                break;
-            case "4":
-                this.status = "IN_PROGRESS";
-                break;
-        }
     }
 }

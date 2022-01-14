@@ -1,0 +1,31 @@
+<div class="card my-5">
+    <div class="card-body">
+      <h2>{{ title }}</h2>
+      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Boat owner</th>
+            <th scope="col">Boat name</th>
+            <th scope="col">Boat location</th>
+            <th scope="col">Boat description</th>
+            <th scope="col">Boat price</th>
+            <th scope="col">Boat review</th>
+            <th scope="col">Details</th>
+          </tr>
+       
+        <tbody>
+          <tr *ngFor="let boat of boats | search:terms" id="boat">
+            <td>{{ boat.id }}</td>
+            <td>{{ boat.boatOwner.firstName }}</td>
+            <td>{{ boat.boatName }}</td>
+            <td>{{ boat.boatLocation }}</td>
+            <td>{{ boat.boatDescription }}</td>
+            <td>{{ boat.boatPrice }}</td>
+            <td>{{ boat.boatReview }}</td>
+            <td><button (click) = "details(boat.id)">Details</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -1,17 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginFormComponent } from './components/login-form/login-form.component';
+import { AddAdminComponent } from './components/add-admin/add-admin.component';
+import { AdventureDetailsComponent } from './components/adventure/adventure-details/adventure-details.component';
+import { AdventureListComponent } from './components/adventure/adventure-list/adventure-list.component';
+import { BoatDetailsComponent } from './components/boat/boat-details/boat-details.component';
+import { BoatListComponent } from './components/boat/boat-list/boat-list.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { HistoryComponent } from './components/history/history.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
-import { GuardServiceService } from './service/guard-service.service';
+import { AddPromotionComponent } from './components/promotion/add-promotion/add-promotion.component';
+import { PromotionListComponent } from './components/promotion/promotion-list/promotion-list.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { RegisterNewUserComponent } from './components/register-new-user/register-new-user.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { TutorListComponent } from './components/tutor-list/tutor-list.component';
-import { VacationHomeListComponent } from './components/vacation-home-list/vacation-home-list.component';
-import { AdventureListComponent } from './components/adventure-list/adventure-list.component';
-import { HistoryComponent } from './components/history/history.component';
-import { AddPromotionComponent } from './components/add-promotion/add-promotion.component';
+import { VacationHomeDetailsComponent } from './components/vacation-home/vacation-home-details/vacation-home-details.component';
+import { VacationHomeListComponent } from './components/vacation-home/vacation-home-list/vacation-home-list.component';
+import { GuardServiceService } from './service/guard-service.service';
 
 const routes: Routes = [
   {
@@ -36,11 +42,27 @@ const routes: Routes = [
   },
   {
     path: 'vacation-home-list',
-    component: VacationHomeListComponent
+    component: VacationHomeListComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_USER UNAUTHENTICATED'
+    }
+  },
+  {
+    path: 'boat-list',
+    component: BoatListComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_USER UNAUTHENTICATED'
+    }
   },
   {
     path: 'adventure-list',
-    component: AdventureListComponent
+    component: AdventureListComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_USER UNAUTHENTICATED'
+    }
   },
   {
     path: 'add-promotion',
@@ -48,14 +70,30 @@ const routes: Routes = [
     canActivate: [GuardServiceService],
     data: {
       expectedRole: 'ROLE_ADMIN'
-    } },
-
+    } 
+  },
+  {
+    path: 'add-admin',
+    component: AddAdminComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_ADMIN'
+    } 
+  },
+  {
+    path: 'promotion-list',
+    component: PromotionListComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_USER'
+    } 
+  },
   {
     path: 'myprofile',
     component: MyProfileComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE ROLE_VACATION_HOME_OWNER ROLE_BOAT_OWNER'
+      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE ROLE_VACATION_HOME_OWNER ROLE_BOAT_OWNER ROLE_ADMIN'
     }
   },
   {
@@ -73,6 +111,21 @@ const routes: Routes = [
     data: {
       expectedRole: 'ROLE_ADMIN'
     }
+  },
+  {
+    path: 'boat/:id',
+    component: BoatDetailsComponent,
+
+  },
+  {
+    path: 'adventure/:id',
+    component: AdventureDetailsComponent,
+
+  },
+  {
+    path: 'vacationhome/:id',
+    component: VacationHomeDetailsComponent,
+
   },
   {
     path: '**',

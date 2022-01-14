@@ -19,6 +19,8 @@ export class AuthServiceService {
 
     loginURL = 'http://localhost:8080/auth/login';
     registerURL = 'http://localhost:8080/auth/signup';
+    registerAdminURL = 'http://localhost:8080/auth/signup/admin';
+
     
     loginHeaders = new HttpHeaders({
       'Accept': 'application/json',
@@ -57,5 +59,9 @@ export class AuthServiceService {
 
   register(authSignUpInfo: AuthSingupInfo): Observable<any> {
     return this.http.post<Observable<any>>(this.registerURL, authSignUpInfo,  this.httpOptions);
+  }
+
+  addNewAdmin(authSignUpInfo: AuthSingupInfo): Observable<any> {
+    return this.http.post<Observable<any>>(this.registerAdminURL, authSignUpInfo,  this.httpOptions);
   }
 }

@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card bg-dark my-5">
+        <div class="card-body">
+          <h2 class="card-title text-left text-white py-3">{{ title }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-4">
+      <p>
+        <strong>Name: </strong>{{boat.boatName}} <br />
+        <strong>Location: </strong>{{boat.boatLocation}} <br />
+        <strong>Description: </strong>{{boat.boatDescription}} <br />
+        <strong>Price: </strong>{{boat.boatPrice}} <br />
+        <strong>Review: </strong>{{boat.boatReview}} <br />
+      </p>
+    </div>
+    <div class="form-group col-sm-4">
+        <p>
+          <strong>Owner name: </strong>{{boat.boatOwner.firstName}} <br />
+          <strong>Owner last name: </strong>{{boat.boatOwner.lastName}} <br />
+          <strong>Owner address: </strong>{{boat.boatOwner.address}} <br />
+          <strong>Owner city: </strong>{{boat.boatOwner.city}} <br />
+          <strong>Owner state: </strong>{{boat.boatOwner.state}} <br />
+          <strong>Owner phone number: </strong>{{boat.boatOwner.phoneNumber}} <br />
+
+        </p>
+      </div>
+</div>

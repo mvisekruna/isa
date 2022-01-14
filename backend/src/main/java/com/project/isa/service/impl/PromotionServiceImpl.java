@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,6 +33,17 @@ public class PromotionServiceImpl implements PromotionService {
     @Autowired
     private EmailServiceImpl emailService;
 
+    @Override
+    public List<Promotion> findAllAdventurePromotions(){
+        List<Promotion> promotions = promotionRepository.findAll();
+        List<Promotion> adventurePromotions = new ArrayList<Promotion>();
+        for(Promotion p: promotions){
+            if(!p.getAdventurePromotion().getId().equals(null)){
+                adventurePromotions.add(p);
+            }
+        }
+    return adventurePromotions;
+    }
 
 
     @Override
