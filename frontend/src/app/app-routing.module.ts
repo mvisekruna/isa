@@ -6,6 +6,7 @@ import { AdventureListComponent } from './components/adventure/adventure-list/ad
 import { BoatDetailsComponent } from './components/boat/boat-details/boat-details.component';
 import { BoatListComponent } from './components/boat/boat-list/boat-list.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { DeleteAccountRequestsComponent } from './components/delete-account-requests/delete-account-requests.component';
 import { HistoryComponent } from './components/history/history.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -69,7 +70,7 @@ const routes: Routes = [
     component: AddPromotionComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_ADMIN'
+      expectedRole: 'ROLE_TUTOR'
     } 
   },
   {
@@ -85,7 +86,7 @@ const routes: Routes = [
     component: PromotionListComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER'
+      expectedRole: 'ROLE_USER ROLE_TUTOR'
     } 
   },
   {
@@ -93,7 +94,7 @@ const routes: Routes = [
     component: MyProfileComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE ROLE_VACATION_HOME_OWNER ROLE_BOAT_OWNER ROLE_ADMIN'
+      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE_VACATION_HOME_OWNER ROLE_BOAT_OWNER ROLE_ADMIN'
     }
   },
   {
@@ -107,6 +108,14 @@ const routes: Routes = [
   {
     path: 'registernewuser',
     component: RegisterNewUserComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_ADMIN'
+    }
+  },
+  {
+    path: 'delete-account-requests',
+    component: DeleteAccountRequestsComponent,
     canActivate: [GuardServiceService],
     data: {
       expectedRole: 'ROLE_ADMIN'

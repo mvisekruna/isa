@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "PROMOTION")
-public class Promotion {
+@Table(name = "PROMOTION_ADVENTURE")
+public class PromotionAdventure {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,5 @@ public class Promotion {
 
     @ManyToOne
     private Adventure adventurePromotion;
-
-    @ManyToOne
-    private Boat boatPromotion;
-
-    @ManyToOne
-    private VacationHome vacationHomePromotion;
 
 }

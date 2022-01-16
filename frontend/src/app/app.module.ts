@@ -34,6 +34,8 @@ import { VacationHomeHistoryComponent } from './components/vacation-home/vacatio
 import { AddPromotionComponent } from './components/promotion/add-promotion/add-promotion.component';
 import { BoatDetailsComponent } from './components/boat/boat-details/boat-details.component';
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
+import { DeleteAccountRequestsComponent } from './components/delete-account-requests/delete-account-requests.component';
+import { HomePageTutorComponent } from './components/home-page/home-page-tutor/home-page-tutor.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { AddAdminComponent } from './components/add-admin/add-admin.component';
     BoatDetailsComponent,
     AdventureDetailsComponent,
     VacationHomeDetailsComponent,
-    AddAdminComponent
+    AddAdminComponent,
+    DeleteAccountRequestsComponent,
+    HomePageTutorComponent
    
   ],
   imports: [

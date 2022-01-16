@@ -1,7 +1,8 @@
 <div class="card my-5">
     <div class="card-body">
         <h2>{{ title }}</h2>
-        <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions1"
+            [dtTrigger]="dtTrigger1">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -22,7 +23,38 @@
                     <td>{{ adventure.adventurePrice }}</td>
                     <td>{{ adventure.adventureReview }}</td>
                     <td>{{ adventure.adventureTutor.firstName + ' ' + adventure.adventureTutor.lastName}}</td>
-                    <td><button (click) = "details(adventure.id)">Details</button></td>
+                    <td><button (click)="details(adventure.id)">Details</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="isUser" class="card-body">
+        <h2> My subscribed adventures </h2>
+        <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions2"
+            [dtTrigger]="dtTrigger2">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Adventure name</th>
+                    <th scope="col">Adventure location</th>
+                    <th scope="col">Adventure description</th>
+                    <th scope="col">Adventure price</th>
+                    <th scope="col">Adventure review</th>
+                    <th scope="col">Tutor</th>
+                    <th scope="col">Details</th>
+                </tr>
+            <tbody>
+                <tr *ngFor="let adventureSubscribed of adventuresSubscribed | search:terms" id="adventureSubscribed">
+                    <td>{{ adventureSubscribed.id }}</td>
+                    <td>{{ adventureSubscribed.adventureName }}</td>
+                    <td>{{ adventureSubscribed.adventureAddress }}</td>
+                    <td>{{ adventureSubscribed.adventureDescription }}</td>
+                    <td>{{ adventureSubscribed.adventurePrice }}</td>
+                    <td>{{ adventureSubscribed.adventureReview }}</td>
+                    <td>{{ adventureSubscribed.adventureTutor.firstName + ' ' +
+                        adventureSubscribed.adventureTutor.lastName}}</td>
+                    <td><button (click)="unsubscribe(adventureSubscribed.id)">Unsubscribe</button></td>
                 </tr>
             </tbody>
         </table>

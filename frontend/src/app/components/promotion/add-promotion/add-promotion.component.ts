@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddPromotionRequest } from 'src/app/model/add-promotion-request';
-import { AddPromotionServiceService } from 'src/app/service/add-promotion-service.service';
 import { AdventureServiceService } from 'src/app/service/adventure-service.service';
+import { PromotionServiceService } from 'src/app/service/promotion-service.service';
 
 @Component({
   selector: 'app-add-promotion',
@@ -15,7 +15,7 @@ export class AddPromotionComponent implements OnInit {
   filterDateFrom: Date;
   filterDateTo: Date;
 
-  constructor(private addPromotionService: AddPromotionServiceService, private router: Router) { }
+  constructor(private promotionService: PromotionServiceService, private router: Router) { }
 
   ngOnInit(): void {
     this.promotionRequest = new AddPromotionRequest;
@@ -30,7 +30,7 @@ export class AddPromotionComponent implements OnInit {
     this.filterDateTo = new Date((<HTMLInputElement>document.getElementById("endPromo")).value);
     this.promotionRequest.endPromo = this.filterDateTo.toISOString().slice(0, 16).replace('T', ' ')+":00";
    
-    this.addPromotionService.addPromotionToAdventure(this.promotionRequest).subscribe( res => {
+    this.promotionService.addPromotionToAdventure(this.promotionRequest).subscribe( res => {
       console.log(res);
       this.router.navigate(["/homepage"]);
     });

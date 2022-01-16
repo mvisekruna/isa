@@ -1,6 +1,5 @@
 package com.project.isa.controller;
 
-import com.project.isa.model.BoatReservation;
 import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.request.UserEmailRequest;
 import com.project.isa.response.UserHistoryResponse;

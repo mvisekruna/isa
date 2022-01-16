@@ -1,9 +1,9 @@
 package com.project.isa.service.impl;
 
-import com.project.isa.model.Promotion;
+import com.project.isa.model.PromotionAdventure;
 import com.project.isa.model.User;
 import com.project.isa.request.UserRequest;
-import com.project.isa.service.PromotionService;
+import com.project.isa.service.PromotionAdventureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -27,7 +27,7 @@ public class EmailServiceImpl {
     UserServiceImpl userService;
 
     @Autowired
-    PromotionService promotionService;
+    PromotionAdventureService promotionAdventureService;
 
     @Async
     public void sendNotificationAsync(UserRequest userRequest, Long id) throws MailException, InterruptedException, MessagingException {
@@ -64,7 +64,7 @@ public class EmailServiceImpl {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 
-        Promotion promotion = promotionService.findById(id);
+        PromotionAdventure promotion = promotionAdventureService.findById(id);
 
         String htmlMsg = "<h3>Hello</h3><br> <p>New promotion arrived: <br>"+promotion.getDescription()+" </p>";
         System.out.println(htmlMsg);

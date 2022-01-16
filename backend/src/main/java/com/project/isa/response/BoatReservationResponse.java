@@ -1,6 +1,5 @@
 package com.project.isa.response;
 
-import com.project.isa.enumeration.ReservationStatus;
 import com.project.isa.model.BoatReservation;
 import lombok.Data;
 

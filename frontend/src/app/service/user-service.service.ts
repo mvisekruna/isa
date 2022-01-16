@@ -49,5 +49,10 @@ export class UserServiceService {
     return this.http.get(`${this.userUrl}/deleteaccount`, { headers })
   }
 
+  public findByEmail(email: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.userUrl}/{email}`, email, { headers });
+  }
+
 
 }

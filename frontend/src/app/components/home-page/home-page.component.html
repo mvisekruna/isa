@@ -6,6 +6,9 @@
     <div *ngIf="isAdmin" id="isAdmin">
         <app-home-page-admin></app-home-page-admin>
     </div>
+    <div *ngIf="isTutor" id="isTutor">
+      <app-home-page-tutor></app-home-page-tutor>
+  </div>
     <div class="card-body">
       <button class="btn btn-info" (click)="logout()">Logout</button>
     </div>

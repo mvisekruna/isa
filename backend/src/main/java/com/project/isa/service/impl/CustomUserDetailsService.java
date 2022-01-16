@@ -46,16 +46,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         if (authenticationManager != null) {
             LOGGER.debug("Re-authenticating user '" + username + "' for password change request.");
-            System.out.println("usao u if pass");
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
         } else {
             LOGGER.debug("No authentication manager set. can't change Password!");
-            System.out.println("usao u else pass");
+
             return null;
         }
 
         LOGGER.debug("Changing password for user '" + username + "'");
-        System.out.println("promenio pass  za" + username);
         User user = (User) loadUserByUsername(username);
 
         user.setPassword(passwordEncoder.encode(newPassword));

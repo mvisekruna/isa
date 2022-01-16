@@ -3,7 +3,7 @@ package com.project.isa.request;
 import lombok.Data;
 
 @Data
-public class PromotionRequest {
+public class PromotionAdventureRequest {
 
     private String startPromo;
 
@@ -12,8 +12,4 @@ public class PromotionRequest {
     private String description;
 
     private Long adventurePromotionId;
-
-    private Long boatPromotionId;
-
-    private Long vacationHomePromotionId;
 }

@@ -3,7 +3,7 @@ package com.project.isa.request;
 import lombok.Data;
 
 @Data
-public class AdventurePromotionUserRequest {
+public class PromotionAdventureUserRequest {
 
     private Long adventureId;
 
