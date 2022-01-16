@@ -45,15 +45,30 @@ public class EmailServiceImpl {
         System.out.println("Email poslat!");
     }
 
-    public void deleteAccountAsync(User currentUser) throws MailException, InterruptedException, MessagingException {
+    public void deleteAccountAsync(String email, String reason) throws MailException, InterruptedException, MessagingException {
         System.out.println("Slanje emaila...");
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 
-        String htmlMsg = "<h3>Hello</h3> <br> <p>to delete the account visit <a href=\"http://localhost:8080/api/deactivateacc/"+currentUser.getId().toString()+"\">link</a></p>";
+        String htmlMsg = "<h3>Hello</h3> <br> <p> your account is now deleted. Reason: <br>" + reason +"</p>";
         System.out.println(htmlMsg);
         mimeMessage.setContent(htmlMsg, "text/html");
-        helper.setTo("admin@example.com");
+        helper.setTo(email);
+        helper.setSubject("Verification");
+        helper.setFrom(environment.getProperty("spring.mail.username"));
+        javaMailSender.send(mimeMessage);
+        System.out.println("Email poslat!");
+    }
+
+    public void deleteDenied(String email, String reason) throws MailException, InterruptedException, MessagingException {
+        System.out.println("Slanje emaila...");
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+
+        String htmlMsg = "<h3>Hello</h3> <br> <p> you can not delete your account. Reason: <br>" + reason +"</p>";
+        System.out.println(htmlMsg);
+        mimeMessage.setContent(htmlMsg, "text/html");
+        helper.setTo(email);
         helper.setSubject("Verification");
         helper.setFrom(environment.getProperty("spring.mail.username"));
         javaMailSender.send(mimeMessage);

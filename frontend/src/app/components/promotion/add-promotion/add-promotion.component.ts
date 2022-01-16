@@ -32,6 +32,9 @@ export class AddPromotionComponent implements OnInit {
    
     this.promotionService.addPromotionToAdventure(this.promotionRequest).subscribe( res => {
       console.log(res);
+      if(res===null){
+        alert('You cant add promotion to this adventure!');
+      }
       this.router.navigate(["/homepage"]);
     });
   }

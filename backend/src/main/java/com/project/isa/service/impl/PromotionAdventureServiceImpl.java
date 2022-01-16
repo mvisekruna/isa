@@ -11,6 +11,8 @@ import com.project.isa.service.AdventureService;
 import com.project.isa.service.PromotionAdventureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -32,6 +34,9 @@ public class PromotionAdventureServiceImpl implements PromotionAdventureService 
     @Autowired
     private EmailServiceImpl emailService;
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
     @Override
     public List<PromotionAdventure> findAllAdventurePromotions(){
         return promotionAdventureRepository.findAll();
@@ -45,6 +50,14 @@ public class PromotionAdventureServiceImpl implements PromotionAdventureService 
     @Override
     public PromotionAdventure addPromotionToAdventure(PromotionAdventureRequest promotionAdventureRequest) {
         Adventure adventure = adventureService.findById((promotionAdventureRequest.getAdventurePromotionId()));
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User tutor = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        if(!tutor.getId().equals(adventure.getAdventureTutor().getId()) && tutor.isEnabled()==false){
+            return null;
+        }
+
         PromotionAdventure promotionAdventure = new PromotionAdventure();
 
         promotionAdventure.setAdventurePromotion(adventure);

@@ -71,10 +71,10 @@ public class UserController {
         return u.getEmail();
     }
 
-    @GetMapping("/deleteaccount")
-    public User deleteAccount() {
-        return userService.deleteAccount();
-    }
+//    @GetMapping("/deleteaccount")
+//    public User deleteAccount() {
+//        return userService.deleteAccount();
+//    }
 
     @RequestMapping(path = "/deactivateacc/{id}", method = RequestMethod.GET)
     public String deactivateAccount(@PathVariable int id) {

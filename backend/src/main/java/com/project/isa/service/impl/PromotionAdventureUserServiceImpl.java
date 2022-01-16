@@ -108,7 +108,4 @@ public class PromotionAdventureUserServiceImpl implements PromotionAdventureUser
 
 
     }
-
-
-
 }

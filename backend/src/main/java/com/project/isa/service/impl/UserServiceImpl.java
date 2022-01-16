@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("aktiviran");
         return userRepository.save(user);
     }
-
+/*
     public User deleteAccount() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
         return u;
     }
-
+*/
     public User deactivateAccount(String email){
         User user = findByEmail(email);
         user.setEnabled(false);
