@@ -24,11 +24,11 @@ public class DeleteAccountController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+ //   @PreAuthorize("hasRole('ADMIN')")
     public List<DeleteAccount> findAll() { return deleteAccountService.findAll(); }
 
     @PostMapping("/sendtherequest")
-    @PreAuthorize("hasAnyRole(\"TUTOR\",\"USER\",\"VACATION_HOME_OWNER\",\"BOAT_OWNER\")")
+ //   @PreAuthorize("hasAnyRole(\"TUTOR\",\"USER\",\"VACATION_HOME_OWNER\",\"BOAT_OWNER\")")
     public DeleteAccount sendTheRequest(@RequestBody String reason) {
         return deleteAccountService.sendTheRequest(reason);
     }

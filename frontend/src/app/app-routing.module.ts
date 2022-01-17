@@ -15,6 +15,7 @@ import { AddPromotionComponent } from './components/promotion/add-promotion/add-
 import { PromotionListComponent } from './components/promotion/promotion-list/promotion-list.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { RegisterNewUserComponent } from './components/register-new-user/register-new-user.component';
+import { RegistrationForOthersFormComponent } from './components/registration-for-others-form/registration-for-others-form.component';
 import { TutorListComponent } from './components/tutor-list/tutor-list.component';
 import { VacationHomeDetailsComponent } from './components/vacation-home/vacation-home-details/vacation-home-details.component';
 import { VacationHomeListComponent } from './components/vacation-home/vacation-home-list/vacation-home-list.component';
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'registerform',
     component: RegisterFormComponent
+  },
+  {
+    path: 'registrationforothers',
+    component: RegistrationForOthersFormComponent
   },
   {
     path: 'homepage',

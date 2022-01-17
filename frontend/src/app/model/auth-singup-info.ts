@@ -8,4 +8,5 @@ export class AuthSingupInfo {
     city: string;
     state: string;
     phoneNumber: string;
+    role: string;
 }

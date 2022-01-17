@@ -14,7 +14,6 @@ import { PromotionServiceService } from 'src/app/service/promotion-service.servi
 export class AdventureListComponent implements OnInit {
 
   dtOptions1: DataTables.Settings = {};
-  dtOptions2: DataTables.Settings = {};
   terms: any;
   adventures: Adventure[] = [];
   adventuresSubscribed: Adventure[] = [];
@@ -36,18 +35,13 @@ export class AdventureListComponent implements OnInit {
       lengthMenu: [5, 10, 25],
       processing: true
     };
+
     this.adventureService.loadAll().subscribe(data => {
       console.log(data);
       this.adventures = data;
       this.dtTrigger1.next();
     });
 
-    this.dtOptions2 = {
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      lengthMenu: [5, 10, 25],
-      processing: true
-    };
     this.promotionService.findAllSubscribed().subscribe(data => {
       this.role = localStorage.getItem('ROLES');
       if (this.role === 'ROLE_USER') {
@@ -69,9 +63,9 @@ export class AdventureListComponent implements OnInit {
 
   unsubscribe(adventureId) {
     this.promotionService.unsubscribeFromAdventure(adventureId).subscribe(data => {
-      console.log(data);
+      console.log(data + ' unsubscribee');
     });
 
-    //window.location.reload();
+ //   window.location.reload();
   }
 }

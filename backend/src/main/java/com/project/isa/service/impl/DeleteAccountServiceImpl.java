@@ -41,7 +41,7 @@ public class DeleteAccountServiceImpl implements DeleteAccountService {
     }
 
     @Override
-    public List<DeleteAccount> findAll() { return deleteAccountRepository.findAll(); }
+    public List<DeleteAccount> findAll() { return deleteAccountRepository.findAllDeleteAccountsByConfirm(false); }
 
     @Override
     public DeleteAccount sendTheRequest(String reason) {

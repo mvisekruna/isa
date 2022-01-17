@@ -80,6 +80,23 @@ public class AuthenticationController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    // Endpoint za registraciju novog korisnika
+    @PostMapping("/signupforothers")
+    public ResponseEntity<User> addOthers(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+
+        User existUser = this.userService.findByEmail(userRequest.getEmail());
+
+        if (existUser != null) {
+            throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+        }
+
+        User user = this.userService.registrationForOthers(userRequest);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
     @PostMapping("/signup/admin")
     public ResponseEntity<User> addAdmin(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
 

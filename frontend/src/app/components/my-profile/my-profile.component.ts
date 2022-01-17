@@ -24,12 +24,15 @@ export class MyProfileComponent implements OnInit {
     state: null,
     phoneNumber: null
   };
+  reason: string;
   changeInfo: boolean = false;
   changePass: boolean = false;
+  deleteAccountForm: boolean = false;
   userUpdateRequest: UserUpdateRequest;
   passRequest: any = {};
   isUser: boolean = false;
   isDr: boolean = false;
+  showDeleteAccountButton: boolean = true;
   constructor(private _location: Location, private userService: UserServiceService, private routher: Router, private authService: AuthServiceService) {
     this.userUpdateRequest = new UserUpdateRequest();
     this.authlogin = new AuthLoginInfo("", "");
@@ -151,13 +154,24 @@ export class MyProfileComponent implements OnInit {
   }
 
   deleteAccountFun(){
-    this.userService.deleteAccount().subscribe(data =>{
+    this.reason = (<HTMLInputElement>document.getElementById("reason")).value;
+    this.userService.sendRequestForDeleteAccount(this.reason).subscribe(data =>{
       console.log(data);
     });
-    localStorage.clear();
-    localStorage.setItem("ROLES", "UNAUTHENTICATED");
-    window.location.reload();
-    this.isUser = false;
+    // localStorage.clear();
+    // localStorage.setItem("ROLES", "UNAUTHENTICATED");
+  //  window.location.reload();
+  //  this.isUser = false;
+     this.deleteAccountForm = false;
+     this.showDeleteAccountButton = true;
+     alert("Request for deleting account is sent!");
+
+
+  }
+
+  showDeleteAccountForm() {
+   this.deleteAccountForm = true;
+   this.showDeleteAccountButton = false;
   }
 
 

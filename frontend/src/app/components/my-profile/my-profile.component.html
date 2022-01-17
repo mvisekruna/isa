@@ -21,8 +21,15 @@
     &nbsp;
     <button (click)="changePassFun()" type="submit" class="btn btn-info">Change my password</button>
     &nbsp;
-    <button (click)="deleteAccountFun()" type="submit" class="btn btn-info">Delete account</button><br /><br />
+    <button (click)="showDeleteAccountForm()" *ngIf="showDeleteAccountButton" class="btn btn-info">Delete account</button><br /><br />
   </div>
+  </div>
+  <div class="form-group col-md-12" *ngIf="deleteAccountForm">
+    <div> <strong>Why you want to delete your account? </strong> </div>
+    &nbsp;
+    <div><textarea class="form-control" id="reason" name="reason"> </textarea></div>
+    &nbsp;
+    <div><button (click)="deleteAccountFun()" class="btn btn-info">Delete</button><br /><br /></div>
   </div>
   <div class="form-group col-md-12" *ngIf="changeInfo" id="changeInfo">
     <p>

@@ -36,6 +36,7 @@ import { BoatDetailsComponent } from './components/boat/boat-details/boat-detail
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
 import { DeleteAccountRequestsComponent } from './components/delete-account-requests/delete-account-requests.component';
 import { HomePageTutorComponent } from './components/home-page/home-page-tutor/home-page-tutor.component';
+import { RegistrationForOthersFormComponent } from './components/registration-for-others-form/registration-for-others-form.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { HomePageTutorComponent } from './components/home-page/home-page-tutor/h
     VacationHomeDetailsComponent,
     AddAdminComponent,
     DeleteAccountRequestsComponent,
-    HomePageTutorComponent
+    HomePageTutorComponent,
+    RegistrationForOthersFormComponent
    
   ],
   imports: [

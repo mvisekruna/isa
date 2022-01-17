@@ -21,6 +21,8 @@ public class UserRequest {
 
     private String phoneNumber;
 
+    private String role;
+
     public String getEmail() {
         return email;
     }
@@ -91,5 +93,13 @@ public class UserRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

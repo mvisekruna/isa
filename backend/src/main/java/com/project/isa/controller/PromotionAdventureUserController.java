@@ -2,7 +2,6 @@ package com.project.isa.controller;
 
 import com.project.isa.model.Adventure;
 import com.project.isa.model.PromotionAdventureUser;
-import com.project.isa.model.PromotionAdventure;
 import com.project.isa.request.PromotionAdventureUserRequest;
 import com.project.isa.service.impl.PromotionAdventureUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

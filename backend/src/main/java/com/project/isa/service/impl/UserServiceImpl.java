@@ -101,7 +101,41 @@ public class UserServiceImpl implements UserService {
         u.setRoles(roles);
         u = this.userRepository.save(u);
 
-        return u;    }
+        return u;
+    }
+
+    @Override
+    public User registrationForOthers(UserRequest userRequest) {
+        User u = new User();
+
+        u.setEmail(userRequest.getEmail());
+        u.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        u.setFirstName(userRequest.getFirstName());
+        u.setLastName(userRequest.getLastName());
+        u.setAddress(userRequest.getAddress());
+        u.setCity(userRequest.getCity());
+        u.setState(userRequest.getState());
+        u.setFirstLogin(true);
+        u.setPhoneNumber(userRequest.getPhoneNumber());
+        u.setEnabled(false);
+
+        List<Role> roles = roleService.findByName(userRequest.getRole());
+        u.setRoles(roles);
+        u = this.userRepository.save(u);
+
+        try {
+            emailService.sendNotificationToAdminAsync(userRequest, u.getId());
+        } catch (MailException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return u;
+    }
+
 
     @Override
     public User update(UserUpdateRequest userUpdateRequest) {

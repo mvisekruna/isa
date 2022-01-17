@@ -3,21 +3,21 @@
     <h2>{{ title }}</h2>
     <button (click)="div1Function()" type="submit" class="btn btn-info">{{ buttonName }}</button>
     <div *ngIf="div1" id="div1">
-      <form (ngSubmit)="onSubmit()" #form="ngForm" name="registerForm" #r="ngForm" novalidate>
+      <form (ngSubmit)="onSubmit()" #form="ngForm" name="registerForm" #userRegisterForm="ngForm" novalidate>
         <div class="form-group">
           <label for="email">Email</label>
           <input type="text" [(ngModel)]="authSignUpInfo.email" class="form-control" id="email" name="email"
-            placeholder="Enter your email">
+            placeholder="Enter your email" required #email="ngModel">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" [(ngModel)]="authSignUpInfo.password" class="form-control" id="password"
-            name="password" placeholder="Enter your password">
+            name="password" placeholder="Enter your password" required #password="ngModel">
         </div>
         <div class="form-group">
           <label for="password">Confirm pasword</label>
           <input type="password" [(ngModel)]="authSignUpInfo.password_confirm" class="form-control" id="password_cnfrm"
-            name="password_cnfrm" placeholder="Confirm your password">
+            name="password_cnfrm" placeholder="Confirm your password" required #password_cnfrm="ngModel">
         </div>
         <div class="form-group">
           <label for="firstName">First name</label>
@@ -46,10 +46,10 @@
         </div>
         <div class="form-group">
           <label for="phoneNumber">Phone number</label>
-          <input type="text" [(ngModel)]="authSignUpInfo.phoneNumber" class="form-control" id="phoneNumber" name="phoneNumber"
-            placeholder="Enter your phone number">
+          <input type="text" [(ngModel)]="authSignUpInfo.phoneNumber" class="form-control" id="phoneNumber"
+            name="phoneNumber" placeholder="Enter your phone number">
         </div>
-        <button type="submit" class="btn btn-info">Register</button>
+        <button type="submit" class="btn btn-info" [disabled]="!userRegisterForm.form.valid">Register</button>
       </form>
     </div>
   </div>

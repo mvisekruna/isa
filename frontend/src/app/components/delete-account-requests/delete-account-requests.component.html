@@ -1,26 +1,43 @@
   
 <div class="card my-5">
     <div class="card-body">
-      <h2>Requests</h2>
-      <table class="table table-bordered table-striped">
+      <h2>{{title}}</h2>
+      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Id of user</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Reason to delete the account</th>
             <th scope="col">Approve</th>
+            <th scope="col">Decline</th>
+
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><button>OK</button></td>
+          <tr *ngFor="let deleteRequest of accountsForDelete | search:terms" id="boat">
+            <td>{{ deleteRequest.id }}</td>
+            <td>{{ deleteRequest.user.firstName}}</td>
+            <td>{{ deleteRequest.user.lastName }}</td>
+            <td>{{ deleteRequest.reason }}</td>
+            <td>
+              <div class="col">
+                <div class="col-sm-6">
+                  <textarea></textarea>
+                </div>
+                <div class="col-sm-6">
+                <button>Confirm</button>
+                </div>
+              </div>
+            </td>
+            <td><div class="col">
+              <div class="col-sm-6">
+                <textarea></textarea>
+              </div>
+              <div class="col-sm-6">
+              <button>Decline</button>
+              </div>
+            </div></td>
           </tr>
         </tbody>
       </table>

@@ -2,6 +2,7 @@ package com.project.isa.service.impl;
 
 import com.project.isa.model.PromotionAdventure;
 import com.project.isa.model.User;
+import com.project.isa.repository.UserRepository;
 import com.project.isa.request.UserRequest;
 import com.project.isa.service.PromotionAdventureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -27,10 +29,29 @@ public class EmailServiceImpl {
     UserServiceImpl userService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     PromotionAdventureService promotionAdventureService;
 
     @Async
     public void sendNotificationAsync(UserRequest userRequest, Long id) throws MailException, InterruptedException, MessagingException {
+        System.out.println("Slanje emaila...");
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+
+        String htmlMsg = "<h3>Hello</h3> <br> <p>to activate this account visit <a href=\"http://localhost:8080/api/activateacc/"+id.toString()+"\">link</a></p>";
+        System.out.println(htmlMsg);
+        mimeMessage.setContent(htmlMsg, "text/html");
+        helper.setTo(userRequest.getEmail());
+        helper.setSubject("Verification");
+        helper.setFrom(environment.getProperty("spring.mail.username"));
+        javaMailSender.send(mimeMessage);
+        System.out.println("Email poslat!");
+    }
+
+    @Async
+    public void sendNotificationToAdminAsync(UserRequest userRequest, Long id) throws MailException, InterruptedException, MessagingException{
         System.out.println("Slanje emaila...");
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
@@ -47,6 +68,7 @@ public class EmailServiceImpl {
 
     public void deleteAccountAsync(String email, String reason) throws MailException, InterruptedException, MessagingException {
         System.out.println("Slanje emaila...");
+        User user = userService.findByEmail(email);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 
@@ -57,6 +79,8 @@ public class EmailServiceImpl {
         helper.setSubject("Verification");
         helper.setFrom(environment.getProperty("spring.mail.username"));
         javaMailSender.send(mimeMessage);
+        user.setEmail(user.getEmail() + "+deleted");
+        userRepository.save(user);
         System.out.println("Email poslat!");
     }
 

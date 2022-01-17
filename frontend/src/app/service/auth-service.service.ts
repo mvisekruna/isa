@@ -61,6 +61,10 @@ export class AuthServiceService {
     return this.http.post<Observable<any>>(this.registerURL, authSignUpInfo,  this.httpOptions);
   }
 
+  registrationForOthers(authSignUpInfo: AuthSingupInfo): Observable<any> {
+    return this.http.post<Observable<any>>('http://localhost:8080/auth/signupforothers', authSignUpInfo,  this.httpOptions);
+  }
+
   addNewAdmin(authSignUpInfo: AuthSingupInfo): Observable<any> {
     return this.http.post<Observable<any>>(this.registerAdminURL, authSignUpInfo,  this.httpOptions);
   }

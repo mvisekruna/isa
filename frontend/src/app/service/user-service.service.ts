@@ -54,5 +54,11 @@ export class UserServiceService {
     return this.http.post(`${this.userUrl}/{email}`, email, { headers });
   }
 
+  public sendRequestForDeleteAccount(reason: string): Observable<any> {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post('http://localhost:8080/deleteaccount/sendtherequest', reason, { headers });
+  }
+
 
 }

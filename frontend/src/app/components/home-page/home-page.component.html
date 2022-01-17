@@ -4,11 +4,11 @@
       <app-home-page-user></app-home-page-user>
     </div>
     <div *ngIf="isAdmin" id="isAdmin">
-        <app-home-page-admin></app-home-page-admin>
+      <app-home-page-admin></app-home-page-admin>
     </div>
     <div *ngIf="isTutor" id="isTutor">
       <app-home-page-tutor></app-home-page-tutor>
-  </div>
+    </div>
     <div class="card-body">
       <button class="btn btn-info" (click)="logout()">Logout</button>
     </div>
@@ -29,19 +29,22 @@
               <div style="float:right;width:49%;">
                 <app-register-form></app-register-form>
               </div>
+              <div style="float:down;width:49%;">
+                <app-registration-for-others-form></app-registration-for-others-form>
+              </div>
               <div style="clear:both; font-size:1px;"></div>
             </div>
             <div>
-            <div>
-              <app-vacation-home-list></app-vacation-home-list>
+              <div>
+                <app-vacation-home-list></app-vacation-home-list>
+              </div>
+              <div>
+                <app-boat-list></app-boat-list>
+              </div>
+              <div>
+                <app-adventure-list></app-adventure-list>
+              </div>
             </div>
-            <div>
-              <app-boat-list></app-boat-list>
-            </div>
-            <div>
-              <app-adventure-list></app-adventure-list>
-            </div>
-          </div>
           </div>
         </div>
         <router-outlet></router-outlet>

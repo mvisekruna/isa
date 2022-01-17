@@ -13,6 +13,7 @@ public interface UserService {
     User register(UserRequest userRequest);
     User registerAdmin(UserRequest userRequest);
     User update(UserUpdateRequest userUpdateRequest);
+    User registrationForOthers(UserRequest userRequest);
 
 
     List<User> findAllTutors();
