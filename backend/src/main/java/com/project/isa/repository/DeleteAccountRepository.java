@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface DeleteAccountRepository extends JpaRepository<DeleteAccount, Long> {
 
-    List<DeleteAccount> findAllDeleteAccountsByConfirm(boolean confirm);
+    List<DeleteAccount> findAllDeleteAccountsByRequestProcessed(boolean requestProcessed);
 }

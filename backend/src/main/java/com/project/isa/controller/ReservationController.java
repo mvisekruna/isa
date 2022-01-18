@@ -1,5 +1,7 @@
 package com.project.isa.controller;
 
+import com.project.isa.model.AdventureReservation;
+import com.project.isa.request.AdventureReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.request.UserEmailRequest;
 import com.project.isa.response.UserHistoryResponse;
@@ -18,9 +20,14 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @PostMapping
+    @PostMapping("/all")
     public UserHistoryResponse getAllReservations(@RequestBody UserEmailRequest userEmailRequest) throws ParseException {
         return reservationService.getAllReservations(userEmailRequest.getEmail());
+    }
+
+    @PostMapping("/save/adventurereservation")
+    public AdventureReservation saveAdventureReservation(@RequestBody AdventureReservationRequest adventureReservationRequest) {
+        return reservationService.saveAdventureReservation(adventureReservationRequest);
     }
 
     @PostMapping(value = "/cancel/adventure")

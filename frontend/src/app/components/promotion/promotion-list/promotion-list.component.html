@@ -18,7 +18,7 @@
                     <td>{{ promotion.startPromo| date }}</td>
                     <td>{{ promotion.endPromo| date }}</td>
                     <td>{{ promotion.adventurePromotion.adventureName }}</td>
-                    <td *ngIf="isUser"><button (click)="subscribeFun(promotion.id)">Choose</button></td>
+                    <td *ngIf="isUser"><button (click)="subscribeFun(promotion.adventurePromotion.id)">Choose</button></td>
                 </tr>
             </tbody>
         </table>

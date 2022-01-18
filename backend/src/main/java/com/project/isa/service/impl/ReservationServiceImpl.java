@@ -5,6 +5,7 @@ import com.project.isa.model.AdventureReservation;
 import com.project.isa.model.User;
 import com.project.isa.model.VacationHomeReservation;
 import com.project.isa.repository.UserRepository;
+import com.project.isa.request.AdventureReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.response.AdventureReservationResponse;
 import com.project.isa.response.BoatReservationResponse;
@@ -93,6 +94,13 @@ public class ReservationServiceImpl implements ReservationService {
         userHistoryResponse.setAdventureReservations(adventureReservationResponses);
         userHistoryResponse.setVacationHomeReservations(vacationHomeReservationResponses);
         return userHistoryResponse;
+    }
+
+    @Override
+    public AdventureReservation saveAdventureReservation(AdventureReservationRequest adventureReservationRequest) {
+        AdventureReservation adventureReservation = null;
+
+        return null;
     }
 
     @Override

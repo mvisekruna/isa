@@ -28,7 +28,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card-body">
+    <div class="card-body" *ngIf="isUser">
         <h2> My subscribed adventures </h2>
         <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions1"
             [dtTrigger]="dtTrigger2">

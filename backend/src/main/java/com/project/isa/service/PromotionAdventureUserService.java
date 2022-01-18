@@ -11,5 +11,5 @@ public interface PromotionAdventureUserService {
     PromotionAdventureUser findById(Long id);
     List<PromotionAdventureUser> findAll();
     List<Adventure> findAllSubscribed();
-    PromotionAdventureUser subscribeToPromotions(PromotionAdventureUserRequest promotionAdventureUserRequest);
+    PromotionAdventureUser subscribeToPromotions(Long adventureId);
 }

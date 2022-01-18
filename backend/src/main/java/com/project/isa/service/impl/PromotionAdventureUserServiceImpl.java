@@ -58,10 +58,10 @@ public class PromotionAdventureUserServiceImpl implements PromotionAdventureUser
     }
 
     @Override
-    public PromotionAdventureUser subscribeToPromotions(PromotionAdventureUserRequest promotionAdventureUserRequest) {
+    public PromotionAdventureUser subscribeToPromotions(Long adventureId) {
         PromotionAdventureUser promotionAdventureUser = new PromotionAdventureUser();
 
-        Adventure adventure = adventureService.findById(promotionAdventureUserRequest.getAdventureId());
+        Adventure adventure = adventureService.findById(adventureId);
         promotionAdventureUser.setAdventure(adventure);
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -105,7 +105,6 @@ public class PromotionAdventureUserServiceImpl implements PromotionAdventureUser
         PromotionAdventureUser promotionAdventureUser = findByAdventureId(adventureId);
         promotionAdventureUser.setSubscribed(false);
         return promotionAdventureUserRepository.save(promotionAdventureUser);
-
 
     }
 }

@@ -60,10 +60,10 @@ export class PromotionServiceService {
     return this.http.get<Adventure[]>(`${this.promotionAdventureUserUrl}/allsubscribed`, { headers });
   }
   
-  public subscribeToPromotions(adventurePromotionUserRequest: AdventurePromotionUserRequest) {
+  public subscribeToPromotions(adventureId: any) {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post(`${this.promotionAdventureUserUrl}/subscribe`, adventurePromotionUserRequest, { headers });
+    return this.http.post(`${this.promotionAdventureUserUrl}/subscribe/${adventureId}`, adventureId, { headers });
   }
 
   public delete(id: any): void {

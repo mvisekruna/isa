@@ -1,7 +1,7 @@
 <div class="card my-5">
     <div class="card-body">
       <h2>{{ title }}</h2>
-      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger1">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
@@ -28,4 +28,34 @@
         </tbody>
       </table>
     </div>
+    <div class="card-body" *ngIf="isUser">
+      <h2> My subscribed boats </h2>
+      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger2">
+          <thead class="thead-dark">
+              <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Boat name</th>
+                  <th scope="col">Boat location</th>
+                  <th scope="col">Boat description</th>
+                  <th scope="col">Boat price</th>
+                  <th scope="col">Boat review</th>
+                  <th scope="col">Boat owner</th>
+                  <th scope="col">Details</th>
+              </tr>
+          <tbody>
+              <tr *ngFor="let boatSubscribed of boatsSubscribed | search:terms" id="boatSubscribed">
+                  <td>{{ boatSubscribed.id }}</td>
+                  <td>{{ boatSubscribed.boatName }}</td>
+                  <td>{{ boatSubscribed.boatAddress }}</td>
+                  <td>{{ boatSubscribed.boatDescription }}</td>
+                  <td>{{ boatSubscribed.boatPrice }}</td>
+                  <td>{{ boatSubscribed.boatReview }}</td>
+                  <td>{{ boatSubscribed.boatOwner.firstName + ' ' +
+                    boatSubscribed.boatOwner.lastName}}</td>
+                  <td><button (click)="unsubscribe(boatSubscribed.id)">Unsubscribe</button></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
   </div>

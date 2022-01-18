@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AdventurePromotionUserRequest } from 'src/app/model/adventure-promotion-user-request';
 import { Promotion } from 'src/app/model/promotion';
 import { PromotionServiceService } from 'src/app/service/promotion-service.service';
 
@@ -17,6 +18,7 @@ export class PromotionListComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   isUser: boolean = false;
   role: any;
+  adventurePromotionUserRequest: AdventurePromotionUserRequest = new AdventurePromotionUserRequest;
 
   constructor(private promotionService: PromotionServiceService) {
     this.title = 'Promotions list'
@@ -34,7 +36,6 @@ export class PromotionListComponent implements OnInit {
       this.isUser = true;
     }
     this.promotionService.loadAllAdventurePromotions().subscribe(data => {
-      console.log(data);
       this.promotions = data;
       this.dtTrigger.next();
     });
@@ -45,8 +46,7 @@ export class PromotionListComponent implements OnInit {
   }
 
   subscribeFun(id:any): void {
-    console.log("usao");
-    this.promotionService.subscribeToPromotions(id).subscribe(data=> {
+    this.promotionService.subscribeToPromotions(id).subscribe( data => {
       console.log(data);
     });
     

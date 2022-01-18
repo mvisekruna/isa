@@ -8,4 +8,8 @@ export class DeleteAccountResponse {
 
     reason: string;
 
+    confirm: boolean;
+
+    requestProcessed: boolean;
+
 }

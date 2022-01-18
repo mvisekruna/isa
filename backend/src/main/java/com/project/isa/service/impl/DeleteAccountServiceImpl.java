@@ -41,7 +41,7 @@ public class DeleteAccountServiceImpl implements DeleteAccountService {
     }
 
     @Override
-    public List<DeleteAccount> findAll() { return deleteAccountRepository.findAllDeleteAccountsByConfirm(false); }
+    public List<DeleteAccount> findAll() { return deleteAccountRepository.findAllDeleteAccountsByRequestProcessed(false); }
 
     @Override
     public DeleteAccount sendTheRequest(String reason) {
@@ -52,6 +52,7 @@ public class DeleteAccountServiceImpl implements DeleteAccountService {
 
         DeleteAccount deleteAccount = new DeleteAccount();
         deleteAccount.setUser(u);
+        deleteAccount.setRequestProcessed(false);
         deleteAccount.setReason(reason);
         deleteAccount.setConfirm(false);
 
@@ -62,6 +63,7 @@ public class DeleteAccountServiceImpl implements DeleteAccountService {
     public DeleteAccount deleteApproved(Long deleteAccountId, String reasonToConfirm) {
         DeleteAccount deleteAccount = findById(deleteAccountId);
         deleteAccount.setConfirm(true);
+        deleteAccount.setRequestProcessed(true);
         User user = userService.findById(deleteAccount.getUser().getId());
         user.setEnabled(false);
         userRepository.save(user);
@@ -82,6 +84,8 @@ public class DeleteAccountServiceImpl implements DeleteAccountService {
     @Override
     public void deleteDenied(Long deleteAccountId, String reasonToBeDenied) {
         DeleteAccount deleteAccount = findById(deleteAccountId);
+        deleteAccount.setRequestProcessed(true);
+        this.deleteAccountRepository.save(deleteAccount);
         User user = userService.findById(deleteAccount.getUser().getId());
 
         try {

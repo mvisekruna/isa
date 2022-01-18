@@ -15,6 +15,8 @@ export class DeleteAccountRequestsComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
   terms: any;
+  declineReason: string;
+  confirmReason: string;
 
   constructor(private deleteAcconutService: DeleteAccounService) { }
 
@@ -27,13 +29,34 @@ export class DeleteAccountRequestsComponent implements OnInit {
       processing: true
     };
     this.title = 'Delete account requests';
+    this.loadAll();
 
+  }
+
+  loadAll() {
     this.deleteAcconutService.loadAll().subscribe(data => {
       console.log(data);
       this.accountsForDelete = data;
-      this.dtTrigger.next();
+     // this.dtTrigger.next();
     });
   }
+  confirmRequest(id) {
+    this.confirmReason = (<HTMLInputElement>document.getElementById("confirmReason")).value;
+    this.deleteAcconutService.deleteApproved(id, this.confirmReason).subscribe(data =>{
+      console.log(data);
+      this.loadAll();
+    });
+  }
+
+  declineRequest(id) {
+    this.declineReason = (<HTMLInputElement>document.getElementById("declineReason")).value;
+    this.deleteAcconutService.deleteDenied(id, this.declineReason).subscribe(data =>{
+      console.log(data);
+      this.loadAll();
+    });
+  }
+
+
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();

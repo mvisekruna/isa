@@ -22,20 +22,20 @@
             <td>{{ deleteRequest.reason }}</td>
             <td>
               <div class="col">
-                <div class="col-sm-6">
-                  <textarea></textarea>
+                <div>
+                  <textarea id="confirmReason"></textarea>
                 </div>
-                <div class="col-sm-6">
-                <button>Confirm</button>
+                <div class="buttonContainer">
+                <button (click)="confirmRequest(deleteRequest.id)" >Confirm</button>
                 </div>
               </div>
             </td>
             <td><div class="col">
-              <div class="col-sm-6">
-                <textarea></textarea>
+              <div>
+                <textarea id="declineReason"></textarea>
               </div>
-              <div class="col-sm-6">
-              <button>Decline</button>
+              <div class="buttonContainer">
+              <button (click)="declineRequest(deleteRequest.id)">Decline</button>
               </div>
             </div></td>
           </tr>

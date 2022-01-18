@@ -36,20 +36,23 @@ export class AdventureListComponent implements OnInit {
       processing: true
     };
 
+    this.role = localStorage.getItem('ROLES');
+    if (this.role === 'ROLE_USER') {
+      this.isUser = true;
+    }
+
     this.adventureService.loadAll().subscribe(data => {
       console.log(data);
       this.adventures = data;
       this.dtTrigger1.next();
     });
 
-    this.promotionService.findAllSubscribed().subscribe(data => {
-      this.role = localStorage.getItem('ROLES');
-      if (this.role === 'ROLE_USER') {
-        this.isUser = true;
-      }
-      this.adventuresSubscribed = data;
-      this.dtTrigger2.next();
-    })
+    if (this.role === 'ROLE_USER') {
+        this.promotionService.findAllSubscribed().subscribe(data => {
+        this.adventuresSubscribed = data;
+        this.dtTrigger2.next();
+      })
+    }
   }
 
   ngOnDestroy(): void {

@@ -23,4 +23,7 @@ public class DeleteAccount {
     @Column(name = "confirm")
     private boolean confirm;
 
+    @Column
+    private boolean requestProcessed;
+
 }

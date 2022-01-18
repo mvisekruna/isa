@@ -38,10 +38,10 @@ public class PromotionAdventureUserController {
         return promotionAdventureUserService.findAllSubscribed();
     }
 
-    @PostMapping("/subscribe")
+    @PostMapping("/subscribe/{adventureId}")
     @PreAuthorize("hasRole('USER')")
-    public PromotionAdventureUser subscribeToPromotions(@RequestBody PromotionAdventureUserRequest promotionAdventureUserRequest) {
-        return promotionAdventureUserService.subscribeToPromotions(promotionAdventureUserRequest);
+    public PromotionAdventureUser subscribeToPromotions(@PathVariable Long adventureId) {
+        return promotionAdventureUserService.subscribeToPromotions(adventureId);
     }
 
     @PostMapping("delete/{id}")
