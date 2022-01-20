@@ -24,4 +24,7 @@ public class PromotionAdventure {
     @ManyToOne
     private Adventure adventurePromotion;
 
+    @Column
+    private int numberOfPromotions;
+
 }

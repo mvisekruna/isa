@@ -42,22 +42,11 @@ export class AdventureDetailsComponent implements OnInit {
     });
   }
 
-  subscribeToPromotions(): void {
-
-    this.adventurePromotionUserRequest.adventureId = this.adventure.id;
-
-    this.email = localStorage.getItem('USERNAME');
-    this.userService.findByEmail(this.email).subscribe(data => {
-      this.promotionUser = data;
+  subscribeToPromotions(adventureId) {
+  this.userService.subscribeToPromotions(adventureId).subscribe(data => {
+    if(data===null){
+      alert('Already subscribed!');
+    }
     });
-    this.adventurePromotionUserRequest.promotionUserId = this.promotionUser.id;
-
-    this.promotionService.subscribeToPromotions(this.adventurePromotionUserRequest).subscribe(data => {
-      if(data===null){
-        alert('Alerady subscribed!')
-      }
-    });
-
-    
   }
 }

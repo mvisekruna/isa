@@ -6,22 +6,18 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "PROMOTION_ADVENTUREUSER")
-public class PromotionAdventureUser {
+@Table(name = "PROMOTION_VACATIONHOMEUSER")
+public class PromotionVacationHomeUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private Adventure adventure;
+    private VacationHome vacationHome;
 
     @ManyToOne
     private User promotionUser;
 
-    @ManyToOne
-    private PromotionAdventure promotionAdventure;
-
     private boolean isSubscribed;
-
 }

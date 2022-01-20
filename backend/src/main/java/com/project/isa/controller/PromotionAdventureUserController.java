@@ -1,8 +1,8 @@
 package com.project.isa.controller;
 
 import com.project.isa.model.Adventure;
+import com.project.isa.model.PromotionAdventure;
 import com.project.isa.model.PromotionAdventureUser;
-import com.project.isa.request.PromotionAdventureUserRequest;
 import com.project.isa.service.impl.PromotionAdventureUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -32,20 +32,23 @@ public class PromotionAdventureUserController {
         return promotionAdventureUserService.findAll();
     }
 
-    @GetMapping("/allsubscribed")
-    @PreAuthorize("hasRole('USER')")
-    public List<Adventure> findAllSubscribed() {
-        return promotionAdventureUserService.findAllSubscribed();
+    @GetMapping("/all/adventures/{adventureId}")
+    public List<PromotionAdventure> findAllWithAdventureId(@PathVariable Long adventureId) {
+        return promotionAdventureUserService.findAllWithAdventureId(adventureId);
     }
 
-    @PostMapping("/subscribe/{adventureId}")
+    @GetMapping("/all/promotions/{promotionId}")
+    List<PromotionAdventureUser> findAllWithPromotionId(@PathVariable Long promotionId) {
+        return promotionAdventureUserService.findAllWithPromotionId(promotionId);
+    }
+
+    @PostMapping("/choose/{promotionId}")
     @PreAuthorize("hasRole('USER')")
-    public PromotionAdventureUser subscribeToPromotions(@PathVariable Long adventureId) {
-        return promotionAdventureUserService.subscribeToPromotions(adventureId);
+    public PromotionAdventureUser chooseThePromotion(@PathVariable Long promotionId) {
+        return promotionAdventureUserService.chooseThePromotion(promotionId);
     }
 
     @PostMapping("delete/{id}")
-    //@PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Object> deleteOne(@PathVariable Long id){
         PromotionAdventureUser u = promotionAdventureUserService.findById(id);
         if (u==null) {
@@ -56,13 +59,20 @@ public class PromotionAdventureUserController {
     }
 
     @GetMapping("/adventure/{adventureId}")
+    @PreAuthorize("hasRole('USER')")
     public PromotionAdventureUser findByAdventureId(@PathVariable Long adventureId) {
         return promotionAdventureUserService.findByAdventureId(adventureId);
     }
 
-    @PostMapping("unsubscribe/{adventureId}")
-    public void unsubscribe(@PathVariable Long adventureId){
-        promotionAdventureUserService.unsubscribe(adventureId);
+    @PostMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public PromotionAdventure cancelThePromotion(@PathVariable Long id) {
+        return promotionAdventureUserService.cancelThePromotion(id);
     }
 
+    @GetMapping("/allpromotions/ichose")
+    @PreAuthorize("hasRole('USER')")
+    public List<PromotionAdventure> findAllPromotionsIChose() {
+        return promotionAdventureUserService.findAllPromotionsIChose();
+    }
 }

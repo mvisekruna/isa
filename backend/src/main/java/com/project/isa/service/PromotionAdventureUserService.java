@@ -10,6 +10,12 @@ import java.util.List;
 public interface PromotionAdventureUserService {
     PromotionAdventureUser findById(Long id);
     List<PromotionAdventureUser> findAll();
-    List<Adventure> findAllSubscribed();
-    PromotionAdventureUser subscribeToPromotions(Long adventureId);
+    List<PromotionAdventure> findAllWithAdventureId(Long adventureId);
+    List<PromotionAdventureUser> findAllWithPromotionId(Long promotionId);
+    PromotionAdventureUser chooseThePromotion(Long promotionId);
+    PromotionAdventureUser findByAdventureId(Long adventureId);
+    PromotionAdventure cancelThePromotion(Long adventureId);
+    List<PromotionAdventure> findAllPromotionsIChose();
+
+
 }

@@ -1,6 +1,11 @@
 <div class="card my-5">
     <div class="card-body">
         <h2>{{ title }}</h2>
+        <label>Start date:</label>
+        <input type="date" [ngStyle]="{marginLeft: '10px'}">
+        <label [ngStyle]="{marginLeft: '10px'}">End date:</label>
+        <input type="date" [ngStyle]="{marginLeft: '10px'}">
+        <button [ngStyle]="{marginLeft: '10px'}">Search</button>
         <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions1"
             [dtTrigger]="dtTrigger1">
             <thead class="thead-dark">
@@ -53,7 +58,7 @@
                     <td>{{ adventureSubscribed.adventureReview }}</td>
                     <td>{{ adventureSubscribed.adventureTutor.firstName + ' ' +
                         adventureSubscribed.adventureTutor.lastName}}</td>
-                    <td><button (click)="unsubscribe(adventureSubscribed.id)">Unsubscribe</button></td>
+                    <td><button (click)="cancelSubscription(adventureSubscribed.id)">Cancel</button></td>
                 </tr>
             </tbody>
         </table>

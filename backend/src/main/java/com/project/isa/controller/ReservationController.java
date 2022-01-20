@@ -1,5 +1,6 @@
 package com.project.isa.controller;
 
+import com.project.isa.model.Adventure;
 import com.project.isa.model.AdventureReservation;
 import com.project.isa.request.AdventureReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,9 +27,9 @@ public class ReservationController {
         return reservationService.getAllReservations(userEmailRequest.getEmail());
     }
 
-    @PostMapping("/save/adventurereservation")
-    public AdventureReservation saveAdventureReservation(@RequestBody AdventureReservationRequest adventureReservationRequest) {
-        return reservationService.saveAdventureReservation(adventureReservationRequest);
+    @GetMapping("/save/adventurereservation")
+    public List<Adventure> saveAdventureReservation(@RequestBody AdventureReservationRequest adventureReservationRequest) {
+        return reservationService.getFreeAdventures(adventureReservationRequest);
     }
 
     @PostMapping(value = "/cancel/adventure")

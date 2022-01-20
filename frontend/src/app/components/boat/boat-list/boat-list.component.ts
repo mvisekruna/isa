@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Boat } from 'src/app/model/boat';
 import { PromotionBoatUser } from 'src/app/model/promotion-boat-user';
 import { BoatServiceService } from 'src/app/service/boat-service.service';
-import { PromotionBoatServiceService } from 'src/app/service/PromotionBoatService.service';
+import { PromotionBoatServiceService } from 'src/app/service/promotion-boat-service.service';
 
 @Component({
   selector: 'app-boat-list',

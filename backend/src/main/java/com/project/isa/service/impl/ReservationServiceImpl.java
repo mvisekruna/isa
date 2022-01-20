@@ -1,24 +1,22 @@
 package com.project.isa.service.impl;
 
 import com.project.isa.enumeration.ReservationStatus;
-import com.project.isa.model.AdventureReservation;
-import com.project.isa.model.User;
-import com.project.isa.model.VacationHomeReservation;
-import com.project.isa.repository.UserRepository;
+import com.project.isa.model.*;
+import com.project.isa.repository.*;
 import com.project.isa.request.AdventureReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.response.AdventureReservationResponse;
 import com.project.isa.response.BoatReservationResponse;
-import com.project.isa.model.BoatReservation;
-import com.project.isa.repository.AdventureReservationRepository;
-import com.project.isa.repository.BoatReservationRepository;
-import com.project.isa.repository.VacationHomeReservationRepository;
 import com.project.isa.response.UserHistoryResponse;
 import com.project.isa.response.VacationHomeReservationResponse;
+import com.project.isa.service.AdventureService;
+import com.project.isa.service.PromotionAdventureService;
+import com.project.isa.service.PromotionAdventureUserService;
 import com.project.isa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +36,15 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AdventureService adventureService;
+
+    @Autowired
+    private PromotionAdventureUserService promotionAdventureUserService;
+
+    @Autowired
+    private PromotionAdventureService promotionAdventureService;
 
     @Override
     public UserHistoryResponse getAllReservations(String email) {
@@ -97,10 +104,39 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public AdventureReservation saveAdventureReservation(AdventureReservationRequest adventureReservationRequest) {
-        AdventureReservation adventureReservation = null;
+    public List<Adventure> getFreeAdventures(AdventureReservationRequest adventureReservationRequest) {
+        List<Adventure> adventureList = new ArrayList<>();
+        Adventure temp = new Adventure();
+        Date start = Timestamp.valueOf(adventureReservationRequest.getStartDate());
+        Date end = Timestamp.valueOf(adventureReservationRequest.getEndDate());
 
-        return null;
+        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
+        List<PromotionAdventure> promotionAdventureList = promotionAdventureUserService.findAllWithAdventureId(adventureReservationRequest.getAdventureId());
+        for(PromotionAdventureUser pau: promotionAdventureUserList) {
+            if(pau.getAdventure().equals(adventureReservationRequest.getAdventureId())){
+                for(PromotionAdventure pa: promotionAdventureList) {
+                    if(!(pa.getEndPromo().before(start) || pa.getStartPromo().after(end))) {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        List<AdventureReservation> adventureReservationList = adventureReservationRepository.findAll();
+        for(AdventureReservation ar: adventureReservationList){
+            if(ar.getAdventure().getId().equals(adventureReservationRequest.getAdventureId())){
+                if(ar.getEndDate().before(start) || ar.getStartDate().after(end)) {
+                    System.out.println(start);
+                    System.out.println(ar.getStartDate());
+                    System.out.println(end);
+                    System.out.println(ar.getEndDate());
+                    temp = adventureService.findById(ar.getAdventure().getId());
+                    adventureList.add(temp);
+                }
+            }
+        }
+
+        return adventureList;
     }
 
     @Override

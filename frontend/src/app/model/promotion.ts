@@ -11,4 +11,5 @@ export class Promotion {
     adventurePromotion: Adventure;
     boatPromotion: Boat;
     vacationHomePromotion: VacationHome;
+    numberOfPromotions: number;
 }

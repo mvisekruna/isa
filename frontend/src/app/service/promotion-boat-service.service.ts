@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AddPromotionRequest } from "../model/add-promotion-request";
 import { Boat } from "../model/boat";
-import { BoatPromotionUserRequest } from "../model/boat-promotion-user-request";
 import { Promotion } from "../model/promotion";
 import { PromotionBoatUser } from "../model/promotion-boat-user";
 
@@ -22,20 +21,20 @@ import { PromotionBoatUser } from "../model/promotion-boat-user";
   public findByIdPromotionBoat(promotionId: any): Observable<Promotion> {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<Promotion>(`localhost:8080/promotion/getOne/${promotionId}`, { headers });
+    return this.http.get<Promotion>(`localhost:8080/promotion/boat/getOne/${promotionId}`, { headers });
   }
 
   public addPromotionToBoat(addPromotionRequest: AddPromotionRequest): Observable<any> {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post<Observable<any>>('http://localhost:8080/promotion/addpromotion/toboat', addPromotionRequest, { headers });
+    return this.http.post<Observable<any>>('http://localhost:8080/promotion/boat/addpromotion/toboat', addPromotionRequest, { headers });
 
   }
 
   public loadAllBoatPromotions(): Observable<Promotion[]> {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<Promotion[]>('http://localhost:8080/promotion/getallboatpromotions', { headers });
+    return this.http.get<Promotion[]>('http://localhost:8080/promotion/boat/getallboatpromotions', { headers });
   }
   //************************************************************************************************ 
 
@@ -60,11 +59,11 @@ import { PromotionBoatUser } from "../model/promotion-boat-user";
     return this.http.get<Boat[]>(`${this.promotionBoatUserUrl}/allsubscribed`, { headers });
   }
   
-  public subscribeToPromotions(boatPromotionUserRequest: BoatPromotionUserRequest) {
-    const t = localStorage.getItem("TOKEN");
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post(`${this.promotionBoatUserUrl}/subscribe`, boatPromotionUserRequest, { headers });
-  }
+  // public subscribeToPromotions(boatId: any) {
+  //   const t = localStorage.getItem("TOKEN");
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+  //   return this.http.post(`${this.promotionBoatUserUrl}/subscribe/${boatId}`, { headers });
+  // }
 
   public delete(id: any): void {
     const t = localStorage.getItem("TOKEN");
@@ -81,7 +80,7 @@ import { PromotionBoatUser } from "../model/promotion-boat-user";
   public unsubscribeFromBoat(boatId: any): any {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post<any>(`${this.promotionBoatUserUrl}/unsubscribe/${boatId}`, { headers });
+    return this.http.post<any>(`${this.promotionBoatUserUrl}/unsubscribe/${boatId}`, boatId, { headers });
   }
 
   //************************************************************************************************ */

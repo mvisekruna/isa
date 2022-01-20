@@ -5,4 +5,5 @@ export class AddPromotionRequest {
     adventurePromotionId: string;
     boatPromotionId: string;
     vacationHomePromotionId: string;
+    numberOfPromotions: number;
 }

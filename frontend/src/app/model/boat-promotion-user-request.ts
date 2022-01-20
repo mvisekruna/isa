@@ -5,5 +5,4 @@ export class BoatPromotionUserRequest {
     promotionUserId: string;
 
     isSubscribed: boolean;
-
 }

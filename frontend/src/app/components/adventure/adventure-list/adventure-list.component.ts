@@ -5,6 +5,7 @@ import { Adventure } from 'src/app/model/adventure';
 import { PromotionAdventureUser } from 'src/app/model/promotion-adventure-user';
 import { AdventureServiceService } from 'src/app/service/adventure-service.service';
 import { PromotionServiceService } from 'src/app/service/promotion-service.service';
+import { UserServiceService } from 'src/app/service/user-service.service';
 
 @Component({
   selector: 'app-adventure-list',
@@ -24,7 +25,10 @@ export class AdventureListComponent implements OnInit {
   role: any;
   isUser: boolean = false;
 
-  constructor(private adventureService: AdventureServiceService, private router: Router, private promotionService: PromotionServiceService) {
+  constructor(private adventureService: AdventureServiceService, 
+    private router: Router, 
+    private promotionService: PromotionServiceService,
+    private userService: UserServiceService) {
     this.title = 'Adventure list';
   }
 
@@ -48,10 +52,10 @@ export class AdventureListComponent implements OnInit {
     });
 
     if (this.role === 'ROLE_USER') {
-        this.promotionService.findAllSubscribed().subscribe(data => {
+      this.userService.findMySubscribed().subscribe(data => {
         this.adventuresSubscribed = data;
         this.dtTrigger2.next();
-      })
+      });
     }
   }
 
@@ -64,11 +68,11 @@ export class AdventureListComponent implements OnInit {
     this.router.navigate(['/adventure', id]);
   }
 
-  unsubscribe(adventureId) {
-    this.promotionService.unsubscribeFromAdventure(adventureId).subscribe(data => {
-      console.log(data + ' unsubscribee');
+  cancelSubscription(id) {
+    this.userService.cancelMySubscription(id).subscribe(data => {
+      console.log(data);
     });
+    window.location.reload();
 
- //   window.location.reload();
   }
 }

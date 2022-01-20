@@ -63,6 +63,6 @@ public class PromotionBoatServiceImpl implements PromotionBoatService {
 
     @Override
     public List<PromotionBoat> findAllBoatPromotions() {
-        return promotionBoatRepository.findAll();
+        return promotionBoatRepository.findPromotionBoatsByNumberOfPromotionsGreaterThan(0);
     }
 }

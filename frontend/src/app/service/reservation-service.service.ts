@@ -17,7 +17,7 @@ export class ReservationServiceService {
 
   public getReservationHistory(userEmailRequest: UserEmailRequest): Observable<ReservationHistoryResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<ReservationHistoryResponse>(`${this.reservationUrl}`, userEmailRequest, { headers });
+    return this.http.post<ReservationHistoryResponse>(`${this.reservationUrl}/all`, userEmailRequest, { headers });
   }
   public cancelBoatReservation(cancelReservationRequest: CancelReservationRequest): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

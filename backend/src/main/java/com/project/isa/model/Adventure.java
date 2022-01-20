@@ -3,6 +3,7 @@ package com.project.isa.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -33,7 +34,5 @@ public class Adventure {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User adventureTutor;
-
-
 
 }

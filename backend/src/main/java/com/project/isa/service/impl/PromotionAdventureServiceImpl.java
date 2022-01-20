@@ -9,6 +9,7 @@ import com.project.isa.request.PromotionAdventureRequest;
 import com.project.isa.service.PromotionAdventureUserService;
 import com.project.isa.service.AdventureService;
 import com.project.isa.service.PromotionAdventureService;
+import com.project.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -37,9 +38,12 @@ public class PromotionAdventureServiceImpl implements PromotionAdventureService 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public List<PromotionAdventure> findAllAdventurePromotions(){
-        return promotionAdventureRepository.findAll();
+        return promotionAdventureRepository.findPromotionAdventuresByNumberOfPromotionsGreaterThan(0);
     }
 
     @Override
@@ -64,20 +68,35 @@ public class PromotionAdventureServiceImpl implements PromotionAdventureService 
         promotionAdventure.setStartPromo(Timestamp.valueOf(promotionAdventureRequest.getStartPromo()));
         promotionAdventure.setEndPromo(Timestamp.valueOf(promotionAdventureRequest.getEndPromo()));
         promotionAdventure.setDescription(promotionAdventureRequest.getDescription());
+        promotionAdventure.setNumberOfPromotions(promotionAdventureRequest.getNumberOfPromotions());
 
         promotionAdventureRepository.save(promotionAdventure);
 
-        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
-        for(PromotionAdventureUser promotionAdventureUser : promotionAdventureUserList) {
-            if(promotionAdventureUser.isSubscribed() && promotionAdventureUser.getAdventure().getId().equals(adventure.getId())) {
-                User user = promotionAdventureUser.getPromotionUser();
-                try {
-                    emailService.sendNewPromotionNotification(user.getEmail(), promotionAdventure.getId());
-                } catch (MessagingException e) {
-                    e.printStackTrace();
+        List<User> subscribedUsers = userService.findAll();
+        for(User u: subscribedUsers) {
+            List<Adventure> adventureList = u.getAdventures();
+            for(Adventure a: adventureList){
+                if(a.getId().equals(promotionAdventure.getAdventurePromotion().getId())){
+                    try {
+                        emailService.sendNewPromotionNotification(u.getEmail(), promotionAdventure.getId());
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+
+//        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
+//        for(PromotionAdventureUser promotionAdventureUser : promotionAdventureUserList) {
+//            if(promotionAdventureUser.isSubscribed() && promotionAdventureUser.getAdventure().getId().equals(adventure.getId())) {
+//                User user = promotionAdventureUser.getPromotionUser();
+//                try {
+//                    emailService.sendNewPromotionNotification(user.getEmail(), promotionAdventure.getId());
+//                } catch (MessagingException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
         return promotionAdventure;
     }
 }

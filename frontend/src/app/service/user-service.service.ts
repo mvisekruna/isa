@@ -60,5 +60,26 @@ export class UserServiceService {
     return this.http.post('http://localhost:8080/deleteaccount/sendtherequest', reason, { headers });
   }
 
+  public subscribeToPromotions(adventureId: any) {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/api/subscribe/${adventureId}`, adventureId, { headers });
+  }
+
+  public cancelMySubscription(adventureId: any) {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/api/cancel/${adventureId}`, adventureId, { headers });
+  }
+
+  public findMySubscribed(): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.get(`http://localhost:8080/api/all/subscribed`, { headers });
+  }
+
+
+
+
 
 }

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AddPromotionRequest } from '../model/add-promotion-request';
 import { Adventure } from '../model/adventure';
-import { AdventurePromotionUserRequest } from '../model/adventure-promotion-user-request';
 import { Promotion } from '../model/promotion';
 import { PromotionAdventureUser } from '../model/promotion-adventure-user';
 
@@ -53,17 +52,11 @@ export class PromotionServiceService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
     return this.http.get<PromotionAdventureUser[]>(`${this.promotionAdventureUserUrl}/all`, { headers });
   }
-
-  public findAllSubscribed(): Observable<Adventure[]> {
-    const t = localStorage.getItem("TOKEN");
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<Adventure[]>(`${this.promotionAdventureUserUrl}/allsubscribed`, { headers });
-  }
   
-  public subscribeToPromotions(adventureId: any) {
+  public choosePromotion(promotionId: any) {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post(`${this.promotionAdventureUserUrl}/subscribe/${adventureId}`, adventureId, { headers });
+    return this.http.post(`${this.promotionAdventureUserUrl}/choose/${promotionId}`, promotionId, { headers });
   }
 
   public delete(id: any): void {
@@ -78,11 +71,19 @@ export class PromotionServiceService {
     return this.http.get<PromotionAdventureUser>(`${this.promotionAdventureUserUrl}/adventure/${adventureId}`, { headers });
   }
 
-  public unsubscribeFromAdventure(adventureId: any): any {
+  public findAllPromotionsIChose(): any {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post<any>(`${this.promotionAdventureUserUrl}/unsubscribe/${adventureId}`, { headers });
+    return this.http.get(`${this.promotionAdventureUserUrl}/allpromotions/ichose`, { headers });
   }
+
+  public cancelThePromotion(id: any): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/promotionadventureuser/cancel/${id}`, id, { headers });
+  }
+
+
 
   //************************************************************************************************ */
 }

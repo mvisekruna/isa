@@ -25,4 +25,32 @@
       </tbody>
     </table>
   </div>
+  <div class="card-body" *ngIf="isUser">
+    <h2> My subscribed vacation homes </h2>
+    <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger2">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Vacation home name</th>
+                <th scope="col">Vacation home location</th>
+                <th scope="col">Vacation home price</th>
+                <th scope="col">Vacation home review</th>
+                <th scope="col">Vacation home owner</th>
+                <th scope="col">Details</th>
+            </tr>
+        <tbody>
+            <tr *ngFor="let vacationHomeSubscribed of vacationHomesSubsribed | search:terms" id="vacationHomeSubscribed">
+                <td>{{ vacationHomeSubscribed.id }}</td>
+                <td>{{ vacationHomeSubscribed.vacationHomeName }}</td>
+                <td>{{ vacationHomeSubscribed.vacationHomeLocation }}</td>
+                <td>{{ vacationHomeSubscribed.vacationHomePrice }}</td>
+                <td>{{ vacationHomeSubscribed.vacationHomeReview }}</td>
+                <td>{{ vacationHomeSubscribed.vacationHomeOwner.firstName + ' ' +
+                  vacationHomeSubscribed.vacationHomeOwner.lastName}}</td>
+                <td><button (click)="unsubscribe(vacationHomeSubscribed.id)">Unsubscribe</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 </div>

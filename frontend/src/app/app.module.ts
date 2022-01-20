@@ -37,6 +37,7 @@ import { AddAdminComponent } from './components/add-admin/add-admin.component';
 import { DeleteAccountRequestsComponent } from './components/delete-account-requests/delete-account-requests.component';
 import { HomePageTutorComponent } from './components/home-page/home-page-tutor/home-page-tutor.component';
 import { RegistrationForOthersFormComponent } from './components/registration-for-others-form/registration-for-others-form.component';
+import { ChosenPromotionsComponent } from './components/promotion/chosen-promotions/chosen-promotions.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { RegistrationForOthersFormComponent } from './components/registration-fo
     AddAdminComponent,
     DeleteAccountRequestsComponent,
     HomePageTutorComponent,
-    RegistrationForOthersFormComponent
+    RegistrationForOthersFormComponent,
+    ChosenPromotionsComponent
    
   ],
   imports: [

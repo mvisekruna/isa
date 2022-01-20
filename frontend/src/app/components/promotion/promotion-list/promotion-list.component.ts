@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AdventurePromotionUserRequest } from 'src/app/model/adventure-promotion-user-request';
 import { Promotion } from 'src/app/model/promotion';
+import { PromotionBoatServiceService } from 'src/app/service/promotion-boat-service.service';
 import { PromotionServiceService } from 'src/app/service/promotion-service.service';
 
 @Component({
@@ -13,15 +14,26 @@ export class PromotionListComponent implements OnInit {
 
   dtOptions: DataTables.Settings = {};
   terms: any;
-  promotions: Promotion[] = [];
-  title: string;
-  dtTrigger: Subject<any> = new Subject<any>();
+  adventurePromotions: Promotion[] = [];
+  boatPromotions: Promotion[] = [];
+  vacationHomePromotions: Promotion[] = [];
+
+  title1: string;
+  title2: string;
+  title3: string;
+
+  dtTrigger1: Subject<any> = new Subject<any>();
+  dtTrigger2: Subject<any> = new Subject<any>();
+  dtTrigger3: Subject<any> = new Subject<any>();
+
   isUser: boolean = false;
   role: any;
   adventurePromotionUserRequest: AdventurePromotionUserRequest = new AdventurePromotionUserRequest;
 
-  constructor(private promotionService: PromotionServiceService) {
-    this.title = 'Promotions list'
+  constructor(private promotionService: PromotionServiceService, private promotionBoatServiceService: PromotionBoatServiceService) {
+    this.title1 = 'Adventure promotions';
+    this.title2 = 'Boat promotions';
+    this.title3 = 'Vacation home promotions'
   }
 
   ngOnInit(): void {
@@ -36,20 +48,39 @@ export class PromotionListComponent implements OnInit {
       this.isUser = true;
     }
     this.promotionService.loadAllAdventurePromotions().subscribe(data => {
-      this.promotions = data;
-      this.dtTrigger.next();
+      this.adventurePromotions = data;
+      console.log(this.adventurePromotions);
+      this.dtTrigger1.next();
+
     });
+
+    this.promotionBoatServiceService.loadAllBoatPromotions().subscribe(data => {
+      this.boatPromotions = data;
+      console.log(this.boatPromotions);
+      this.dtTrigger2.next();
+
+    });
+  }
+
+  chooseAdventurePromotion(id:any): void {
+    this.promotionService.choosePromotion(id).subscribe( data => {
+      if(data === null) {
+        alert('Already chose this one!');
+      }
+    });
+  }
+
+  chooseBoatPromotion(id:any): void {
+    // this.promotionBoatServiceService.subscribeToPromotions(id).subscribe( data => {
+    //   if(data === null) {
+    //     alert('Already subscribed!');
+    //   }
+    // });
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-
-  subscribeFun(id:any): void {
-    this.promotionService.subscribeToPromotions(id).subscribe( data => {
-      console.log(data);
-    });
-    
+    this.dtTrigger1.unsubscribe();
+    this.dtTrigger2.unsubscribe();
   }
 
 }

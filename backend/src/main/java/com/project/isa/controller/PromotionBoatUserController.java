@@ -38,10 +38,10 @@ public class PromotionBoatUserController {
         return promotionBoatUserService.findAllSubscribed();
     }
 
-    @PostMapping("/subscribe")
-    @PreAuthorize("hasRole('USER')")
-    public PromotionBoatUser subscribeToPromotions(@RequestBody PromotionBoatUserRequest promotionBoatUserRequest) {
-        return promotionBoatUserService.subscribeToPromotions(promotionBoatUserRequest);
+    @PostMapping("/subscribe/{boatId}")
+   // @PreAuthorize("hasRole('ROLE_USER')")
+    public PromotionBoatUser subscribeToPromotions(@PathVariable Long boatId) {
+        return promotionBoatUserService.subscribeToPromotions(boatId);
     }
 
     @PostMapping("delete/{id}")

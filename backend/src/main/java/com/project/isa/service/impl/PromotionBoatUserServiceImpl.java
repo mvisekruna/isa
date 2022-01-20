@@ -34,7 +34,8 @@ public class PromotionBoatUserServiceImpl implements PromotionBoatUserService {
 
     @Override
     public List<PromotionBoatUser> findAll() {
-        return promotionBoatUserRepository.findAll();    }
+        return promotionBoatUserRepository.findAll();
+    }
 
     @Override
     public List<Boat> findAllSubscribed() {
@@ -51,10 +52,10 @@ public class PromotionBoatUserServiceImpl implements PromotionBoatUserService {
     }
 
     @Override
-    public PromotionBoatUser subscribeToPromotions(PromotionBoatUserRequest promotionBoatUserRequest) {
+    public PromotionBoatUser subscribeToPromotions(Long boatId) {
         PromotionBoatUser promotionBoatUser = new PromotionBoatUser();
 
-        Boat boat = boatService.findById(promotionBoatUserRequest.getBoatId());
+        Boat boat = boatService.findById(boatId);
         promotionBoatUser.setBoat(boat);
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();

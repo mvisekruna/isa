@@ -7,8 +7,8 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "PROMOTION_BOAT")
-public class PromotionBoat {
+@Table(name = "PROMOTION_VACATION_HOME")
+public class PromotionVacationHome {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class PromotionBoat {
     private String description;
 
     @ManyToOne
-    private Boat boatPromotion;
+    private VacationHome vacationHomePromotion;
 
     @Column
     private int numberOfPromotions;

@@ -2,6 +2,7 @@ package com.project.isa.controller;
 
 import javax.ws.rs.core.Context;
 
+import com.project.isa.model.Adventure;
 import com.project.isa.model.User;
 import com.project.isa.request.ChangePasswordRequest;
 import com.project.isa.request.UserUpdateRequest;
@@ -82,6 +83,25 @@ public class UserController {
         userService.deactivateAccount(u.getEmail());
         return u.getEmail();
     }
+
+    @PostMapping("/subscribe/{adventureId}")
+    @PreAuthorize("hasRole('USER')")
+    public User subscribeToPromotions(@PathVariable Long adventureId) {
+        return userService.subscribeToPromotions(adventureId);
+    }
+
+    @PostMapping("/cancel/{adventureId}")
+    @PreAuthorize("hasRole('USER')")
+    public void cancelMySubscription(@PathVariable Long adventureId) {
+        userService.cancelMySubscription(adventureId);
+    }
+
+    @GetMapping("all/subscribed")
+    @PreAuthorize("hasRole('USER')")
+    public List<Adventure> findMySubscribed() {
+        return userService.findMySubscribed();
+    }
+
 
 
 

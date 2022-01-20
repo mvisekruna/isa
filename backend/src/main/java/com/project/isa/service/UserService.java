@@ -1,5 +1,6 @@
 package com.project.isa.service;
 
+import com.project.isa.model.Adventure;
 import com.project.isa.model.User;
 import com.project.isa.request.UserRequest;
 import com.project.isa.request.UserUpdateRequest;
@@ -14,7 +15,9 @@ public interface UserService {
     User registerAdmin(UserRequest userRequest);
     User update(UserUpdateRequest userUpdateRequest);
     User registrationForOthers(UserRequest userRequest);
-
+    User subscribeToPromotions(Long adventureId);
+    void cancelMySubscription(Long adventureId);
+    List<Adventure> findMySubscribed();
 
     List<User> findAllTutors();
 

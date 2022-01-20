@@ -60,6 +60,12 @@ public class User implements UserDetails {
 
 	private boolean firstLogin;
 
+	@ManyToMany
+	@JoinTable(name = "user_adventure",
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "adventure_id", referencedColumnName = "id"))
+	private List<Adventure> adventures;
+
 	public Long getId() {
 		return id;
 	}
@@ -177,6 +183,14 @@ public class User implements UserDetails {
 
 	public void setFirstLogin(boolean firstLogin) {
 		this.firstLogin = firstLogin;
+	}
+
+	public List<Adventure> getAdventures() {
+		return adventures;
+	}
+
+	public void setAdventures(List<Adventure> adventures) {
+		this.adventures = adventures;
 	}
 
 	@JsonIgnore

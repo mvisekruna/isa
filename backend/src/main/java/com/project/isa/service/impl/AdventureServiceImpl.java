@@ -7,8 +7,11 @@ import com.project.isa.request.AdventureRequest;
 import com.project.isa.service.AdventureService;
 import com.project.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +22,9 @@ public class AdventureServiceImpl implements AdventureService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Override
     public Adventure findById(Long id) {

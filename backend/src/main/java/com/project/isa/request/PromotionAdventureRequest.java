@@ -12,4 +12,6 @@ public class PromotionAdventureRequest {
     private String description;
 
     private Long adventurePromotionId;
+
+    private int numberOfPromotions;
 }

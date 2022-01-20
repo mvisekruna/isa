@@ -12,6 +12,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { AddPromotionComponent } from './components/promotion/add-promotion/add-promotion.component';
+import { ChosenPromotionsComponent } from './components/promotion/chosen-promotions/chosen-promotions.component';
 import { PromotionListComponent } from './components/promotion/promotion-list/promotion-list.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { RegisterNewUserComponent } from './components/register-new-user/register-new-user.component';
@@ -92,6 +93,14 @@ const routes: Routes = [
     canActivate: [GuardServiceService],
     data: {
       expectedRole: 'ROLE_USER ROLE_TUTOR'
+    } 
+  },
+  {
+    path: 'chosen-promotions-list',
+    component: ChosenPromotionsComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_USER'
     } 
   },
   {

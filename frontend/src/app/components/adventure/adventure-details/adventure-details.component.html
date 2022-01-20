@@ -26,5 +26,5 @@
       <strong>Tutor phone number: </strong>{{adventure.adventureTutor.phoneNumber}} <br />
     </p>
   </div>
-  <div *ngIf="isUser"><button (click) = "subscribeToPromotions()">Subscribe to promotions</button></div>
+  <div *ngIf="isUser"><button (click) = "subscribeToPromotions(adventure.id)">Subscribe to promotions</button></div>
 </div>
