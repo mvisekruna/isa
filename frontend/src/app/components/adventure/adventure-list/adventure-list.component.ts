@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Adventure } from 'src/app/model/adventure';
+import { AdventureReservationRequest } from 'src/app/model/adventure-reservation-request';
 import { PromotionAdventureUser } from 'src/app/model/promotion-adventure-user';
 import { AdventureServiceService } from 'src/app/service/adventure-service.service';
 import { PromotionServiceService } from 'src/app/service/promotion-service.service';
+import { ReservationServiceService } from 'src/app/service/reservation-service.service';
 import { UserServiceService } from 'src/app/service/user-service.service';
 
 @Component({
@@ -24,11 +26,13 @@ export class AdventureListComponent implements OnInit {
   dtTrigger2: Subject<any> = new Subject<any>();
   role: any;
   isUser: boolean = false;
+  adventureReservationRequest: AdventureReservationRequest;
 
   constructor(private adventureService: AdventureServiceService, 
     private router: Router, 
     private promotionService: PromotionServiceService,
-    private userService: UserServiceService) {
+    private userService: UserServiceService,
+    private reservationService: ReservationServiceService) {
     this.title = 'Adventure list';
   }
 
@@ -68,11 +72,24 @@ export class AdventureListComponent implements OnInit {
     this.router.navigate(['/adventure', id]);
   }
 
+  chooseTheAdventure(adventureReservationRequest){ //kad dobijem slobodne avanture da izabere jednu od tih
+    this.isUser == true;
+
+  }
+
+  searchForFreeAdventures() {
+    //dodati isFree da bi se pojavila kolona za rezervaciju 
+    console.log(this.adventureReservationRequest)
+    this.reservationService.getFreeAdventures(this.adventureReservationRequest).subscribe( data => {
+      console.log(data);
+      //this.adventures = data;
+    });
+  }
+
   cancelSubscription(id) {
     this.userService.cancelMySubscription(id).subscribe(data => {
       console.log(data);
     });
     window.location.reload();
-
   }
 }

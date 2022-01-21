@@ -9,6 +9,7 @@ import com.project.isa.response.UserHistoryResponse;
 import com.project.isa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -27,9 +28,22 @@ public class ReservationController {
         return reservationService.getAllReservations(userEmailRequest.getEmail());
     }
 
-    @GetMapping("/save/adventurereservation")
-    public List<Adventure> saveAdventureReservation(@RequestBody AdventureReservationRequest adventureReservationRequest) {
+    @GetMapping("/myreservations")
+    @PreAuthorize("hasRole('USER')")
+    public List<AdventureReservation> getMyReservations() {
+        return reservationService.getMyReservations();
+    }
+
+    @GetMapping("/get/freeadventures")
+    @PreAuthorize("hasRole('USER')")
+    public List<Adventure> getFreeAdventures(@RequestBody AdventureReservationRequest adventureReservationRequest) {
         return reservationService.getFreeAdventures(adventureReservationRequest);
+    }
+
+    @PostMapping("/choose/adventure")
+    @PreAuthorize("hasRole('USER')")
+    public AdventureReservation chooseAdventure(@RequestBody AdventureReservationRequest adventureReservationRequest) {
+        return reservationService.chooseAdventure(adventureReservationRequest);
     }
 
     @PostMapping(value = "/cancel/adventure")

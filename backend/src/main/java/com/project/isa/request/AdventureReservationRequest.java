@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AdventureReservationRequest {
-    private Long id;
+//    private Long id;
 
     private String startDate;
 
@@ -12,11 +12,11 @@ public class AdventureReservationRequest {
 
     private Long adventureId;
 
-    private int numberOfPeople;
-
-    private double price;
-
-    private String status;
-
-    private boolean canCancel;
+//    private int numberOfPeople;
+//
+//    private double price;
+//
+//    private String status;
+//
+//    private boolean canCancel;
 }

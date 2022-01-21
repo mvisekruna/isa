@@ -1,11 +1,13 @@
 <div class="card my-5">
     <div class="card-body">
         <h2>{{ title }}</h2>
+        <!-- <label>Adventure id:</label>
+        <input type="text" [(ngModel)]="adventureReservationRequest.adventureId" [ngStyle]="{marginLeft: '10px'}">
         <label>Start date:</label>
-        <input type="date" [ngStyle]="{marginLeft: '10px'}">
+        <input type="date" [(ngModel)]="adventureReservationRequest.startDate" [ngStyle]="{marginLeft: '10px'}">
         <label [ngStyle]="{marginLeft: '10px'}">End date:</label>
-        <input type="date" [ngStyle]="{marginLeft: '10px'}">
-        <button [ngStyle]="{marginLeft: '10px'}">Search</button>
+        <input type="date" [(ngModel)]="adventureReservationRequest.endDate" [ngStyle]="{marginLeft: '10px'}">
+        <button (click)="searchForFreeAdventures()" [ngStyle]="{marginLeft: '10px'}">Search</button> -->
         <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions1"
             [dtTrigger]="dtTrigger1">
             <thead class="thead-dark">
@@ -18,6 +20,7 @@
                     <th scope="col">Adventure review</th>
                     <th scope="col">Tutor</th>
                     <th scope="col">Details</th>
+                    <th *ngIf="isUser" scope="col">Choose the adventure</th>
                 </tr>
             <tbody>
                 <tr *ngFor="let adventure of adventures | search:terms" id="adventure">
@@ -29,6 +32,7 @@
                     <td>{{ adventure.adventureReview }}</td>
                     <td>{{ adventure.adventureTutor.firstName + ' ' + adventure.adventureTutor.lastName}}</td>
                     <td><button (click)="details(adventure.id)">Details</button></td>
+                    <td *ngIf="isUser"><button (click)="chooseTheAdventure(adventureReservationRequest)">Choose</button></td>
                 </tr>
             </tbody>
         </table>

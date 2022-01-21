@@ -14,6 +14,8 @@ import com.project.isa.service.PromotionAdventureService;
 import com.project.isa.service.PromotionAdventureUserService;
 import com.project.isa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -45,6 +47,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private PromotionAdventureService promotionAdventureService;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    public List<AdventureReservation> findAll() {
+        return adventureReservationRepository.findAll();
+    }
+
+    public AdventureReservation findById(Long id) {
+        return adventureReservationRepository.findById(id).orElseGet(null);
+    }
 
     @Override
     public UserHistoryResponse getAllReservations(String email) {
@@ -104,39 +117,80 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<AdventureReservation> getMyReservations() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<AdventureReservation> adventureReservationList = findAll();
+        List<AdventureReservation> temp = new ArrayList<>();
+        for(AdventureReservation ar: adventureReservationList){
+            if(ar.getUser().getId().equals(user.getId()) && ar.getStatus().equals(ReservationStatus.NEW)){
+                temp.add(ar);
+            }
+        }
+
+        return temp;
+    }
+
+    @Override
     public List<Adventure> getFreeAdventures(AdventureReservationRequest adventureReservationRequest) {
         List<Adventure> adventureList = new ArrayList<>();
         Adventure temp = new Adventure();
         Date start = Timestamp.valueOf(adventureReservationRequest.getStartDate());
         Date end = Timestamp.valueOf(adventureReservationRequest.getEndDate());
 
-        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
-        List<PromotionAdventure> promotionAdventureList = promotionAdventureUserService.findAllWithAdventureId(adventureReservationRequest.getAdventureId());
-        for(PromotionAdventureUser pau: promotionAdventureUserList) {
-            if(pau.getAdventure().equals(adventureReservationRequest.getAdventureId())){
-                for(PromotionAdventure pa: promotionAdventureList) {
-                    if(!(pa.getEndPromo().before(start) || pa.getStartPromo().after(end))) {
-                        return null;
+//        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
+//        List<PromotionAdventure> promotionAdventureList = promotionAdventureUserService.findAllWithAdventureId(adventureReservationRequest.getAdventureId());
+//        for(PromotionAdventureUser pau: promotionAdventureUserList) {
+//            if(pau.getAdventure().equals(adventureReservationRequest.getAdventureId())){
+//                for(PromotionAdventure pa: promotionAdventureList) {
+//                    if(!(pa.getEndPromo().before(start) || pa.getStartPromo().after(end))) {
+//                        return null;
+//                    }
+//                }
+//            }
+//        }
+
+        List<AdventureReservation> adventureReservationList = adventureReservationRepository.findAll();
+        for(AdventureReservation ar: adventureReservationList){
+            if(ar.getAdventure().getId().equals(adventureReservationRequest.getAdventureId())
+                    || ar.getStatus().equals("FINISHED") || ar.getStatus().equals("CANCELED")){
+                if(ar.getEndDate().before(start) || ar.getStartDate().after(end)) {
+                    temp = adventureService.findById(ar.getAdventure().getId());
+                    if(adventureList.isEmpty()){
+                        adventureList.add(temp);
+                    } else {
+                        for(Adventure a: adventureList){
+                            if(!(a.getId().equals(temp.getId()))){
+                                adventureList.add(temp);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        List<AdventureReservation> adventureReservationList = adventureReservationRepository.findAll();
-        for(AdventureReservation ar: adventureReservationList){
-            if(ar.getAdventure().getId().equals(adventureReservationRequest.getAdventureId())){
-                if(ar.getEndDate().before(start) || ar.getStartDate().after(end)) {
-                    System.out.println(start);
-                    System.out.println(ar.getStartDate());
-                    System.out.println(end);
-                    System.out.println(ar.getEndDate());
-                    temp = adventureService.findById(ar.getAdventure().getId());
-                    adventureList.add(temp);
-                }
-            }
-        }
-
         return adventureList;
+    }
+
+    @Override
+    public AdventureReservation chooseAdventure(AdventureReservationRequest adventureReservationRequest) {
+        AdventureReservation adventureReservation = new AdventureReservation();
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        Date start = Timestamp.valueOf(adventureReservationRequest.getStartDate());
+        Date end = Timestamp.valueOf(adventureReservationRequest.getEndDate());
+
+        Adventure adventure = adventureService.findById(adventureReservationRequest.getAdventureId());
+        adventureReservation.setAdventure(adventure);
+        adventureReservation.setStartDate(start);
+        adventureReservation.setEndDate(end);
+        adventureReservation.setUser(user);
+        adventureReservation.setStatus(ReservationStatus.NEW);
+
+        return adventureReservationRepository.save(adventureReservation);
     }
 
     @Override
