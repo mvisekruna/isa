@@ -8,7 +8,7 @@
 * SpringBoot
 
 ## MySQL
-Podaci vezani za bazu nalaze se u isa/src/main/resources/application.properties fajlu. A podaci za popunjavanje baze u isa/src/main/resources/data.sql fajlu koje je potrebno pokrenuti. Sifre za sve korisnike su 123.
+Podaci vezani za bazu nalaze se u backend/src/main/resources/application.properties fajlu. A podaci za popunjavanje baze u backend/src/main/resources/data.sql fajlu koje je potrebno pokrenuti. Sifre za sve korisnike su 123.
 
 ## Frontend - Angular 
 - Pokrenuti frontapp sa 
@@ -19,5 +19,5 @@ Podaci vezani za bazu nalaze se u isa/src/main/resources/application.properties 
 
 ## Backend - SpringBoot
 - Koriscen je Maven za izradu projekta
-- Pokrenuti apoteka/src/main/java/com/back/apoteka/ApotekaApplication.java 
+- Pokrenuti backend/src/main/java/com/back/apoteka/IsaApplication.java 
 - Back ce biti pokrenut na portu 8080
