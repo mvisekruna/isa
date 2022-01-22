@@ -6,6 +6,7 @@ import com.project.isa.repository.*;
 import com.project.isa.request.AdventureReservationRequest;
 import com.project.isa.request.BoatReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
+import com.project.isa.request.VacationHomeReservationRequest;
 import com.project.isa.response.AdventureReservationResponse;
 import com.project.isa.response.BoatReservationResponse;
 import com.project.isa.response.UserHistoryResponse;
@@ -53,6 +54,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private VacationHomeService vacationHomeService;
 
     @Override
     public UserHistoryResponse getAllReservations(String email) {
@@ -179,14 +183,16 @@ public class ReservationServiceImpl implements ReservationService {
         return adventureList;
     }
     @Override
-    public AdventureReservation chooseAdventure(AdventureReservationRequest adventureReservationRequest) {
+    public AdventureReservation chooseAdventure(AdventureReservationRequest adventureReservationRequest) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         AdventureReservation adventureReservation = new AdventureReservation();
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
 
-        Date start = Timestamp.valueOf(adventureReservationRequest.getStartDate());
-        Date end = Timestamp.valueOf(adventureReservationRequest.getEndDate());
+        Date start = formatter.parse(adventureReservationRequest.getStartDate());
+        Date end = formatter.parse(adventureReservationRequest.getEndDate());
 
         Adventure adventure = adventureService.findById(adventureReservationRequest.getAdventureId());
         adventureReservation.setAdventure(adventure);
@@ -271,14 +277,15 @@ public class ReservationServiceImpl implements ReservationService {
         return boatList;
     }
     @Override
-    public BoatReservation chooseBoat(BoatReservationRequest boatReservationRequest) {
+    public BoatReservation chooseBoat(BoatReservationRequest boatReservationRequest) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         BoatReservation boatReservation = new BoatReservation();
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
 
-        Date start = Timestamp.valueOf(boatReservationRequest.getStartDate());
-        Date end = Timestamp.valueOf(boatReservationRequest.getEndDate());
+        Date start = formatter.parse(boatReservationRequest.getStartDate());
+        Date end = formatter.parse(boatReservationRequest.getEndDate());
 
         Boat boat = boatService.findById(boatReservationRequest.getBoatId());
         boatReservation.setBoat(boat);
@@ -298,6 +305,97 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     /**VACATION HOME RESERVATIONS****************/
+    @Override
+    public List<VacationHomeReservation> findAllVacationHomeReservations() {
+        return vacationHomeReservationRepository.findAll();
+    }
+
+    @Override
+    public VacationHomeReservation findByIdVacationHomeReservation(Long id) {
+        return vacationHomeReservationRepository.findById(id).orElseGet(null);
+    }
+
+    @Override
+    public List<VacationHomeReservation> getMyVacationHomeReservations() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<VacationHomeReservation> vacationHomeReservationList = findAllVacationHomeReservations();
+        List<VacationHomeReservation> temp = new ArrayList<>();
+        for(VacationHomeReservation vhr: vacationHomeReservationList){
+            if(vhr.getUser().getId().equals(user.getId()) && vhr.getStatus().equals(ReservationStatus.NEW)){
+                temp.add(vhr);
+            }
+        }
+
+        return temp;
+    }
+
+    @Override
+    public List<VacationHome> getFreeVacationHomes(VacationHomeReservationRequest vacationHomeReservationRequest) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        // TODO: PROMENITI DA PRIMA IME AVANTURE ne ID
+        List<VacationHome> vacationHomeList = new ArrayList<>();
+        VacationHome temp = new VacationHome();
+        Date start = formatter.parse(vacationHomeReservationRequest.getStartDate());
+        Date end = formatter.parse(vacationHomeReservationRequest.getEndDate());
+
+//        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
+//        List<PromotionAdventure> promotionAdventureList = promotionAdventureUserService.findAllWithAdventureId(adventureReservationRequest.getAdventureId());
+//        for(PromotionAdventureUser pau: promotionAdventureUserList) {
+//            if(pau.getAdventure().equals(adventureReservationRequest.getAdventureId())){
+//                for(PromotionAdventure pa: promotionAdventureList) {
+//                    if(!(pa.getEndPromo().before(start) || pa.getStartPromo().after(end))) {
+//                        return null;
+//                    }
+//                }
+//            }
+//        }
+
+        List<VacationHomeReservation> vacationHomeReservationList = vacationHomeReservationRepository.findAll();
+        for(VacationHomeReservation vhr: vacationHomeReservationList){
+            if(vhr.getVacationHome().getId().equals(vacationHomeReservationRequest.getVacationHomeId())
+                    && (vhr.getStatus().equals(ReservationStatus.FINISHED) || vhr.getStatus().equals(ReservationStatus.CANCELED))){
+                if(vhr.getEndDate().before(start) || vhr.getStartDate().after(end)) {
+                    temp = vacationHomeService.findById(vhr.getVacationHome().getId());
+                    if(vacationHomeList.isEmpty()){
+                        vacationHomeList.add(temp);
+                    } else {
+                        for(VacationHome vh: vacationHomeList){
+                            if(!(vh.getId().equals(temp.getId()))){
+                                vacationHomeList.add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return vacationHomeList;
+    }
+
+    @Override
+    public VacationHomeReservation chooseVacationHome(VacationHomeReservationRequest vacationHomeReservationRequest) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        VacationHomeReservation vacationHomeReservation = new VacationHomeReservation();
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        Date start = formatter.parse(vacationHomeReservationRequest.getStartDate());
+        Date end = formatter.parse(vacationHomeReservationRequest.getEndDate());
+
+        VacationHome vacationHome = vacationHomeService.findById(vacationHomeReservationRequest.getVacationHomeId());
+        vacationHomeReservation.setVacationHome(vacationHome);
+        vacationHomeReservation.setStartDate(start);
+        vacationHomeReservation.setEndDate(end);
+        vacationHomeReservation.setUser(user);
+        vacationHomeReservation.setStatus(ReservationStatus.NEW);
+
+        return vacationHomeReservationRepository.save(vacationHomeReservation);
+    }
+
     @Override
     public UserHistoryResponse cancelVacationHomeReservation(CancelReservationRequest cancelReservationRequest) {
         Optional<VacationHomeReservation> vacationHomeReservation = this.vacationHomeReservationRepository.findById(cancelReservationRequest.getId());

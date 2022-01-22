@@ -31,4 +31,7 @@ public class VacationHome {
     @Column(name = "vacation_home_review")
     private String vacationHomeReview;
 
+    @Column(name = "vacation_home_description")
+    private String vacationHomeDescription;
+
 }

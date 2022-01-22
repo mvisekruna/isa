@@ -25,7 +25,6 @@ public class VacationHomeController {
 
     @GetMapping("/all")
     public List<VacationHome> loadAll() {
-
         return vacationHomeService.findAll();
     }
 

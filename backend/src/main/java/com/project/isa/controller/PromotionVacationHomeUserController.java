@@ -30,16 +30,20 @@ public class PromotionVacationHomeUserController {
         return promotionVacationHomeUserService.findAll();
     }
 
-    @GetMapping("/allsubscribed")
-    @PreAuthorize("hasRole('USER')")
-    public List<VacationHome> findAllSubscribed() {
-        return promotionVacationHomeUserService.findAllSubscribed();
+    @GetMapping("/all/vacationhomes/{vacationHomeId}")
+    public List<PromotionVacationHome> findAllWithVacationHomeId(@PathVariable Long vacationHomeId) {
+        return promotionVacationHomeUserService.findAllWithVacationHomeId(vacationHomeId);
     }
 
-    @PostMapping("/subscribe/{vacationHomeId}")
-    // @PreAuthorize("hasRole('ROLE_USER')")
-    public PromotionVacationHomeUser subscribeToPromotions(@PathVariable Long vacationHomeId) {
-        return promotionVacationHomeUserService.subscribeToPromotions(vacationHomeId);
+    @GetMapping("/all/promotions/{promotionId}")
+    public List<PromotionVacationHomeUser> findAllWithPromotionId(@PathVariable Long promotionId){
+        return promotionVacationHomeUserService.findAllWithPromotionId(promotionId);
+    }
+
+    @PostMapping("/choose/{promotionId}")
+    @PreAuthorize("hasRole('USER')")
+    public PromotionVacationHomeUser chooseThePromotion(@PathVariable Long promotionId){
+        return promotionVacationHomeUserService.chooseThePromotion(promotionId);
     }
 
     @PostMapping("delete/{id}")
@@ -57,8 +61,15 @@ public class PromotionVacationHomeUserController {
         return promotionVacationHomeUserService.findByVacationHomeId(vacationHomeId);
     }
 
-    @PostMapping("unsubscribe/{vacationHomeId}")
-    public void unsubscribe(@PathVariable Long vacationHomeId){
-        promotionVacationHomeUserService.unsubscribe(vacationHomeId);
+    @PostMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public PromotionVacationHome cancelThePromotion(@PathVariable Long id){
+        return promotionVacationHomeUserService.cancelThePromotion(id);
+    }
+
+    @GetMapping("/allpromotions/ichose")
+    @PreAuthorize("hasRole('USER')")
+    public List<PromotionVacationHome> findAllPromotionsIChose(){
+        return promotionVacationHomeUserService.findAllPromotionsIChose();
     }
 }

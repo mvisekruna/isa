@@ -1,13 +1,7 @@
 package com.project.isa.controller;
 
-import com.project.isa.model.Adventure;
-import com.project.isa.model.AdventureReservation;
-import com.project.isa.model.Boat;
-import com.project.isa.model.BoatReservation;
-import com.project.isa.request.AdventureReservationRequest;
-import com.project.isa.request.BoatReservationRequest;
-import com.project.isa.request.CancelReservationRequest;
-import com.project.isa.request.UserEmailRequest;
+import com.project.isa.model.*;
+import com.project.isa.request.*;
 import com.project.isa.response.UserHistoryResponse;
 import com.project.isa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +51,7 @@ public class ReservationController {
 
     @PostMapping("/choose/adventure")
     @PreAuthorize("hasRole('USER')")
-    public AdventureReservation chooseAdventure(@RequestBody AdventureReservationRequest adventureReservationRequest) {
+    public AdventureReservation chooseAdventure(@RequestBody AdventureReservationRequest adventureReservationRequest) throws ParseException {
         return reservationService.chooseAdventure(adventureReservationRequest);
     }
 
@@ -84,7 +78,7 @@ public class ReservationController {
         return reservationService.getMyBoatReservations();
     }
 
-    @GetMapping("/get/freeboats")
+    @PostMapping("/get/freeboats")
     @PreAuthorize("hasRole('USER')")
     public List<Boat> getFreeBoats(@RequestBody BoatReservationRequest boatReservationRequest) throws ParseException {
         return reservationService.getFreeBoats(boatReservationRequest);
@@ -92,7 +86,7 @@ public class ReservationController {
 
     @PostMapping("/choose/boat")
     @PreAuthorize("hasRole('USER')")
-    public BoatReservation chooseBoat(BoatReservationRequest boatReservationRequest) {
+    public BoatReservation chooseBoat(@RequestBody BoatReservationRequest boatReservationRequest) throws ParseException {
         return reservationService.chooseBoat(boatReservationRequest);
     }
 
@@ -102,6 +96,34 @@ public class ReservationController {
     }
 
     /**VACATION HOME RESERVATIONS************************/
+
+    @GetMapping("/findall/vhreservations")
+    public List<VacationHomeReservation> findAllVacationHomeReservations() {
+        return reservationService.findAllVacationHomeReservations();
+    }
+
+    @GetMapping("/findone/vhreservation/{id}")
+    public VacationHomeReservation findByIdVacationHomeReservation(@PathVariable Long id){
+        return reservationService.findByIdVacationHomeReservation(id);
+    }
+
+    @GetMapping("/myvh/reservations")
+    @PreAuthorize("hasRole('USER')")
+    public List<VacationHomeReservation> getMyVacationHomeReservations() {
+        return reservationService.getMyVacationHomeReservations();
+    }
+
+    @PostMapping("/get/freevhs")
+    @PreAuthorize("hasRole('USER')")
+    public List<VacationHome> getFreeVacationHomes(@RequestBody VacationHomeReservationRequest vacationHomeReservationRequest) throws ParseException {
+        return reservationService.getFreeVacationHomes(vacationHomeReservationRequest);
+    }
+
+    @PostMapping("/choose/vh")
+    @PreAuthorize("hasRole('USER')")
+    public VacationHomeReservation chooseVacationHome(@RequestBody VacationHomeReservationRequest vacationHomeReservationRequest) throws ParseException {
+        return reservationService.chooseVacationHome(vacationHomeReservationRequest);
+    }
 
     @PostMapping(value = "/cancel/vacationHome")
     public UserHistoryResponse cancelVacationHomeReservation(@RequestBody CancelReservationRequest cancelReservationRequest){

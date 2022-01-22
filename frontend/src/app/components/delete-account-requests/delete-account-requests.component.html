@@ -26,7 +26,7 @@
                   <textarea id="confirmReason"></textarea>
                 </div>
                 <div class="buttonContainer">
-                <button (click)="confirmRequest(deleteRequest.id)" >Confirm</button>
+                <button (click)="confirmRequest(deleteRequest.id,  deleteRequest.reason)" >Confirm</button>
                 </div>
               </div>
             </td>
@@ -35,7 +35,7 @@
                 <textarea id="declineReason"></textarea>
               </div>
               <div class="buttonContainer">
-              <button (click)="declineRequest(deleteRequest.id)">Decline</button>
+              <button (click)="declineRequest(deleteRequest.id, deleteRequest.reason)">Decline</button>
               </div>
             </div></td>
           </tr>

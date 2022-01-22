@@ -3,6 +3,7 @@ package com.project.isa.service;
 import com.project.isa.model.Adventure;
 import com.project.isa.model.Boat;
 import com.project.isa.model.User;
+import com.project.isa.model.VacationHome;
 import com.project.isa.request.UserRequest;
 import com.project.isa.request.UserUpdateRequest;
 
@@ -31,4 +32,7 @@ public interface UserService {
     List<Boat> findMySubscribedBoats();
 
     /**VACATION HOME*******/
+    User subscribeToVacationHomePromotions(Long vacationHomeId);
+    void cancelMyVacationHomeSubscription(Long vacationHomeId);
+    List<VacationHome> findMySubscribedVacationHomes();
 }

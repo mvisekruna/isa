@@ -4,6 +4,7 @@ import { AdventurePromotionUserRequest } from 'src/app/model/adventure-promotion
 import { Promotion } from 'src/app/model/promotion';
 import { PromotionBoatServiceService } from 'src/app/service/promotion-boat-service.service';
 import { PromotionServiceService } from 'src/app/service/promotion-service.service';
+import { PromotionVacationHomeServiceService } from 'src/app/service/promotion-vacation-home-service.service';
 
 @Component({
   selector: 'app-promotion-list',
@@ -29,10 +30,13 @@ export class PromotionListComponent implements OnInit {
   isUser: boolean = false;
   isTutor: boolean = false;
   isBoatOwner: boolean = false;
+  isVacationHomeOwner: boolean = false;
   role: any;
   adventurePromotionUserRequest: AdventurePromotionUserRequest = new AdventurePromotionUserRequest;
 
-  constructor(private promotionService: PromotionServiceService, private promotionBoatServiceService: PromotionBoatServiceService) {
+  constructor(private promotionService: PromotionServiceService, 
+    private promotionBoatServiceService: PromotionBoatServiceService,
+    private promotionVacationHomeService: PromotionVacationHomeServiceService) {
     this.title1 = 'Adventure promotions';
     this.title2 = 'Boat promotions';
     this.title3 = 'Vacation home promotions'
@@ -52,6 +56,8 @@ export class PromotionListComponent implements OnInit {
       this.isBoatOwner = true;
     } else if(this.role === 'ROLE_TUTOR') {
       this.isTutor = true;
+    } else {
+      this.isVacationHomeOwner = true;
     }
     this.promotionService.loadAllAdventurePromotions().subscribe(data => {
       this.adventurePromotions = data;
@@ -64,6 +70,12 @@ export class PromotionListComponent implements OnInit {
       this.boatPromotions = data;
       console.log(this.boatPromotions);
       this.dtTrigger2.next();
+
+    });
+
+    this.promotionVacationHomeService.loadAllVacationHomePromotions().subscribe(data => {
+      this.vacationHomePromotions = data;
+      this.dtTrigger3.next();
 
     });
   }
@@ -84,9 +96,18 @@ export class PromotionListComponent implements OnInit {
     });
   }
 
+  chooseVacationHomePromotion(id:any): void {
+    this.promotionVacationHomeService.chooseThePromotion(id).subscribe( data => {
+      if(data === null) {
+        alert('Already chose this one!');
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     this.dtTrigger1.unsubscribe();
     this.dtTrigger2.unsubscribe();
+    this.dtTrigger3.unsubscribe();
   }
 
 }

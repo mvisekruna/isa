@@ -73,13 +73,14 @@ export class AdventureListComponent implements OnInit {
     this.router.navigate(['/adventure', id]);
   }
 
-  chooseTheAdventure(adventureReservationRequest){ //kad dobijem slobodne avanture da izabere jednu od tih
+  chooseTheAdventure(adventureReservationRequest){
     this.isUser == true;
-    //dodati na dugme
+    this.reservationService.chooseAdventure(adventureReservationRequest).subscribe(data => {
+        console.log(data);
+    });
   }
 
-  searchForFreeAdventures() {
-    //dodati isFree da bi se pojavila kolona za rezervaciju 
+  searchForFreeAdventures() { 
     this.isFree = true;
     this.reservationService.getFreeAdventures(this.adventureReservationRequest).subscribe( data => {
       this.adventures = data;

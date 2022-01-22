@@ -19,16 +19,16 @@ import { DeleteAccountResponse } from '../model/delete-account-response';
       return this.http.get<DeleteAccountResponse[]>(`${this.deleteAccount}/all`, {headers})
     }
 
-    public deleteApproved(id: string, reason: string):  Observable<DeleteAccountResponse> {
+    public deleteApproved(id: string, reason: string): any {
       const t = localStorage.getItem("TOKEN");
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-      return this.http.post<DeleteAccountResponse>(`${this.deleteAccount}/deleteapproved/`.concat(id), reason, {headers})
+      return this.http.post(`${this.deleteAccount}/deleteapproved/${id}`, reason, {headers})
     }
 
-    public deleteDenied(id: string, reason: string):  Observable<DeleteAccountResponse> {
+    public deleteDenied(id: string, reason: string):  any {
       const t = localStorage.getItem("TOKEN");
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-      return this.http.post<DeleteAccountResponse>(`${this.deleteAccount}/deletedenied/`.concat(id), reason, {headers})
+      return this.http.post(`${this.deleteAccount}/deletedenied/${id}`, reason, {headers})
     }
     
 

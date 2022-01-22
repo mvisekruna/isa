@@ -5,6 +5,8 @@ import com.project.isa.repository.PromotionVacationHomeRepository;
 import com.project.isa.request.PromotionVacationHomeRequest;
 import com.project.isa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -27,6 +29,11 @@ public class PromotionVacationHomeServiceImpl implements PromotionVacationHomeSe
     @Autowired
     private EmailServiceImpl emailService;
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public PromotionVacationHome findById(Long id) {
@@ -35,8 +42,14 @@ public class PromotionVacationHomeServiceImpl implements PromotionVacationHomeSe
 
     @Override
     public PromotionVacationHome addPromotionToVacationHome(PromotionVacationHomeRequest promotionVacationHomeRequest) {
-
         VacationHome vacationHome = vacationHomeService.findById((promotionVacationHomeRequest.getVacationHomePromotionId()));
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User vacationHomeOwner = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        if(!vacationHomeOwner.getId().equals(vacationHome.getVacationHomeOwner().getId()) && vacationHomeOwner.isEnabled()==false){
+            return null;
+        }
 
         PromotionVacationHome promotionVacationHome = new PromotionVacationHome();
 
@@ -44,21 +57,25 @@ public class PromotionVacationHomeServiceImpl implements PromotionVacationHomeSe
         promotionVacationHome.setStartPromo(Timestamp.valueOf(promotionVacationHomeRequest.getStartPromo()));
         promotionVacationHome.setEndPromo(Timestamp.valueOf(promotionVacationHomeRequest.getEndPromo()));
         promotionVacationHome.setDescription(promotionVacationHomeRequest.getDescription());
+        promotionVacationHome.setNumberOfPromotions(promotionVacationHomeRequest.getNumberOfPromotions());
 
         promotionVacationHomeRepository.save(promotionVacationHome);
 
-        List<PromotionVacationHomeUser> promotionVacationHomeUserList = promotionVacationHomeUserService.findAll();
-        for(PromotionVacationHomeUser promotionVacationHomeUser : promotionVacationHomeUserList) {
-            if(promotionVacationHomeUser.isSubscribed() && promotionVacationHomeUser.getVacationHome().getId().equals(vacationHome.getId())) {
-                User user = promotionVacationHomeUser.getPromotionUser();
-                try {
-                    emailService.sendNewPromotionNotification(user.getEmail(), promotionVacationHomeUser.getId());
-                } catch (MessagingException e) {
-                    e.printStackTrace();
+        List<User> subscribedUsers = userService.findAll();
+        for(User u: subscribedUsers) {
+            List<VacationHome> vacationHomeList = u.getVacationHomes();
+            for(VacationHome vh: vacationHomeList){
+                if(vh.getId().equals(promotionVacationHome.getVacationHomePromotion().getId())){
+                    try {
+                        emailService.sendNewPromotionNotification(u.getEmail(), promotionVacationHome.getId());
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
-        return promotionVacationHome;    }
+        return promotionVacationHome;
+    }
 
     @Override
     public List<PromotionVacationHome> findAllVacationHomePromotions() {

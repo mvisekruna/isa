@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthSingupInfo } from 'src/app/model/auth-singup-info';
+import { User } from 'src/app/model/user';
 import { AuthServiceService } from 'src/app/service/auth-service.service';
 import { UserServiceService } from 'src/app/service/user-service.service';
 
@@ -15,6 +16,7 @@ export class RegistrationForOthersFormComponent implements OnInit {
   registerForOthersForm: any = {};
   buttonName: string = 'Register';
   div1: boolean = false;
+  user: User = new User;
 
   constructor(
     private authService: AuthServiceService, private userService: UserServiceService) {
@@ -34,13 +36,17 @@ export class RegistrationForOthersFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.authSignUpInfo);
-    if(this.userService.findByEmail(this.authSignUpInfo.email)!=null) {
-      alert("That email already exists");
-    }
+    this.userService.findByEmail(this.authSignUpInfo.email).subscribe(data=>{
+      this.user = data;
+    });
+
     if (this.authSignUpInfo.password != this.authSignUpInfo.password_confirm) {
       alert("Please insert password again!");
+    } else if(this.user!=null) {
+      alert('Username already exists!')
+    } else {
+      alert('Please wait for confirmation!');
     }
-
       if (this.authSignUpInfo.password.match(this.authSignUpInfo.password_confirm)) {
         this.authService.registrationForOthers(this.authSignUpInfo).subscribe(data => {
           console.log(data);

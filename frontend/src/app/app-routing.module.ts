@@ -13,6 +13,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { AddBoatPromotionComponent } from './components/promotion/add-boat-promotion/add-boat-promotion.component';
 import { AddPromotionComponent } from './components/promotion/add-promotion/add-promotion.component';
+import { AddVacationHomePromotionComponent } from './components/promotion/add-vacation-home-promotion/add-vacation-home-promotion.component';
 import { ChosenPromotionsComponent } from './components/promotion/chosen-promotions/chosen-promotions.component';
 import { PromotionListComponent } from './components/promotion/promotion-list/promotion-list.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
@@ -53,7 +54,7 @@ const routes: Routes = [
     component: VacationHomeListComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER UNAUTHENTICATED'
+      expectedRole: 'ROLE_USER ROLE_VACATION_HOME_OWNER UNAUTHENTICATED'
     }
   },
   {
@@ -77,7 +78,7 @@ const routes: Routes = [
     component: AddPromotionComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_TUTOR'
+      expectedRole: 'ROLE_TUTOR '
     } 
   },
   {
@@ -86,6 +87,14 @@ const routes: Routes = [
     canActivate: [GuardServiceService],
     data: {
       expectedRole: 'ROLE_BOAT_OWNER'
+    } 
+  },
+  {
+    path: 'add-vacation-home-promotion',
+    component: AddVacationHomePromotionComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_VACATION_HOME_OWNER'
     } 
   },
   {
@@ -101,7 +110,7 @@ const routes: Routes = [
     component: PromotionListComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE_BOAT_OWNER'
+      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE_BOAT_OWNER ROLE_VACATION_HOME_OWNER'
     } 
   },
   {

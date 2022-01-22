@@ -1,6 +1,7 @@
 package com.project.isa.service.impl;
 
 import com.project.isa.model.*;
+import com.project.isa.repository.PromotionVacationHomeRepository;
 import com.project.isa.repository.PromotionVacationHomeUserRepository;
 import com.project.isa.service.PromotionVacationHomeService;
 import com.project.isa.service.PromotionVacationHomeUserService;
@@ -29,12 +30,13 @@ public class PromotionVacationHomeUserServiceImpl implements PromotionVacationHo
     @Autowired
     VacationHomeService vacationHomeService;
 
+    @Autowired
+    PromotionVacationHomeRepository promotionVacationHomeRepository;
 
     @Override
     public PromotionVacationHomeUser findById(Long id) {
         return promotionVacationHomeUserRepository.findById(id).orElseGet(null);
     }
-
 
     @Override
     public List<PromotionVacationHomeUser> findAll() {
@@ -42,36 +44,55 @@ public class PromotionVacationHomeUserServiceImpl implements PromotionVacationHo
     }
 
     @Override
-    public List<VacationHome> findAllSubscribed() {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
-        List<PromotionVacationHomeUser> promotionVacationHomeUsers = findAll();
-        List<VacationHome> temp = new ArrayList<>();
-        for(PromotionVacationHomeUser apu: promotionVacationHomeUsers) {
-            if(apu.getPromotionUser().getId().equals(user.getId()) && apu.isSubscribed() == true){
-                temp.add(vacationHomeService.findById(apu.getVacationHome().getId()));
+    public List<PromotionVacationHome> findAllWithVacationHomeId(Long vacationHomeId) {
+        List<PromotionVacationHomeUser> list = findAll();
+        List<PromotionVacationHome> temp = new ArrayList<>();
+
+        for(PromotionVacationHomeUser pvhu: list) {
+            if(pvhu.getVacationHome().getId().equals(vacationHomeId)){
+                temp = promotionVacationHomeService.findAllVacationHomePromotions();
             }
         }
-        return temp;    }
+        return temp;
+    }
 
     @Override
-    public PromotionVacationHomeUser subscribeToPromotions(Long vacationHomeId) {
+    public List<PromotionVacationHomeUser> findAllWithPromotionId(Long promotionId) {
+        List<PromotionVacationHomeUser> promotionVacationHomeUserList = findAll();
+        List<PromotionVacationHomeUser> temp = new ArrayList<>();
+
+        for(PromotionVacationHomeUser pvhu: promotionVacationHomeUserList){
+            if(pvhu.getPromotionVacationHome().getId().equals(promotionId)){
+                temp.add(pvhu);
+            }
+        }
+        return temp;
+    }
+
+    @Override
+    public PromotionVacationHomeUser chooseThePromotion(Long promotionId) {
         PromotionVacationHomeUser promotionVacationHomeUser = new PromotionVacationHomeUser();
-
-        VacationHome vacationHome= vacationHomeService.findById(vacationHomeId);
-        promotionVacationHomeUser.setVacationHome(vacationHome);
-
+        PromotionVacationHome promotionVacationHome = promotionVacationHomeService.findById(promotionId);
+        // TODO: dodati uslov da li upada u vec izabrane rezervacije, tj period, za tog korisnika
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
 
         List<PromotionVacationHomeUser> promotionVacationHomeUserList = findAll();
-        for(PromotionVacationHomeUser apu: promotionVacationHomeUserList){
-            if(apu.getVacationHome().getId().equals(promotionVacationHomeUser.getVacationHome().getId()) && apu.getPromotionUser().getId().equals(user.getId())) {
-                return null;
+        for(PromotionVacationHomeUser pvhu: promotionVacationHomeUserList){
+            if(pvhu.getPromotionUser().getId().equals(user.getId())) {
+                if(promotionId.equals(pvhu.getPromotionVacationHome().getId())) {
+                    return null;
+                }
             }
         }
+
+        VacationHome vacationHome = vacationHomeService.findById(promotionVacationHome.getVacationHomePromotion().getId());
+        promotionVacationHomeUser.setVacationHome(vacationHome);
+        promotionVacationHomeUser.setPromotionVacationHome(promotionVacationHome);
         promotionVacationHomeUser.setPromotionUser(user);
         promotionVacationHomeUser.setSubscribed(true);
+        promotionVacationHome.setNumberOfPromotions(promotionVacationHome.getNumberOfPromotions() - 1);
+        promotionVacationHomeRepository.save(promotionVacationHome);
 
         return promotionVacationHomeUserRepository.save(promotionVacationHomeUser);
     }
@@ -90,18 +111,45 @@ public class PromotionVacationHomeUserServiceImpl implements PromotionVacationHo
 
         VacationHome vacationHome = vacationHomeService.findById(vacationHomeId);
 
-        for (PromotionVacationHomeUser pau: list){
-            if(pau.getVacationHome().getId().equals(vacationHome.getId()) && pau.getPromotionUser().getId().equals(user.getId())){
-                temp = pau;
+        for (PromotionVacationHomeUser pvhu: list){
+            if(pvhu.getVacationHome().getId().equals(vacationHome.getId()) && pvhu.getPromotionUser().getId().equals(user.getId())){
+                temp = pvhu;
             }
         }
         return temp;
     }
 
-    public PromotionVacationHomeUser unsubscribe(Long vacationHomeId){
-        PromotionVacationHomeUser promotionVacationHomeUser = findByVacationHomeId(vacationHomeId);
-        promotionVacationHomeUser.setSubscribed(false);
-        return promotionVacationHomeUserRepository.save(promotionVacationHomeUser);
+    @Override
+    public PromotionVacationHome cancelThePromotion(Long id) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
 
+        List<PromotionVacationHomeUser> promotionVacationHomeUserList = findAll();
+        PromotionVacationHome promotionVacationHome = promotionVacationHomeService.findById(id);
+        for(PromotionVacationHomeUser pvhu: promotionVacationHomeUserList) {
+            if(pvhu.getPromotionVacationHome().getId().equals(id)){
+                promotionVacationHomeUserRepository.delete(pvhu);
+            }
+        }
+
+        promotionVacationHome.setNumberOfPromotions(promotionVacationHome.getNumberOfPromotions() + 1);
+        return promotionVacationHomeRepository.save(promotionVacationHome);
     }
+
+    @Override
+    public List<PromotionVacationHome> findAllPromotionsIChose() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<PromotionVacationHomeUser> promotionVacationHomeUserList = findAll();
+        List<PromotionVacationHome> promotionVacationHomeList = new ArrayList<>();
+        for(PromotionVacationHomeUser pvhu: promotionVacationHomeUserList){
+            if(pvhu.getPromotionUser().getId().equals(user.getId())){
+                promotionVacationHomeList.add(promotionVacationHomeService.findById(pvhu.getPromotionVacationHome().getId()));
+            }
+        }
+
+        return promotionVacationHomeList;
+    }
+
 }

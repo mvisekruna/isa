@@ -17,6 +17,7 @@ export class DeleteAccountRequestsComponent implements OnInit {
   terms: any;
   declineReason: string;
   confirmReason: string;
+  reason: string = '';
 
   constructor(private deleteAcconutService: DeleteAccounService) { }
 
@@ -40,17 +41,19 @@ export class DeleteAccountRequestsComponent implements OnInit {
      // this.dtTrigger.next();
     });
   }
-  confirmRequest(id) {
+  confirmRequest(id, reason) {
+    console.log(reason);
     this.confirmReason = (<HTMLInputElement>document.getElementById("confirmReason")).value;
-    this.deleteAcconutService.deleteApproved(id, this.confirmReason).subscribe(data =>{
+    this.deleteAcconutService.deleteApproved(id, reason).subscribe(data =>{
       console.log(data);
       this.loadAll();
     });
   }
 
-  declineRequest(id) {
+  declineRequest(id, reason) {
+    console.log(reason);
     this.declineReason = (<HTMLInputElement>document.getElementById("declineReason")).value;
-    this.deleteAcconutService.deleteDenied(id, this.declineReason).subscribe(data =>{
+    this.deleteAcconutService.deleteDenied(id, reason).subscribe(data =>{
       console.log(data);
       this.loadAll();
     });

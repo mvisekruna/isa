@@ -1,6 +1,15 @@
 <div class="card my-5">
   <div class="card-body">
     <h2>{{ title }}</h2>
+    <div *ngIf="isUser">
+      <label>Vacation home id:</label>
+      <input type="text" [(ngModel)]="vacationHomeReservationRequest.vacationHomeId" [ngStyle]="{marginLeft: '10px'}">
+      <label>Start date:</label>
+      <input type="date" [(ngModel)]="vacationHomeReservationRequest.startDate" [ngStyle]="{marginLeft: '10px'}">
+      <label [ngStyle]="{marginLeft: '10px'}">End date:</label>
+      <input type="date" [(ngModel)]="vacationHomeReservationRequest.endDate" [ngStyle]="{marginLeft: '10px'}">
+      <button (click)="searchForFreeVacationHomes()" [ngStyle]="{marginLeft: '10px'}">Search</button>
+  </div>
     <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
       <thead class="thead-dark">
         <tr>
@@ -11,6 +20,7 @@
           <th scope="col">Vacation home price</th>
           <th scope="col">Vacation home review</th>
           <th scope="col">Details</th>
+          <th *ngIf="isUser" scope="col">Choose the vacation home</th>
         </tr>
       <tbody>
         <tr *ngFor="let vacationHome of vacationHomes | search:terms" id="vacationHome">
@@ -21,6 +31,7 @@
           <td>{{ vacationHome.vacationHomePrice }}</td>
           <td>{{ vacationHome.vacationHomeReview }}</td>
           <td><button (click) = "details(vacationHome.id)">Details</button></td>
+          <td *ngIf="isUser"><button (click)="chooseVacationHome(vacationHomeReservationRequest)">Choose</button>
         </tr>
       </tbody>
     </table>
@@ -48,7 +59,7 @@
                 <td>{{ vacationHomeSubscribed.vacationHomeReview }}</td>
                 <td>{{ vacationHomeSubscribed.vacationHomeOwner.firstName + ' ' +
                   vacationHomeSubscribed.vacationHomeOwner.lastName}}</td>
-                <td><button (click)="unsubscribe(vacationHomeSubscribed.id)">Unsubscribe</button></td>
+                <td><button (click)="cancelSubscription(vacationHomeSubscribed.id)">Unsubscribe</button></td>
             </tr>
         </tbody>
     </table>

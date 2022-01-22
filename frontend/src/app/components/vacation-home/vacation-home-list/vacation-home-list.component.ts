@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PromotionVacationHomeUser } from 'src/app/model/promotion-vacation-home-user';
 import { VacationHome } from 'src/app/model/vacation-home';
+import { VacationHomeReservationRequest } from 'src/app/model/vacation-home-reservation-request';
 import { PromotionVacationHomeServiceService } from 'src/app/service/promotion-vacation-home-service.service';
+import { ReservationServiceService } from 'src/app/service/reservation-service.service';
+import { UserServiceService } from 'src/app/service/user-service.service';
 import { VacationHomeServiceService } from 'src/app/service/vacation-home-service.service';
 
 @Component({
@@ -23,10 +26,15 @@ export class VacationHomeListComponent implements OnInit {
   promotionVacationHomeUser: PromotionVacationHomeUser = new PromotionVacationHomeUser;
   isUser: boolean = false;
   role: any;
+  isFree: boolean = false;
+  vacationHomeReservationRequest: VacationHomeReservationRequest = new VacationHomeReservationRequest();
 
-
-  constructor(private vacationHomeService: VacationHomeServiceService, private router: Router, private promotionVacationHomeServiceService: PromotionVacationHomeServiceService) {
-    this.title = 'Vacation home list'
+  constructor(private vacationHomeService: VacationHomeServiceService, 
+    private router: Router, 
+    private promotionVacationHomeServiceService: PromotionVacationHomeServiceService,
+    private userService: UserServiceService,
+    private reservationService: ReservationServiceService) {
+      this.title = 'Vacation home list'
    }
 
   ngOnInit(): void {
@@ -36,24 +44,24 @@ export class VacationHomeListComponent implements OnInit {
       lengthMenu : [5, 10, 25],
       processing: true
     };
-    this.vacationHomeService.loadAll().subscribe(data => {
-      console.log(data);
-      this.vacationHomes = data;
-      this.dtTrigger.next();
-    });
 
     this.role = localStorage.getItem('ROLES');
     if (this.role === 'ROLE_USER') {
       this.isUser = true;
     }
 
+    this.vacationHomeService.loadAll().subscribe(data => {
+      console.log(data);
+      this.vacationHomes = data;
+      this.dtTrigger.next();
+    });
+
     if (this.role === 'ROLE_USER') {
-      this.promotionVacationHomeServiceService.findAllSubscribed().subscribe(data => {
-      this.vacationHomesSubsribed = data;
-      console.log(this.vacationHomesSubsribed);
-      this.dtTrigger2.next();
-    })
-  }
+      this.userService.findMySubscribedVacationHomes().subscribe(data => {
+        this.vacationHomesSubsribed = data;
+        this.dtTrigger2.next();
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -66,9 +74,25 @@ export class VacationHomeListComponent implements OnInit {
     this.router.navigate(['/vacationhome',id]);  
   }
 
-  unsubscribe(vacationHomeId) {
-    this.promotionVacationHomeServiceService.unsubscribeFromVacationHome(vacationHomeId).subscribe(data => {
-      console.log(data + ' unsubscribee');
+  chooseVacationHome(vacationHomeReservationRequest){ //kad dobijem slobodne avanture da izabere jednu od tih
+    this.isUser == true;
+    this.reservationService.chooseVacationHome(vacationHomeReservationRequest).subscribe(data => {
+      console.log(data);
+    })
+  }
+
+  searchForFreeVacationHomes() {
+    //dodati isFree da bi se pojavila kolona za rezervaciju 
+    this.isFree = true;
+    this.reservationService.getFreeVacationHomes(this.vacationHomeReservationRequest).subscribe( data => {
+      this.vacationHomes = data;
     });
+  }
+
+  cancelSubscription(id) {
+    this.userService.cancelMyVacationHomeSubscription(id).subscribe(data => {
+      console.log(data);
+    });
+    window.location.reload();
   }
 }

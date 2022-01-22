@@ -5,6 +5,7 @@ import javax.ws.rs.core.Context;
 import com.project.isa.model.Adventure;
 import com.project.isa.model.Boat;
 import com.project.isa.model.User;
+import com.project.isa.model.VacationHome;
 import com.project.isa.request.ChangePasswordRequest;
 import com.project.isa.request.UserUpdateRequest;
 import com.project.isa.service.impl.CustomUserDetailsService;
@@ -119,8 +120,25 @@ public class UserController {
         return userService.findMySubscribedBoats();
     }
 
+    /**VACATION HOME*******/
 
+    @PostMapping("vacationhome/subscribe/{vacationHomeId}")
+    @PreAuthorize("hasRole('USER')")
+    public User subscribeToVacationHomePromotions(@PathVariable Long vacationHomeId){
+        return userService.subscribeToVacationHomePromotions(vacationHomeId);
+    }
 
+    @PostMapping("vacationhome/cancel/{vacationHomeId}")
+    @PreAuthorize("hasRole('USER')")
+    public void cancelMyVacationHomeSubscription(@PathVariable Long vacationHomeId){
+        userService.cancelMyVacationHomeSubscription(vacationHomeId);
+    }
+
+    @GetMapping("vacationhome/all/subscribed")
+    @PreAuthorize("hasRole('USER')")
+    public List<VacationHome> findMySubscribedVacationHomes() {
+        return userService.findMySubscribedVacationHomes();
+    }
 
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)

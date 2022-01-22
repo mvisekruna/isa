@@ -157,26 +157,3 @@ public class PromotionAdventureUserServiceImpl implements PromotionAdventureUser
         return promotionAdventureList;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

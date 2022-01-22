@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Promotion } from 'src/app/model/promotion';
 import { PromotionBoatServiceService } from 'src/app/service/promotion-boat-service.service';
 import { PromotionServiceService } from 'src/app/service/promotion-service.service';
+import { PromotionVacationHomeServiceService } from 'src/app/service/promotion-vacation-home-service.service';
 
 @Component({
   selector: 'app-chosen-promotions',
@@ -27,8 +28,9 @@ export class ChosenPromotionsComponent implements OnInit {
   dtTrigger3: Subject<any> = new Subject<any>();
 
   constructor(private promotionService: PromotionServiceService,
-    private promotionBoatServiceService: PromotionBoatServiceService) {
-    this.title1 = 'My chosen promotions';
+    private promotionBoatServiceService: PromotionBoatServiceService,
+    private promotionVacationHomeService: PromotionVacationHomeServiceService) {
+    this.title1 = 'Adventure promotions';
     this.title2 = 'Boat promotions';
     this.title3 = 'Vacation home promotions'
   }
@@ -51,6 +53,12 @@ export class ChosenPromotionsComponent implements OnInit {
       this.boatPromotions = data;
       this.dtTrigger2.next();
     });
+
+    this.promotionVacationHomeService.findAllVacationHomePromotionsIChose().subscribe(data => {
+      console.log('nesto')
+      this.vacationHomePromotions = data;
+      this.dtTrigger3.next();
+    });
   }
 
   cancelPromotion(id: any) {
@@ -60,6 +68,11 @@ export class ChosenPromotionsComponent implements OnInit {
   }
   cancelBoatPromotion(id: any) {
     this.promotionBoatServiceService.cancelThePromotion(id).subscribe( data => {
+      console.log(data);
+    });
+  }
+  cancelVacationHomePromotion(id: any) {
+    this.promotionVacationHomeService.cancelThePromotion(id).subscribe( data => {
       console.log(data);
     });
   }

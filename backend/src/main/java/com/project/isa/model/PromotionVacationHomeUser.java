@@ -19,5 +19,8 @@ public class PromotionVacationHomeUser {
     @ManyToOne
     private User promotionUser;
 
+    @ManyToOne
+    private PromotionVacationHome promotionVacationHome;
+
     private boolean isSubscribed;
 }

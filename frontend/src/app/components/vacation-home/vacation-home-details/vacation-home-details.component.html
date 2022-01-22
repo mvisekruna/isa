@@ -25,5 +25,6 @@
       <strong>Vacation home owner phone number: </strong>{{vacationHome.vacationHomeOwner.phoneNumber}} <br />
     </p>
   </div>
-  
+  <div *ngIf="isUser"><button (click) = "subscribeToPromotions(vacationHome.id)">Subscribe to promotions</button></div>
+
 </div>

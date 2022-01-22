@@ -39,9 +39,9 @@ public class VacationHomeServiceImpl implements VacationHomeService {
         vh.setVacationHomeLocation(vacationHomeRequest.getVacationHomeLocation());
         vh.setVacationHomePrice(vacationHomeRequest.getVacationHomePrice());
         vh.setVacationHomeReview(vacationHomeRequest.getVacationHomeReview());
+        vh.setVacationHomeDescription(vacationHomeRequest.getVacationHomeDescription());
         User vacationHomeOwner = userService.findById(vacationHomeRequest.getVacationHomeOwner());
         vh.setVacationHomeOwner(vacationHomeOwner);
-
 
         return vacationHomeRepository.save(vh);
     }

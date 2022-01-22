@@ -1,11 +1,13 @@
-import { User } from "./user";
+export class VacationHomeRequest {
+    vacationHomeOwner: any;
 
-export class VacationHome {
-    id: string;
-    vacationHomeOwner: User;
     vacationHomeName: string;
+
     vacationHomeLocation: string;
+
     vacationHomePrice: string;
+
     vacationHomeReview: string;
+
     vacationHomeDescription: string;
 }

@@ -76,8 +76,11 @@ export class BoatListComponent implements OnInit {
     this.router.navigate(['/boat',id]);  
   }
 
-  chooseTheBoat(boatReservationRequest){ //dovrsiti
+  chooseTheBoat(boatReservationRequest){ 
     this.isUser == true;
+    this.reservationService.chooseBoat(boatReservationRequest).subscribe(data => {
+      console.log(data);
+    })
   }
 
   searchForFreeBoats() {

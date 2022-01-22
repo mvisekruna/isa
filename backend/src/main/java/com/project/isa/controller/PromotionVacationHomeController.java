@@ -25,13 +25,13 @@ public class PromotionVacationHomeController {
     }
 
     @PostMapping("/addpromotion/tovacationhome")
-    @PreAuthorize("hasRole('TUTOR')")
+    @PreAuthorize("hasRole('VACATION_HOME_OWNER')")
     public PromotionVacationHome addPromotionToVacationHome(@RequestBody PromotionVacationHomeRequest promotionVacationHomeRequest) {
         return promotionVacationHomeService.addPromotionToVacationHome(promotionVacationHomeRequest);
     }
 
     @GetMapping("/getallvactionhomepromotions")
-    @PreAuthorize("hasAnyRole(\"TUTOR\",\"USER\")")
+    //@PreAuthorize("hasAnyRole(\"TUTOR\",\"USER\")")
     public List<PromotionVacationHome> loadAllVacationHomePromotions() {
         return promotionVacationHomeService.findAllVacationHomePromotions();
     }

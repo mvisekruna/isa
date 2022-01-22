@@ -53,17 +53,17 @@ import { VacationHome } from "../model/vacation-home";
     return this.http.get<PromotionVacationHomeUser[]>(`${this.promotionVacationHomeUserUrl}/all`, { headers });
   }
 
-  public findAllSubscribed(): Observable<VacationHome[]> {
+  public findAllWithVacationHomeId(vacationHomeId: any): any {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<VacationHome[]>(`${this.promotionVacationHomeUserUrl}/allsubscribed`, { headers });
+    return this.http.get(`${this.promotionVacationHomeUserUrl}/all/vacationhomes/${vacationHomeId}`, { headers });
   }
-  
-  // public subscribeToPromotions(vacationHomeId: any) {
-  //   const t = localStorage.getItem("TOKEN");
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-  //   return this.http.post(`${this.promotionVacationHomeUserUrl}/subscribe/${vacationHomeId}`, { headers });
-  // }
+
+  public findAllWithPromotionId(promotionId: any): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.get(`${this.promotionVacationHomeUserUrl}/all/promotions/${promotionId}`, { headers });
+  }
 
   public delete(id: any): void {
     const t = localStorage.getItem("TOKEN");
@@ -71,17 +71,31 @@ import { VacationHome } from "../model/vacation-home";
     this.http.post(`${this.promotionVacationHomeUserUrl}/delete/${id}`, { headers });
   }
 
-  public findByVacationHomeId(vacationHomeId: any): Observable<PromotionVacationHomeUser>{
+  public findByVacationHomeId(vacationHomeId: any): any{
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<PromotionVacationHomeUser>(`${this.promotionVacationHomeUserUrl}/vacation/home/${vacationHomeId}`, { headers });
+    return this.http.get(`${this.promotionVacationHomeUserUrl}/vacation/home/${vacationHomeId}`, { headers });
   }
 
-  public unsubscribeFromVacationHome(vacationHomeId: any): any {
+  public findAllVacationHomePromotionsIChose(): any {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post<any>(`${this.promotionVacationHomeUserUrl}/unsubscribe/${vacationHomeId}`, { headers });
+    return this.http.get(`${this.promotionVacationHomeUserUrl}/allpromotions/ichose`, { headers });
   }
+
+  public chooseThePromotion(promotionId: any): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`${this.promotionVacationHomeUserUrl}/choose/${promotionId}`, promotionId, { headers });
+  }
+
+  public cancelThePromotion(vacationHomeId: any): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`${this.promotionVacationHomeUserUrl}/cancel/${vacationHomeId}`, vacationHomeId, { headers });
+  }
+
+
 
   //************************************************************************************************ */
 

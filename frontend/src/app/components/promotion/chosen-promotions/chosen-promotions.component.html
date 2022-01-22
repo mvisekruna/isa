@@ -49,4 +49,30 @@
             </tbody>
         </table>
     </div>
+    <div class="card-body">
+        <h2>{{ title3 }}</h2>
+        <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger3">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Promotion description</th>
+                    <th scope="col">Promotion start</th>
+                    <th scope="col">Promotion end</th>
+                    <th scope="col">Promotion vacation home</th>
+                    <th scope="col">Number of promotions</th>
+                    <th scope="col">Cancel</th>
+                </tr>
+            <tbody>
+                <tr *ngFor="let promotion of vacationHomePromotions | search:terms" id="promotion">
+                    <td>{{ promotion.id }}</td>
+                    <td>{{ promotion.description }}</td>
+                    <td>{{ promotion.startPromo| date }}</td>
+                    <td>{{ promotion.endPromo| date }}</td>
+                    <td>{{ promotion.vacationHomePromotion.vacationHomeName }}</td>
+                    <td>{{ promotion.numberOfPromotions }}</td>
+                    <td><button (click)="cancelVacationHomePromotion(promotion.id)">Cancel</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

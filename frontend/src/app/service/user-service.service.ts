@@ -98,7 +98,22 @@ export class UserServiceService {
     return this.http.get(`http://localhost:8080/api/boat/all/subscribed`, { headers });
   }
 
+  /**VACATION HOME*******/
+  public subscribeToVacationHomePromotions(vacationHomeId: any) {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/api/vacationhome/subscribe/${vacationHomeId}`, vacationHomeId, { headers });
+  }
 
+  public cancelMyVacationHomeSubscription(vacationHomeId: any) {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/api/vacationhome/cancel/${vacationHomeId}`, vacationHomeId, { headers });
+  }
 
-
+  public findMySubscribedVacationHomes(): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.get(`http://localhost:8080/api/vacationhome/all/subscribed`, { headers });
+  }
 }

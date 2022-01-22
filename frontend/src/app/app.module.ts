@@ -40,6 +40,8 @@ import { RegistrationForOthersFormComponent } from './components/registration-fo
 import { ChosenPromotionsComponent } from './components/promotion/chosen-promotions/chosen-promotions.component';
 import { AddBoatPromotionComponent } from './components/promotion/add-boat-promotion/add-boat-promotion.component';
 import { HomePageBoatOwnerComponent } from './components/home-page/home-page-boat-owner/home-page-boat-owner.component';
+import { AddVacationHomePromotionComponent } from './components/promotion/add-vacation-home-promotion/add-vacation-home-promotion.component';
+import { HomePageVacationHomeOwnerComponent } from './components/home-page/home-page-vacation-home-owner/home-page-vacation-home-owner.component';
 
 
 @NgModule({
@@ -73,7 +75,9 @@ import { HomePageBoatOwnerComponent } from './components/home-page/home-page-boa
     RegistrationForOthersFormComponent,
     ChosenPromotionsComponent,
     AddBoatPromotionComponent,
-    HomePageBoatOwnerComponent
+    HomePageBoatOwnerComponent,
+    AddVacationHomePromotionComponent,
+    HomePageVacationHomeOwnerComponent
    
   ],
   imports: [

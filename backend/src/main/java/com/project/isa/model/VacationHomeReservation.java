@@ -28,6 +28,9 @@ public class VacationHomeReservation {
     private VacationHome vacationHome;
 
     @Column
+    private int numberOfPeople;
+
+    @Column
     private double price;
 
     @ManyToOne

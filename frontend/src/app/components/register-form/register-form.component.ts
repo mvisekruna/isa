@@ -3,6 +3,8 @@ import { AuthSingupInfo } from 'src/app/model/auth-singup-info';
 import { AuthServiceService } from 'src/app/service/auth-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { UserServiceService } from 'src/app/service/user-service.service';
+import { User } from 'src/app/model/user';
 
 
 @Component({
@@ -17,9 +19,11 @@ export class RegisterFormComponent implements OnInit {
   registerForm: any = {};
   buttonName: string = 'Register now';
   div1: boolean = false;
+  user: User = new User();
 
   constructor(
-    private authService: AuthServiceService) {
+    private authService: AuthServiceService,
+    private userService: UserServiceService) {
     this.title = 'Register';
     this.authSignUpInfo = new AuthSingupInfo();
   }
@@ -36,8 +40,15 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.authSignUpInfo);
+
+    this.userService.findByEmail(this.authSignUpInfo.email).subscribe(data=>{
+      this.user = data;
+    });
+
     if (this.authSignUpInfo.password != this.authSignUpInfo.password_confirm) {
       alert("Please insert password again!");
+    } else if(this.user!=null) {
+      alert('Username already exists!')
     } else {
       alert('You will recieve verification mail. Please check Your mail!');
 

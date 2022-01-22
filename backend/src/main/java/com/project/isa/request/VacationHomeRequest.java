@@ -14,4 +14,8 @@ public class VacationHomeRequest {
     private String vacationHomePrice;
 
     private String vacationHomeReview;
+
+    private String vacationHomeDescription;
+
+
 }

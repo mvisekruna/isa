@@ -1,16 +1,10 @@
 package com.project.isa.service.impl;
 
-import com.project.isa.model.Adventure;
-import com.project.isa.model.Boat;
-import com.project.isa.model.Role;
-import com.project.isa.model.User;
+import com.project.isa.model.*;
 import com.project.isa.repository.UserRepository;
 import com.project.isa.request.UserRequest;
 import com.project.isa.request.UserUpdateRequest;
-import com.project.isa.service.AdventureService;
-import com.project.isa.service.BoatService;
-import com.project.isa.service.RoleService;
-import com.project.isa.service.UserService;
+import com.project.isa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
@@ -46,6 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     BoatService boatService;
+
+    @Autowired
+    VacationHomeService vacationHomeService;
 
     @Override
     public User findById(Long id) throws AccessDeniedException {
@@ -275,6 +272,46 @@ public class UserServiceImpl implements UserService {
     }
 
     /**VACATION HOME*******/
+    @Override
+    public User subscribeToVacationHomePromotions(Long vacationHomeId) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User temp = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+        VacationHome vacationHome = vacationHomeService.findById(vacationHomeId);
+
+        List<VacationHome> vacationHomeList = temp.getVacationHomes();
+        for(VacationHome vh: vacationHomeList){
+            if(vh.getId().equals(vacationHomeId)){
+                return null;
+            }
+        }
+        vacationHomeList.add(vacationHome);
+        temp.setVacationHomes(vacationHomeList);
+
+        return userRepository.save(temp);
+    }
+
+    @Override
+    public void cancelMyVacationHomeSubscription(Long vacationHomeId) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+        VacationHome vacationHome = vacationHomeService.findById(vacationHomeId);
+        List<VacationHome> vacationHomeList = user.getVacationHomes();
+        vacationHomeList.remove(vacationHome);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<VacationHome> findMySubscribedVacationHomes() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<VacationHome> vacationHomeList = user.getVacationHomes();
+
+        return vacationHomeList;
+    }
+
+
 
 
 
