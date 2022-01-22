@@ -38,6 +38,8 @@ import { DeleteAccountRequestsComponent } from './components/delete-account-requ
 import { HomePageTutorComponent } from './components/home-page/home-page-tutor/home-page-tutor.component';
 import { RegistrationForOthersFormComponent } from './components/registration-for-others-form/registration-for-others-form.component';
 import { ChosenPromotionsComponent } from './components/promotion/chosen-promotions/chosen-promotions.component';
+import { AddBoatPromotionComponent } from './components/promotion/add-boat-promotion/add-boat-promotion.component';
+import { HomePageBoatOwnerComponent } from './components/home-page/home-page-boat-owner/home-page-boat-owner.component';
 
 
 @NgModule({
@@ -69,7 +71,9 @@ import { ChosenPromotionsComponent } from './components/promotion/chosen-promoti
     DeleteAccountRequestsComponent,
     HomePageTutorComponent,
     RegistrationForOthersFormComponent,
-    ChosenPromotionsComponent
+    ChosenPromotionsComponent,
+    AddBoatPromotionComponent,
+    HomePageBoatOwnerComponent
    
   ],
   imports: [

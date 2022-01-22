@@ -123,10 +123,12 @@ public class PromotionAdventureUserServiceImpl implements PromotionAdventureUser
         return temp;
     }
 
+    @Override
     public PromotionAdventure cancelThePromotion(Long id){
         //TODO: UBACITI USLOV ZA TRI DANA PRE
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
         List<PromotionAdventureUser> promotionAdventureUserList = findAll();
         PromotionAdventure promotionAdventure = promotionAdventureService.findById(id);
         for(PromotionAdventureUser pau: promotionAdventureUserList) {

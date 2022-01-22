@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping(value = "/promotion")
+@RequestMapping(value = "/promotion/adventure")
 public class PromotionAdventureController {
 
     @Autowired
@@ -32,8 +32,8 @@ public class PromotionAdventureController {
     }
 
     @GetMapping("/getalladventurepromotions")
-    @PreAuthorize("hasAnyRole(\"TUTOR\",\"USER\")")
-    public List<PromotionAdventure> loadAllAdventurePromotions() {
+   // @PreAuthorize("hasAnyRole(\"TUTOR\",\"USER\")")
+    public List<PromotionAdventure> findAllAdventurePromotions() {
         return promotionAdventureService.findAllAdventurePromotions();
     }
 }

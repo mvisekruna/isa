@@ -6,6 +6,7 @@ import com.project.isa.service.PromotionBoatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,14 @@ public class PromotionBoatController {
     }
 
     @PostMapping("/addpromotion/toboat")
+    @PreAuthorize("hasRole('BOAT_OWNER')")
     public PromotionBoat addPromotionToBoat(@RequestBody PromotionBoatRequest promotionBoatRequest) {
         return promotionBoatService.addPromotionToBoat(promotionBoatRequest);
     }
 
     @GetMapping("/getallboatpromotions")
-    public List<PromotionBoat> loadAllBoatPromotions() {
+   // @PreAuthorize("hasAnyRole(\"BOAT_OWNER\",\"USER\")")
+    public List<PromotionBoat> findAllBoatPromotions() {
         return promotionBoatService.findAllBoatPromotions();
     }
 }

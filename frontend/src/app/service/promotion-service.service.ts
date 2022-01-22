@@ -21,20 +21,20 @@ export class PromotionServiceService {
   public findByIdPromotionAdventure(promotionId: any): Observable<Promotion> {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<Promotion>(`localhost:8080/promotion/getOne/${promotionId}`, { headers });
+    return this.http.get<Promotion>(`localhost:8080/promotion/adventure/getOne/${promotionId}`, { headers });
   }
 
   public addPromotionToAdventure(addPromotionRequest: AddPromotionRequest): Observable<any> {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post<Observable<any>>('http://localhost:8080/promotion/addpromotion/toadventure', addPromotionRequest, { headers });
+    return this.http.post<Observable<any>>('http://localhost:8080/promotion/adventure/addpromotion/toadventure', addPromotionRequest, { headers });
 
   }
 
   public loadAllAdventurePromotions(): Observable<Promotion[]> {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get<Promotion[]>('http://localhost:8080/promotion/getalladventurepromotions', { headers });
+    return this.http.get<Promotion[]>('http://localhost:8080/promotion/adventure/getalladventurepromotions', { headers });
   }
   //************************************************************************************************ 
 
@@ -83,7 +83,17 @@ export class PromotionServiceService {
     return this.http.post(`http://localhost:8080/promotionadventureuser/cancel/${id}`, id, { headers });
   }
 
+  public findAllWithAdventureId(adventureId: any): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.get(`${this.promotionAdventureUserUrl}/all/adventures/${adventureId}`, { headers });
+  }
 
+  public findAllWithPromotionId(promotionId: any): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.get(`${this.promotionAdventureUserUrl}/all/promotions/${promotionId}`, { headers });
+  }
 
   //************************************************************************************************ */
 }

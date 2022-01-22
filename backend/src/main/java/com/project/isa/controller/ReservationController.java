@@ -2,7 +2,10 @@ package com.project.isa.controller;
 
 import com.project.isa.model.Adventure;
 import com.project.isa.model.AdventureReservation;
+import com.project.isa.model.Boat;
+import com.project.isa.model.BoatReservation;
 import com.project.isa.request.AdventureReservationRequest;
+import com.project.isa.request.BoatReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.request.UserEmailRequest;
 import com.project.isa.response.UserHistoryResponse;
@@ -28,15 +31,27 @@ public class ReservationController {
         return reservationService.getAllReservations(userEmailRequest.getEmail());
     }
 
-    @GetMapping("/myreservations")
-    @PreAuthorize("hasRole('USER')")
-    public List<AdventureReservation> getMyReservations() {
-        return reservationService.getMyReservations();
+    /**ADVENTURE RESERVATIONS************************/
+
+    @GetMapping("/findall/adventurereservations")
+    public List<AdventureReservation> findAllAdventureReservations() {
+        return reservationService.findAllAdventureReservations();
     }
 
-    @GetMapping("/get/freeadventures")
+    @GetMapping("/findone/adventurereservation/{id}")
+    public AdventureReservation findByIdAdventureReservation(@PathVariable Long id) {
+        return reservationService.findByIdAdventureReservation(id);
+    }
+
+    @GetMapping("/myadventuere/reservations")
     @PreAuthorize("hasRole('USER')")
-    public List<Adventure> getFreeAdventures(@RequestBody AdventureReservationRequest adventureReservationRequest) {
+    public List<AdventureReservation> getMyAdventureReservations() {
+        return reservationService.getMyAdventureReservations();
+    }
+
+    @PostMapping("/get/freeadventures")
+    @PreAuthorize("hasRole('USER')")
+    public List<Adventure> getFreeAdventures(@RequestBody AdventureReservationRequest adventureReservationRequest) throws ParseException {
         return reservationService.getFreeAdventures(adventureReservationRequest);
     }
 
@@ -50,12 +65,47 @@ public class ReservationController {
     public UserHistoryResponse cancelAdventureReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
             return reservationService.cancelAdventureReservation(cancelReservationRequest);
     }
+
+    /**BOAT RESERVATIONS************************/
+
+    @GetMapping("/findall/boatreservations")
+    public List<BoatReservation> findAllBoatReservations() {
+        return reservationService.findAllBoatReservations();
+    }
+
+    @GetMapping("/findone/boatreservation/{id}")
+    public BoatReservation findByIdBoatReservation(@PathVariable Long id) {
+        return reservationService.findByIdBoatReservation(id);
+    }
+
+    @GetMapping("/myboat/reservations")
+    @PreAuthorize("hasRole('USER')")
+    public List<BoatReservation> getMyBoatReservations(){
+        return reservationService.getMyBoatReservations();
+    }
+
+    @GetMapping("/get/freeboats")
+    @PreAuthorize("hasRole('USER')")
+    public List<Boat> getFreeBoats(@RequestBody BoatReservationRequest boatReservationRequest) throws ParseException {
+        return reservationService.getFreeBoats(boatReservationRequest);
+    }
+
+    @PostMapping("/choose/boat")
+    @PreAuthorize("hasRole('USER')")
+    public BoatReservation chooseBoat(BoatReservationRequest boatReservationRequest) {
+        return reservationService.chooseBoat(boatReservationRequest);
+    }
+
+    @PostMapping(value = "/cancel/boat")
+    public UserHistoryResponse cancelBoatReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
+        return reservationService.cancelBoatReservation(cancelReservationRequest);
+    }
+
+    /**VACATION HOME RESERVATIONS************************/
+
     @PostMapping(value = "/cancel/vacationHome")
     public UserHistoryResponse cancelVacationHomeReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
           return reservationService.cancelVacationHomeReservation(cancelReservationRequest);
     }
-    @PostMapping(value = "/cancel/boat")
-    public UserHistoryResponse cancelBoatReservation(@RequestBody CancelReservationRequest cancelReservationRequest){
-         return reservationService.cancelBoatReservation(cancelReservationRequest);
-    }
+
 }

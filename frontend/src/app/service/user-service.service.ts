@@ -60,24 +60,43 @@ export class UserServiceService {
     return this.http.post('http://localhost:8080/deleteaccount/sendtherequest', reason, { headers });
   }
 
-  public subscribeToPromotions(adventureId: any) {
+  /**ADVENTURE*******/
+  public subscribeToAdventurePromotions(adventureId: any) {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post(`http://localhost:8080/api/subscribe/${adventureId}`, adventureId, { headers });
+    return this.http.post(`http://localhost:8080/api/adventure/subscribe/${adventureId}`, adventureId, { headers });
   }
 
-  public cancelMySubscription(adventureId: any) {
+  public cancelMyAdventureSubscription(adventureId: any) {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.post(`http://localhost:8080/api/cancel/${adventureId}`, adventureId, { headers });
+    return this.http.post(`http://localhost:8080/api/adventure/cancel/${adventureId}`, adventureId, { headers });
   }
 
-  public findMySubscribed(): any {
+  public findMySubscribedAdventures(): any {
     const t = localStorage.getItem("TOKEN");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
-    return this.http.get(`http://localhost:8080/api/all/subscribed`, { headers });
+    return this.http.get(`http://localhost:8080/api/adventure/all/subscribed`, { headers });
   }
 
+  /**BOAT*******/
+  public subscribeToBoatPromotions(boatId: any) {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/api/boat/subscribe/${boatId}`, boatId, { headers });
+  }
+
+  public cancelMyBoatSubscription(boatId: any) {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.post(`http://localhost:8080/api/boat/cancel/${boatId}`, boatId, { headers });
+  }
+
+  public findMySubscribedBoats(): any {
+    const t = localStorage.getItem("TOKEN");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set("Authorization", "Bearer " + t);
+    return this.http.get(`http://localhost:8080/api/boat/all/subscribed`, { headers });
+  }
 
 
 

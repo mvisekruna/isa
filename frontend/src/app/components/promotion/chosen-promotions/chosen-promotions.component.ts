@@ -47,19 +47,21 @@ export class ChosenPromotionsComponent implements OnInit {
       this.dtTrigger1.next();
     });
 
-    // this.promotionBoatServiceService.loadAllBoatPromotions().subscribe(data => {
-    //   this.boatPromotions = data;
-    //   console.log(this.boatPromotions);
-    //   this.dtTrigger2.next();
-
-    // });
+    this.promotionBoatServiceService.findAllBoatPromotionsIChose().subscribe(data => {
+      this.boatPromotions = data;
+      this.dtTrigger2.next();
+    });
   }
 
   cancelPromotion(id: any) {
-    console.log("usao");
     this.promotionService.cancelThePromotion(id).subscribe( data => {
       console.log(data);
-    })
+    });
+  }
+  cancelBoatPromotion(id: any) {
+    this.promotionBoatServiceService.cancelThePromotion(id).subscribe( data => {
+      console.log(data);
+    });
   }
 
 }

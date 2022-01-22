@@ -25,8 +25,10 @@ export class AdventureDetailsComponent implements OnInit {
   promotionAdventureUser: PromotionAdventureUser = new PromotionAdventureUser;
 
 
-  constructor(private adventureService: AdventureServiceService, private route: ActivatedRoute,
-    private promotionService: PromotionServiceService, private userService: UserServiceService) { }
+  constructor(private adventureService: AdventureServiceService, 
+    private route: ActivatedRoute,
+    private promotionService: PromotionServiceService, 
+    private userService: UserServiceService) { }
 
   ngOnInit(): void {
     this.title = 'Adventure details';
@@ -43,7 +45,7 @@ export class AdventureDetailsComponent implements OnInit {
   }
 
   subscribeToPromotions(adventureId) {
-  this.userService.subscribeToPromotions(adventureId).subscribe(data => {
+  this.userService.subscribeToAdventurePromotions(adventureId).subscribe(data => {
     if(data===null){
       alert('Already subscribed!');
     }

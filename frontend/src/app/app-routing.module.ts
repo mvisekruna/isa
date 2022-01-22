@@ -11,6 +11,7 @@ import { HistoryComponent } from './components/history/history.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import { AddBoatPromotionComponent } from './components/promotion/add-boat-promotion/add-boat-promotion.component';
 import { AddPromotionComponent } from './components/promotion/add-promotion/add-promotion.component';
 import { ChosenPromotionsComponent } from './components/promotion/chosen-promotions/chosen-promotions.component';
 import { PromotionListComponent } from './components/promotion/promotion-list/promotion-list.component';
@@ -60,7 +61,7 @@ const routes: Routes = [
     component: BoatListComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER UNAUTHENTICATED'
+      expectedRole: 'ROLE_BOAT_OWNER ROLE_USER ROLE_TUTOR UNAUTHENTICATED'
     }
   },
   {
@@ -68,7 +69,7 @@ const routes: Routes = [
     component: AdventureListComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER UNAUTHENTICATED'
+      expectedRole: 'ROLE_TUTOR ROLE_USER UNAUTHENTICATED'
     }
   },
   {
@@ -77,6 +78,14 @@ const routes: Routes = [
     canActivate: [GuardServiceService],
     data: {
       expectedRole: 'ROLE_TUTOR'
+    } 
+  },
+  {
+    path: 'add-boat-promotion',
+    component: AddBoatPromotionComponent,
+    canActivate: [GuardServiceService],
+    data: {
+      expectedRole: 'ROLE_BOAT_OWNER'
     } 
   },
   {
@@ -92,7 +101,7 @@ const routes: Routes = [
     component: PromotionListComponent,
     canActivate: [GuardServiceService],
     data: {
-      expectedRole: 'ROLE_USER ROLE_TUTOR'
+      expectedRole: 'ROLE_USER ROLE_TUTOR ROLE_BOAT_OWNER'
     } 
   },
   {

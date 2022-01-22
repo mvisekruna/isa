@@ -1,61 +1,73 @@
 <div class="card my-5">
-    <div class="card-body">
-      <h2>{{ title }}</h2>
-      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger1">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Boat owner</th>
-            <th scope="col">Boat name</th>
-            <th scope="col">Boat location</th>
-            <th scope="col">Boat description</th>
-            <th scope="col">Boat price</th>
-            <th scope="col">Boat review</th>
-            <th scope="col">Details</th>
-          </tr>
-       
-        <tbody>
-          <tr *ngFor="let boat of boats | search:terms" id="boat">
-            <td>{{ boat.id }}</td>
-            <td>{{ boat.boatOwner.firstName }}</td>
-            <td>{{ boat.boatName }}</td>
-            <td>{{ boat.boatLocation }}</td>
-            <td>{{ boat.boatDescription }}</td>
-            <td>{{ boat.boatPrice }}</td>
-            <td>{{ boat.boatReview }}</td>
-            <td><button (click) = "details(boat.id)">Details</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="card-body">
+    <h2>{{ title }}</h2>
+    <div *ngIf="isUser">
+      <label>Boat id:</label>
+      <input type="text" [(ngModel)]="boatReservationRequest.boatId" [ngStyle]="{marginLeft: '10px'}">
+      <label>Start date:</label>
+      <input type="date" [(ngModel)]="boatReservationRequest.startDate" [ngStyle]="{marginLeft: '10px'}">
+      <label [ngStyle]="{marginLeft: '10px'}">End date:</label>
+      <input type="date" [(ngModel)]="boatReservationRequest.endDate" [ngStyle]="{marginLeft: '10px'}">
+      <button (click)="searchForFreeBoats()" [ngStyle]="{marginLeft: '10px'}">Search</button>
     </div>
-    <div class="card-body" *ngIf="isUser">
-      <h2> My subscribed boats </h2>
-      <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions"
-          [dtTrigger]="dtTrigger2">
-          <thead class="thead-dark">
-              <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Boat name</th>
-                  <th scope="col">Boat location</th>
-                  <th scope="col">Boat description</th>
-                  <th scope="col">Boat price</th>
-                  <th scope="col">Boat review</th>
-                  <th scope="col">Boat owner</th>
-                  <th scope="col">Details</th>
-              </tr>
-          <tbody>
-              <tr *ngFor="let boatSubscribed of boatsSubscribed | search:terms" id="boatSubscribed">
-                  <td>{{ boatSubscribed.id }}</td>
-                  <td>{{ boatSubscribed.boatName }}</td>
-                  <td>{{ boatSubscribed.boatAddress }}</td>
-                  <td>{{ boatSubscribed.boatDescription }}</td>
-                  <td>{{ boatSubscribed.boatPrice }}</td>
-                  <td>{{ boatSubscribed.boatReview }}</td>
-                  <td>{{ boatSubscribed.boatOwner.firstName + ' ' +
-                    boatSubscribed.boatOwner.lastName}}</td>
-                  <td><button (click)="unsubscribe(boatSubscribed.id)">Unsubscribe</button></td>
-              </tr>
-          </tbody>
-      </table>
+
+    <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger1">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Boat owner</th>
+          <th scope="col">Boat name</th>
+          <th scope="col">Boat location</th>
+          <th scope="col">Boat description</th>
+          <th scope="col">Boat price</th>
+          <th scope="col">Boat review</th>
+          <th scope="col">Details</th>
+        </tr>
+
+      <tbody>
+        <tr *ngFor="let boat of boats | search:terms" id="boat">
+          <td>{{ boat.id }}</td>
+          <td>{{ boat.boatOwner.firstName }}</td>
+          <td>{{ boat.boatName }}</td>
+          <td>{{ boat.boatLocation }}</td>
+          <td>{{ boat.boatDescription }}</td>
+          <td>{{ boat.boatPrice }}</td>
+          <td>{{ boat.boatReview }}</td>
+          <td><button (click)="details(boat.id)">Details</button></td>
+          <td *ngIf="isUser"><button (click)="chooseTheBoat(boatReservationRequest)">Choose</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <div class="card-body" *ngIf="isUser">
+    <h2> My subscribed boats </h2>
+    <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger2">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Boat name</th>
+          <th scope="col">Boat location</th>
+          <th scope="col">Boat description</th>
+          <th scope="col">Boat price</th>
+          <th scope="col">Boat review</th>
+          <th scope="col">Boat owner</th>
+          <th scope="col">Details</th>
+        </tr>
+      <tbody>
+        <tr *ngFor="let boatSubscribed of boatsSubscribed | search:terms" id="boatSubscribed">
+          <td>{{ boatSubscribed.id }}</td>
+          <td>{{ boatSubscribed.boatName }}</td>
+          <td>{{ boatSubscribed.boatAddress }}</td>
+          <td>{{ boatSubscribed.boatDescription }}</td>
+          <td>{{ boatSubscribed.boatPrice }}</td>
+          <td>{{ boatSubscribed.boatReview }}</td>
+          <td>{{ boatSubscribed.boatOwner.firstName + ' ' +
+            boatSubscribed.boatOwner.lastName}}</td>
+          <td><button (click)="cancelSubscription(boatSubscribed.id)">Unsubscribe</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>

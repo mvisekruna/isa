@@ -42,18 +42,13 @@ public class PromotionAdventureServiceImpl implements PromotionAdventureService 
     private UserService userService;
 
     @Override
-    public List<PromotionAdventure> findAllAdventurePromotions(){
-        return promotionAdventureRepository.findPromotionAdventuresByNumberOfPromotionsGreaterThan(0);
-    }
-
-    @Override
     public PromotionAdventure findById(Long id) throws AccessDeniedException {
         return promotionAdventureRepository.findById(id).orElseGet(null);
     }
 
     @Override
     public PromotionAdventure addPromotionToAdventure(PromotionAdventureRequest promotionAdventureRequest) {
-        Adventure adventure = adventureService.findById((promotionAdventureRequest.getAdventurePromotionId()));
+        Adventure adventure = adventureService.findById(promotionAdventureRequest.getAdventurePromotionId());
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User tutor = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
@@ -86,17 +81,11 @@ public class PromotionAdventureServiceImpl implements PromotionAdventureService 
             }
         }
 
-//        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
-//        for(PromotionAdventureUser promotionAdventureUser : promotionAdventureUserList) {
-//            if(promotionAdventureUser.isSubscribed() && promotionAdventureUser.getAdventure().getId().equals(adventure.getId())) {
-//                User user = promotionAdventureUser.getPromotionUser();
-//                try {
-//                    emailService.sendNewPromotionNotification(user.getEmail(), promotionAdventure.getId());
-//                } catch (MessagingException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
         return promotionAdventure;
+    }
+
+    @Override
+    public List<PromotionAdventure> findAllAdventurePromotions(){
+        return promotionAdventureRepository.findPromotionAdventuresByNumberOfPromotionsGreaterThan(0);
     }
 }

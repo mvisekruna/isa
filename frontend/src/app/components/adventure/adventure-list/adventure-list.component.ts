@@ -20,13 +20,14 @@ export class AdventureListComponent implements OnInit {
   terms: any;
   adventures: Adventure[] = [];
   adventuresSubscribed: Adventure[] = [];
-  promotionAdventureUser: PromotionAdventureUser = new PromotionAdventureUser;
+  promotionAdventureUser: PromotionAdventureUser = new PromotionAdventureUser();
   title: string;
   dtTrigger1: Subject<any> = new Subject<any>();
   dtTrigger2: Subject<any> = new Subject<any>();
   role: any;
   isUser: boolean = false;
-  adventureReservationRequest: AdventureReservationRequest;
+  isFree: boolean = false;
+  adventureReservationRequest: AdventureReservationRequest = new AdventureReservationRequest();
 
   constructor(private adventureService: AdventureServiceService, 
     private router: Router, 
@@ -56,7 +57,7 @@ export class AdventureListComponent implements OnInit {
     });
 
     if (this.role === 'ROLE_USER') {
-      this.userService.findMySubscribed().subscribe(data => {
+      this.userService.findMySubscribedAdventures().subscribe(data => {
         this.adventuresSubscribed = data;
         this.dtTrigger2.next();
       });
@@ -74,20 +75,19 @@ export class AdventureListComponent implements OnInit {
 
   chooseTheAdventure(adventureReservationRequest){ //kad dobijem slobodne avanture da izabere jednu od tih
     this.isUser == true;
-
+    //dodati na dugme
   }
 
   searchForFreeAdventures() {
     //dodati isFree da bi se pojavila kolona za rezervaciju 
-    console.log(this.adventureReservationRequest)
+    this.isFree = true;
     this.reservationService.getFreeAdventures(this.adventureReservationRequest).subscribe( data => {
-      console.log(data);
-      //this.adventures = data;
+      this.adventures = data;
     });
   }
 
   cancelSubscription(id) {
-    this.userService.cancelMySubscription(id).subscribe(data => {
+    this.userService.cancelMyAdventureSubscription(id).subscribe(data => {
       console.log(data);
     });
     window.location.reload();

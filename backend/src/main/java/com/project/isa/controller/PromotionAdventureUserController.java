@@ -25,17 +25,17 @@ public class PromotionAdventureUserController {
     @GetMapping("/{id}")
     public PromotionAdventureUser findById(@PathVariable Long id) throws AccessDeniedException {
         return promotionAdventureUserService.findById(id);
-    }
+    } //ima
 
     @GetMapping("/all")
     public List<PromotionAdventureUser> findAll() {
         return promotionAdventureUserService.findAll();
-    }
+    } //ima
 
     @GetMapping("/all/adventures/{adventureId}")
     public List<PromotionAdventure> findAllWithAdventureId(@PathVariable Long adventureId) {
         return promotionAdventureUserService.findAllWithAdventureId(adventureId);
-    }
+    } //ima
 
     @GetMapping("/all/promotions/{promotionId}")
     List<PromotionAdventureUser> findAllWithPromotionId(@PathVariable Long promotionId) {
@@ -44,7 +44,7 @@ public class PromotionAdventureUserController {
 
     @PostMapping("/choose/{promotionId}")
     @PreAuthorize("hasRole('USER')")
-    public PromotionAdventureUser chooseThePromotion(@PathVariable Long promotionId) {
+    public PromotionAdventureUser chooseThePromotion(@PathVariable Long promotionId) { //ima
         return promotionAdventureUserService.chooseThePromotion(promotionId);
     }
 
@@ -56,23 +56,23 @@ public class PromotionAdventureUserController {
         }
         promotionAdventureUserService.delete(u);
         return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-    }
+    } //ima
 
     @GetMapping("/adventure/{adventureId}")
     @PreAuthorize("hasRole('USER')")
-    public PromotionAdventureUser findByAdventureId(@PathVariable Long adventureId) {
+    public PromotionAdventureUser findByAdventureId(@PathVariable Long adventureId) { //ima
         return promotionAdventureUserService.findByAdventureId(adventureId);
     }
 
     @PostMapping("/cancel/{id}")
     @PreAuthorize("hasRole('USER')")
-    public PromotionAdventure cancelThePromotion(@PathVariable Long id) {
+    public PromotionAdventure cancelThePromotion(@PathVariable Long id) { //ima
         return promotionAdventureUserService.cancelThePromotion(id);
     }
 
     @GetMapping("/allpromotions/ichose")
     @PreAuthorize("hasRole('USER')")
-    public List<PromotionAdventure> findAllPromotionsIChose() {
+    public List<PromotionAdventure> findAllPromotionsIChose() { //ima
         return promotionAdventureUserService.findAllPromotionsIChose();
     }
 }

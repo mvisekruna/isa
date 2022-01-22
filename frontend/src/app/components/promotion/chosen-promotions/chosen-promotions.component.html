@@ -23,7 +23,7 @@
             </tbody>
         </table>
     </div>
-    <!-- <div class="card-body">
+    <div class="card-body">
         <h2>{{ title2 }}</h2>
         <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger2">
             <thead class="thead-dark">
@@ -34,19 +34,19 @@
                     <th scope="col">Promotion end</th>
                     <th scope="col">Promotion boat</th>
                     <th scope="col">Number of promotions</th>
-                    <th scope="col">Choose</th>
+                    <th scope="col">Cancel</th>
                 </tr>
             <tbody>
-                <tr *ngFor="let promotion of boatPromotions | search:terms" id="boatPromotion">
+                <tr *ngFor="let promotion of boatPromotions | search:terms" id="promotion">
                     <td>{{ promotion.id }}</td>
                     <td>{{ promotion.description }}</td>
                     <td>{{ promotion.startPromo| date }}</td>
                     <td>{{ promotion.endPromo| date }}</td>
                     <td>{{ promotion.boatPromotion.boatName }}</td>
                     <td>{{ promotion.numberOfPromotions }}</td>
-                    <td><button (click)="chooseBoatPromotion(promotion.boatPromotion.id)">Choose</button></td>
+                    <td><button (click)="cancelBoatPromotion(promotion.boatPromotion.id)">Cancel</button></td>
                 </tr>
             </tbody>
         </table>
-    </div> -->
+    </div>
 </div>

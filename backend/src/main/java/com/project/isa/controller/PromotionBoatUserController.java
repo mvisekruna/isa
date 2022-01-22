@@ -1,6 +1,7 @@
 package com.project.isa.controller;
 
 import com.project.isa.model.Boat;
+import com.project.isa.model.PromotionBoat;
 import com.project.isa.model.PromotionBoatUser;
 import com.project.isa.request.PromotionBoatUserRequest;
 import com.project.isa.service.impl.PromotionBoatUserServiceImpl;
@@ -25,27 +26,30 @@ public class PromotionBoatUserController {
     @GetMapping("/{id}")
     public PromotionBoatUser findById(@PathVariable Long id) throws AccessDeniedException {
         return promotionBoatUserService.findById(id);
-    }
+    } //ima
 
     @GetMapping("/all")
     public List<PromotionBoatUser> findAll() {
         return promotionBoatUserService.findAll();
+    } //ima
+
+    @GetMapping("/all/boats/{boatId}")
+    public List<PromotionBoat> findAllWithBoatId(@PathVariable Long boatId){ //ima
+        return promotionBoatUserService.findAllWithBoatId(boatId);
     }
 
-    @GetMapping("/allsubscribed")
+    @GetMapping("/all/promotions/{promotionId}")
+    public List<PromotionBoatUser> findAllWithPromotionId(@PathVariable Long promotionId){ //ima
+        return promotionBoatUserService.findAllWithPromotionId(promotionId);
+    }
+
+    @PostMapping("/choose/{promotionId}")
     @PreAuthorize("hasRole('USER')")
-    public List<Boat> findAllSubscribed() {
-        return promotionBoatUserService.findAllSubscribed();
-    }
-
-    @PostMapping("/subscribe/{boatId}")
-   // @PreAuthorize("hasRole('ROLE_USER')")
-    public PromotionBoatUser subscribeToPromotions(@PathVariable Long boatId) {
-        return promotionBoatUserService.subscribeToPromotions(boatId);
+    public PromotionBoatUser chooseThePromotion(@PathVariable Long promotionId){ //ima
+        return promotionBoatUserService.chooseThePromotion(promotionId);
     }
 
     @PostMapping("delete/{id}")
-    //@PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Object> deleteOne(@PathVariable Long id){
         PromotionBoatUser u = promotionBoatUserService.findById(id);
         if (u==null) {
@@ -53,15 +57,23 @@ public class PromotionBoatUserController {
         }
         promotionBoatUserService.delete(u);
         return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-    }
+    } //ima
 
     @GetMapping("/boat/{boatId}")
-    public PromotionBoatUser findByBoatId(@PathVariable Long boatId) {
+    @PreAuthorize("hasRole('USER')")
+    public PromotionBoatUser findByBoatId(@PathVariable Long boatId) { //ima
         return promotionBoatUserService.findByBoatId(boatId);
     }
 
-    @PostMapping("unsubscribe/{boatId}")
-    public void unsubscribe(@PathVariable Long boatId){
-        promotionBoatUserService.unsubscribe(boatId);
+    @PostMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public PromotionBoat cancelThePromotion(@PathVariable Long id) { //ima
+        return promotionBoatUserService.cancelThePromotion(id);
+    }
+
+    @GetMapping("/allpromotions/ichose")
+    @PreAuthorize("hasRole('USER')")
+    List<PromotionBoat> findAllPromotionsIChose() {
+        return  promotionBoatUserService.findAllPromotionsIChose();
     }
 }

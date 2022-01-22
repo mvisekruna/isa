@@ -5,16 +5,16 @@
                 <h2>New promotion:</h2>
                 <p>Start date:</p>
                 <input type="datetime-local" class="form-control" id="startPromo" name="startPromo"
-                    [ngModel]="promotionRequest.startPromo | date:'yyyy-MM-ddTHH:mm'" />
+                    [ngModel]="boatPromotionRequest.startPromo | date:'yyyy-MM-ddTHH:mm'" />
                 <p>End date:</p>
                 <input type="datetime-local" class="form-control" id="endPromo" name="endPromo"
-                    [ngModel]="promotionRequest.endPromo | date:'yyyy-MM-ddTHH:mm'" />
+                    [ngModel]="boatPromotionRequest.endPromo | date:'yyyy-MM-ddTHH:mm'" />
                 <p>Description:</p>
                 <input type="text" class="form-control" id="description" name="description"
-                    [(ngModel)]="promotionRequest.description" />
-                <p>Adventure id:</p>
-                <input type="text" [(ngModel)]="promotionRequest.adventurePromotionId" class="form-control"
-                    id="adventurePromotionId" name="adventurePromotionId" placeholder="Enter adventure promotion id">
+                    [(ngModel)]="boatPromotionRequest.description" />
+                <p>Boat id:</p>
+                <input type="text" [(ngModel)]="boatPromotionRequest.boatPromotionId" class="form-control"
+                    id="boatPromotionId" name="boatPromotionId" placeholder="Enter boat promotion id">
                 <button type="submit" class="btn btn-info">Add</button>
             </div>
         </form>

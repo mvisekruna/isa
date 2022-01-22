@@ -1,40 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddPromotionRequest } from 'src/app/model/add-promotion-request';
-import { AdventureServiceService } from 'src/app/service/adventure-service.service';
-import { PromotionServiceService } from 'src/app/service/promotion-service.service';
-
+import { PromotionBoatServiceService } from 'src/app/service/promotion-boat-service.service';
 @Component({
-  selector: 'app-add-promotion',
-  templateUrl: './add-promotion.component.html',
-  styleUrls: ['./add-promotion.component.css']
+  selector: 'app-add-boat-promotion',
+  templateUrl: './add-boat-promotion.component.html',
+  styleUrls: ['./add-boat-promotion.component.css']
 })
-export class AddPromotionComponent implements OnInit {
+export class AddBoatPromotionComponent implements OnInit {
 
-  promotionRequest: AddPromotionRequest;
+  boatPromotionRequest: AddPromotionRequest;
   filterDateFrom: Date;
   filterDateTo: Date;
 
-  constructor(private promotionService: PromotionServiceService, 
+  constructor(private promotionBoatService: PromotionBoatServiceService, 
     private router: Router) { }
 
   ngOnInit(): void {
-    this.promotionRequest = new AddPromotionRequest;
+    this.boatPromotionRequest = new AddPromotionRequest;
     this.filterDateFrom = new Date();
     this.filterDateTo = new Date();
   }
 
   onSubmit(){
-    console.log(this.promotionRequest)
+    console.log(this.boatPromotionRequest)
     this.filterDateFrom = new Date((<HTMLInputElement>document.getElementById("startPromo")).value);
-    this.promotionRequest.startPromo = this.filterDateFrom.toISOString().slice(0, 16).replace('T', ' ')+":00";
+    this.boatPromotionRequest.startPromo = this.filterDateFrom.toISOString().slice(0, 16).replace('T', ' ')+":00";
     this.filterDateTo = new Date((<HTMLInputElement>document.getElementById("endPromo")).value);
-    this.promotionRequest.endPromo = this.filterDateTo.toISOString().slice(0, 16).replace('T', ' ')+":00";
+    this.boatPromotionRequest.endPromo = this.filterDateTo.toISOString().slice(0, 16).replace('T', ' ')+":00";
    
-    this.promotionService.addPromotionToAdventure(this.promotionRequest).subscribe( res => {
+    this.promotionBoatService.addPromotionToBoat(this.boatPromotionRequest).subscribe( res => {
       console.log(res);
       if(res===null){
-        alert('You cant add promotion to this adventure!');
+        alert('You cant add promotion to this boat!');
       }
       this.router.navigate(["/homepage"]);
     });
@@ -60,6 +58,5 @@ export class AddPromotionComponent implements OnInit {
   {
     this.filterDateTo = new Date(value);
   }
-
 
 }

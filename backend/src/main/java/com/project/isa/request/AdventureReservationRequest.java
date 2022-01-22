@@ -6,6 +6,7 @@ import lombok.Data;
 public class AdventureReservationRequest {
 //    private Long id;
 
+    //TODO: DA LI OVO SVE IDE SAMO 
     private String startDate;
 
     private String endDate;

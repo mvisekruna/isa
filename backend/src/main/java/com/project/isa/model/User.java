@@ -66,6 +66,18 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "adventure_id", referencedColumnName = "id"))
 	private List<Adventure> adventures;
 
+	@ManyToMany
+	@JoinTable(name = "user_boat",
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "boat_id", referencedColumnName = "id"))
+	private List<Boat> boats;
+
+	@ManyToMany
+	@JoinTable(name = "user_home",
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "home_id", referencedColumnName = "id"))
+	private List<VacationHome> vacationHomes;
+
 	public Long getId() {
 		return id;
 	}
@@ -191,6 +203,22 @@ public class User implements UserDetails {
 
 	public void setAdventures(List<Adventure> adventures) {
 		this.adventures = adventures;
+	}
+
+	public List<Boat> getBoats() {
+		return boats;
+	}
+
+	public void setBoats(List<Boat> boats) {
+		this.boats = boats;
+	}
+
+	public List<VacationHome> getVacationHomes() {
+		return vacationHomes;
+	}
+
+	public void setVacationHomes(List<VacationHome> vacationHomes) {
+		this.vacationHomes = vacationHomes;
 	}
 
 	@JsonIgnore

@@ -9,6 +9,9 @@
     <div *ngIf="isTutor" id="isTutor">
       <app-home-page-tutor></app-home-page-tutor>
     </div>
+    <div *ngIf="isBoatOwner" id="isTutor">
+      <app-home-page-boat-owner></app-home-page-boat-owner>
+    </div>
     <div class="card-body">
       <button class="btn btn-info" (click)="logout()">Logout</button>
     </div>

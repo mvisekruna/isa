@@ -27,6 +27,8 @@ export class PromotionListComponent implements OnInit {
   dtTrigger3: Subject<any> = new Subject<any>();
 
   isUser: boolean = false;
+  isTutor: boolean = false;
+  isBoatOwner: boolean = false;
   role: any;
   adventurePromotionUserRequest: AdventurePromotionUserRequest = new AdventurePromotionUserRequest;
 
@@ -46,6 +48,10 @@ export class PromotionListComponent implements OnInit {
     this.role = localStorage.getItem('ROLES');
     if(this.role === 'ROLE_USER') {
       this.isUser = true;
+    } else if(this.role === 'ROLE_BOAT_OWNER') {
+      this.isBoatOwner = true;
+    } else if(this.role === 'ROLE_TUTOR') {
+      this.isTutor = true;
     }
     this.promotionService.loadAllAdventurePromotions().subscribe(data => {
       this.adventurePromotions = data;
@@ -71,11 +77,11 @@ export class PromotionListComponent implements OnInit {
   }
 
   chooseBoatPromotion(id:any): void {
-    // this.promotionBoatServiceService.subscribeToPromotions(id).subscribe( data => {
-    //   if(data === null) {
-    //     alert('Already subscribed!');
-    //   }
-    // });
+    this.promotionBoatServiceService.chooseThePromotion(id).subscribe( data => {
+      if(data === null) {
+        alert('Already subscribed!');
+      }
+    });
   }
 
   ngOnDestroy(): void {

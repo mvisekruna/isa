@@ -4,21 +4,21 @@ import com.project.isa.enumeration.ReservationStatus;
 import com.project.isa.model.*;
 import com.project.isa.repository.*;
 import com.project.isa.request.AdventureReservationRequest;
+import com.project.isa.request.BoatReservationRequest;
 import com.project.isa.request.CancelReservationRequest;
 import com.project.isa.response.AdventureReservationResponse;
 import com.project.isa.response.BoatReservationResponse;
 import com.project.isa.response.UserHistoryResponse;
 import com.project.isa.response.VacationHomeReservationResponse;
-import com.project.isa.service.AdventureService;
-import com.project.isa.service.PromotionAdventureService;
-import com.project.isa.service.PromotionAdventureUserService;
-import com.project.isa.service.ReservationService;
+import com.project.isa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +43,9 @@ public class ReservationServiceImpl implements ReservationService {
     private AdventureService adventureService;
 
     @Autowired
+    private BoatService boatService;
+
+    @Autowired
     private PromotionAdventureUserService promotionAdventureUserService;
 
     @Autowired
@@ -50,14 +53,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
-
-    public List<AdventureReservation> findAll() {
-        return adventureReservationRepository.findAll();
-    }
-
-    public AdventureReservation findById(Long id) {
-        return adventureReservationRepository.findById(id).orElseGet(null);
-    }
 
     @Override
     public UserHistoryResponse getAllReservations(String email) {
@@ -116,12 +111,21 @@ public class ReservationServiceImpl implements ReservationService {
         return userHistoryResponse;
     }
 
+    /**ADVENTURE RESERVATIONS****************/
     @Override
-    public List<AdventureReservation> getMyReservations() {
+    public List<AdventureReservation> findAllAdventureReservations() {
+        return adventureReservationRepository.findAll();
+    }
+    @Override
+    public AdventureReservation findByIdAdventureReservation(Long id) {
+        return adventureReservationRepository.findById(id).orElseGet(null);
+    }
+    @Override
+    public List<AdventureReservation> getMyAdventureReservations() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
 
-        List<AdventureReservation> adventureReservationList = findAll();
+        List<AdventureReservation> adventureReservationList = findAllAdventureReservations();
         List<AdventureReservation> temp = new ArrayList<>();
         for(AdventureReservation ar: adventureReservationList){
             if(ar.getUser().getId().equals(user.getId()) && ar.getStatus().equals(ReservationStatus.NEW)){
@@ -131,13 +135,15 @@ public class ReservationServiceImpl implements ReservationService {
 
         return temp;
     }
-
     @Override
-    public List<Adventure> getFreeAdventures(AdventureReservationRequest adventureReservationRequest) {
+    public List<Adventure> getFreeAdventures(AdventureReservationRequest adventureReservationRequest) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    // TODO: PROMENITI DA PRIMA IME AVANTURE ne ID
         List<Adventure> adventureList = new ArrayList<>();
         Adventure temp = new Adventure();
-        Date start = Timestamp.valueOf(adventureReservationRequest.getStartDate());
-        Date end = Timestamp.valueOf(adventureReservationRequest.getEndDate());
+        Date start = formatter.parse(adventureReservationRequest.getStartDate());
+        Date end = formatter.parse(adventureReservationRequest.getEndDate());
 
 //        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
 //        List<PromotionAdventure> promotionAdventureList = promotionAdventureUserService.findAllWithAdventureId(adventureReservationRequest.getAdventureId());
@@ -154,7 +160,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<AdventureReservation> adventureReservationList = adventureReservationRepository.findAll();
         for(AdventureReservation ar: adventureReservationList){
             if(ar.getAdventure().getId().equals(adventureReservationRequest.getAdventureId())
-                    || ar.getStatus().equals("FINISHED") || ar.getStatus().equals("CANCELED")){
+                    && (ar.getStatus().equals(ReservationStatus.FINISHED) || ar.getStatus().equals(ReservationStatus.CANCELED))){
                 if(ar.getEndDate().before(start) || ar.getStartDate().after(end)) {
                     temp = adventureService.findById(ar.getAdventure().getId());
                     if(adventureList.isEmpty()){
@@ -172,7 +178,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         return adventureList;
     }
-
     @Override
     public AdventureReservation chooseAdventure(AdventureReservationRequest adventureReservationRequest) {
         AdventureReservation adventureReservation = new AdventureReservation();
@@ -192,15 +197,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         return adventureReservationRepository.save(adventureReservation);
     }
-
-    @Override
-    public UserHistoryResponse cancelBoatReservation(CancelReservationRequest cancelReservationRequest) {
-        Optional<BoatReservation> boatReservation = this.boatReservationRepository.findById(cancelReservationRequest.getId());
-        boatReservation.get().setStatus(ReservationStatus.CANCELED);
-        this.boatReservationRepository.save(boatReservation.get());
-        return  getAllReservations(cancelReservationRequest.getEmail());
-    }
-
     @Override
     public UserHistoryResponse cancelAdventureReservation(CancelReservationRequest cancelReservationRequest) {
         Optional<AdventureReservation> adventureReservation = this.adventureReservationRepository.findById(cancelReservationRequest.getId());
@@ -209,6 +205,99 @@ public class ReservationServiceImpl implements ReservationService {
         return  getAllReservations(cancelReservationRequest.getEmail());
     }
 
+    /**BOAT RESERVATIONS****************/
+    @Override
+    public List<BoatReservation> findAllBoatReservations() {
+        return boatReservationRepository.findAll();
+    }
+    @Override
+    public BoatReservation findByIdBoatReservation(Long id) {
+        return boatReservationRepository.findById(id).orElseGet(null);
+    }
+    @Override
+    public List<BoatReservation> getMyBoatReservations() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<BoatReservation> boatReservationList = findAllBoatReservations();
+        List<BoatReservation> temp = new ArrayList<>();
+        for(BoatReservation br: boatReservationList) {
+            if(br.getUser().getId().equals(user.getId()) && br.getStatus().equals(ReservationStatus.NEW)) {
+                temp.add(br);
+            }
+        }
+        return temp;
+    }
+    @Override
+    public List<Boat> getFreeBoats(BoatReservationRequest boatReservationRequest) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<Boat> boatList = new ArrayList<>();
+        Boat temp = new Boat();
+        Date start = formatter.parse(boatReservationRequest.getStartDate());
+        Date end = formatter.parse(boatReservationRequest.getEndDate());
+
+//        List<PromotionAdventureUser> promotionAdventureUserList = promotionAdventureUserService.findAll();
+//        List<PromotionAdventure> promotionAdventureList = promotionAdventureUserService.findAllWithAdventureId(adventureReservationRequest.getAdventureId());
+//        for(PromotionAdventureUser pau: promotionAdventureUserList) {
+//            if(pau.getAdventure().equals(adventureReservationRequest.getAdventureId())){
+//                for(PromotionAdventure pa: promotionAdventureList) {
+//                    if(!(pa.getEndPromo().before(start) || pa.getStartPromo().after(end))) {
+//                        return null;
+//                    }
+//                }
+//            }
+//        }
+
+        List<BoatReservation> boatReservationList = boatReservationRepository.findAll();
+        for(BoatReservation br: boatReservationList){
+            if(br.getBoat().getId().equals(boatReservationRequest.getBoatId())
+                    || br.getStatus().equals(ReservationStatus.FINISHED) || br.getStatus().equals(ReservationStatus.CANCELED)){
+                if(br.getEndDate().before(start) || br.getStartDate().after(end)) {
+                    temp = boatService.findById(br.getBoat().getId());
+                    if(boatList.isEmpty()){
+                        boatList.add(temp);
+                    } else {
+                        for(Boat b: boatList){
+                            if(!(b.getId().equals(temp.getId()))){
+                                boatList.add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return boatList;
+    }
+    @Override
+    public BoatReservation chooseBoat(BoatReservationRequest boatReservationRequest) {
+        BoatReservation boatReservation = new BoatReservation();
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        Date start = Timestamp.valueOf(boatReservationRequest.getStartDate());
+        Date end = Timestamp.valueOf(boatReservationRequest.getEndDate());
+
+        Boat boat = boatService.findById(boatReservationRequest.getBoatId());
+        boatReservation.setBoat(boat);
+        boatReservation.setStartDate(start);
+        boatReservation.setEndDate(end);
+        boatReservation.setUser(user);
+        boatReservation.setStatus(ReservationStatus.NEW);
+
+        return boatReservationRepository.save(boatReservation);
+    }
+    @Override
+    public UserHistoryResponse cancelBoatReservation(CancelReservationRequest cancelReservationRequest) {
+        Optional<BoatReservation> boatReservation = this.boatReservationRepository.findById(cancelReservationRequest.getId());
+        boatReservation.get().setStatus(ReservationStatus.CANCELED);
+        this.boatReservationRepository.save(boatReservation.get());
+        return  getAllReservations(cancelReservationRequest.getEmail());
+    }
+
+    /**VACATION HOME RESERVATIONS****************/
     @Override
     public UserHistoryResponse cancelVacationHomeReservation(CancelReservationRequest cancelReservationRequest) {
         Optional<VacationHomeReservation> vacationHomeReservation = this.vacationHomeReservationRepository.findById(cancelReservationRequest.getId());

@@ -1,12 +1,14 @@
 package com.project.isa.service.impl;
 
 import com.project.isa.model.Adventure;
+import com.project.isa.model.Boat;
 import com.project.isa.model.Role;
 import com.project.isa.model.User;
 import com.project.isa.repository.UserRepository;
 import com.project.isa.request.UserRequest;
 import com.project.isa.request.UserUpdateRequest;
 import com.project.isa.service.AdventureService;
+import com.project.isa.service.BoatService;
 import com.project.isa.service.RoleService;
 import com.project.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     AdventureService adventureService;
 
+    @Autowired
+    BoatService boatService;
+
+    @Override
+    public User findById(Long id) throws AccessDeniedException {
+        return userRepository.findById(id).orElseGet(null);
+    }
+
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public User findById(Long id) throws AccessDeniedException {
-        return userRepository.findById(id).orElseGet(null);
-    }
-
+    @Override
     public List<User> findAll() throws AccessDeniedException {
         return userRepository.findAll();
     }
@@ -142,46 +149,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User subscribeToPromotions(Long adventureId) {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        User temp = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
-        Adventure adventure = adventureService.findById(adventureId);
-
-        List<Adventure> adventureList = temp.getAdventures();
-        for(Adventure a: adventureList){
-            if(a.getId().equals(adventureId)){
-               return null;
-            }
-        }
-        adventureList.add(adventure);
-        temp.setAdventures(adventureList);
-
-        return userRepository.save(temp);
-    }
-
-    @Override
-    public void cancelMySubscription(Long adventureId) {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
-        Adventure adventure = adventureService.findById(adventureId);
-        List<Adventure> adventureList = user.getAdventures();
-        adventureList.remove(adventure);
-
-        userRepository.save(user);
-    }
-
-    @Override
-    public List<Adventure> findMySubscribed() { //FIND ALL ADVENTURES IM SUBSCRIBED TO
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
-
-        List<Adventure> adventureList = user.getAdventures();
-
-        return adventureList;
-    }
-
-
-    @Override
     public User update(UserUpdateRequest userUpdateRequest) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
@@ -210,35 +177,105 @@ public class UserServiceImpl implements UserService {
         return tutors;
     }
 
+    @Override
     public User activateAccount(String email) {
         User user = findByEmail(email);
         user.setEnabled(true);
         System.out.println("aktiviran");
         return userRepository.save(user);
     }
-/*
-    public User deleteAccount() {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
-        String email = currentUser.getName();
-        User u = (User) customUserDetailsService.loadUserByUsername(email);
-        try {
-            emailService.deleteAccountAsync(u);
-        } catch (MailException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
-        return u;
-    }
-*/
+    @Override
     public User deactivateAccount(String email){
         User user = findByEmail(email);
         user.setEnabled(false);
         System.out.println("obrisan");
         return userRepository.save(user);
     }
+
+
+    /**ADVENTURE*******/
+    @Override
+    public User subscribeToAdventurePromotions(Long adventureId) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User temp = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+        Adventure adventure = adventureService.findById(adventureId);
+
+        List<Adventure> adventureList = temp.getAdventures();
+        for(Adventure a: adventureList){
+            if(a.getId().equals(adventureId)){
+               return null;
+            }
+        }
+        adventureList.add(adventure);
+        temp.setAdventures(adventureList);
+
+        return userRepository.save(temp);
+    }
+
+    @Override
+    public void cancelMyAdventureSubscription(Long adventureId) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+        Adventure adventure = adventureService.findById(adventureId);
+        List<Adventure> adventureList = user.getAdventures();
+        adventureList.remove(adventure);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<Adventure> findMySubscribedAdventures() { //FIND ALL ADVENTURES IM SUBSCRIBED TO
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<Adventure> adventureList = user.getAdventures();
+
+        return adventureList;
+    }
+
+    /**BOAT*******/
+    @Override
+    public User subscribeToBoatPromotions(Long boatId) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User temp = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+        Boat boat = boatService.findById(boatId);
+
+        List<Boat> boatList = temp.getBoats();
+        for(Boat b: boatList){
+            if(b.getId().equals(boatId)){
+                return null;
+            }
+        }
+        boatList.add(boat);
+        temp.setBoats(boatList);
+
+        return userRepository.save(temp);
+    }
+
+    @Override
+    public void cancelMyBoatSubscription(Long boatId) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+        Boat boat = boatService.findById(boatId);
+        List<Boat> boatList = user.getBoats();
+        boatList.remove(boat);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<Boat> findMySubscribedBoats() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) customUserDetailsService.loadUserByUsername(currentUser.getName());
+
+        List<Boat> boatList = user.getBoats();
+
+        return boatList;
+    }
+
+    /**VACATION HOME*******/
+
+
+
 }

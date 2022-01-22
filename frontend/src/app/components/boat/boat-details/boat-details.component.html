@@ -8,6 +8,7 @@
     </div>
     <div class="form-group col-sm-4">
       <p>
+        <strong>Id:</strong>{{boat.id}} <br />
         <strong>Name: </strong>{{boat.boatName}} <br />
         <strong>Location: </strong>{{boat.boatLocation}} <br />
         <strong>Description: </strong>{{boat.boatDescription}} <br />
@@ -25,4 +26,5 @@
           <strong>Owner phone number: </strong>{{boat.boatOwner.phoneNumber}} <br />
         </p>
       </div>
+      <div *ngIf="isUser"><button (click) = "subscribeToPromotions(boat.id)">Subscribe to promotions</button></div>    
 </div>

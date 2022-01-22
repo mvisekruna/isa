@@ -3,6 +3,7 @@ package com.project.isa.controller;
 import javax.ws.rs.core.Context;
 
 import com.project.isa.model.Adventure;
+import com.project.isa.model.Boat;
 import com.project.isa.model.User;
 import com.project.isa.request.ChangePasswordRequest;
 import com.project.isa.request.UserUpdateRequest;
@@ -31,17 +32,17 @@ public class UserController {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public User loadById(@PathVariable Long userId) {
+        return this.userService.findById(userId);
+    }
+
     @PostMapping("/{email}")
     public ResponseEntity<User> findByEmail(@RequestBody String email, @Context HttpServletRequest request){
         User user = userService.findByEmail(email);
         HttpSession session = request.getSession();
         return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/user/{userId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public User loadById(@PathVariable Long userId) {
-        return this.userService.findById(userId);
     }
 
     @GetMapping("/user/all")
@@ -50,20 +51,15 @@ public class UserController {
         return this.userService.findAll();
     }
 
-    @GetMapping("/tutors")
-    public List<User> loadAllTutors() {
-        return userService.findAllTutors(); }
-
     @PostMapping("/updateuser")
     //@PreAuthorize("hasRole('USER')")
     public User updateUser(@RequestBody UserUpdateRequest userUpdateRequest) {
         return userService.update(userUpdateRequest);
     }
 
-    @PostMapping("/changepassword")
-    public User changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
-        return customUserDetailsService.changePassword(changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword());
-    }
+    @GetMapping("/tutors")
+    public List<User> loadAllTutors() {
+        return userService.findAllTutors(); }
 
     @RequestMapping(path = "/activateacc/{id}", method = RequestMethod.GET)
     public String activateAccount(@PathVariable int id) {
@@ -72,11 +68,6 @@ public class UserController {
         return u.getEmail();
     }
 
-//    @GetMapping("/deleteaccount")
-//    public User deleteAccount() {
-//        return userService.deleteAccount();
-//    }
-
     @RequestMapping(path = "/deactivateacc/{id}", method = RequestMethod.GET)
     public String deactivateAccount(@PathVariable int id) {
         User u = userService.findById(Long.valueOf(id));
@@ -84,24 +75,49 @@ public class UserController {
         return u.getEmail();
     }
 
-    @PostMapping("/subscribe/{adventureId}")
-    @PreAuthorize("hasRole('USER')")
-    public User subscribeToPromotions(@PathVariable Long adventureId) {
-        return userService.subscribeToPromotions(adventureId);
+    @PostMapping("/changepassword")
+    public User changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
+        return customUserDetailsService.changePassword(changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword());
     }
 
-    @PostMapping("/cancel/{adventureId}")
+    /**ADVENTURE*******/
+    @PostMapping("adventure/subscribe/{adventureId}")
     @PreAuthorize("hasRole('USER')")
-    public void cancelMySubscription(@PathVariable Long adventureId) {
-        userService.cancelMySubscription(adventureId);
+    public User subscribeToAdventurePromotions(@PathVariable Long adventureId) {
+        return userService.subscribeToAdventurePromotions(adventureId);
     }
 
-    @GetMapping("all/subscribed")
+    @PostMapping("adventure/cancel/{adventureId}")
     @PreAuthorize("hasRole('USER')")
-    public List<Adventure> findMySubscribed() {
-        return userService.findMySubscribed();
+    public void cancelMyAdventureSubscription(@PathVariable Long adventureId) {
+        userService.cancelMyAdventureSubscription(adventureId);
     }
 
+    @GetMapping("adventure/all/subscribed")
+    @PreAuthorize("hasRole('USER')")
+    public List<Adventure> findMySubscribedAdventures() {
+        return userService.findMySubscribedAdventures();
+    }
+
+
+    /**BOAT*******/
+    @PostMapping("boat/subscribe/{boatId}")
+    @PreAuthorize("hasRole('USER')")
+    public User subscribeToBoatPromotions(@PathVariable Long boatId) {
+        return userService.subscribeToBoatPromotions(boatId);
+    }
+
+    @PostMapping("boat/cancel/{boatId}")
+    @PreAuthorize("hasRole('USER')")
+    public void cancelMyBoatSubscription(@PathVariable Long boatId) {
+        userService.cancelMyBoatSubscription(boatId);
+    }
+
+    @GetMapping("boat/all/subscribed")
+    @PreAuthorize("hasRole('USER')")
+    public List<Boat> findMySubscribedBoats() {
+        return userService.findMySubscribedBoats();
+    }
 
 
 

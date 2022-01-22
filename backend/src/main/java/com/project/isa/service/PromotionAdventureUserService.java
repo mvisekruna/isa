@@ -16,6 +16,4 @@ public interface PromotionAdventureUserService {
     PromotionAdventureUser findByAdventureId(Long adventureId);
     PromotionAdventure cancelThePromotion(Long adventureId);
     List<PromotionAdventure> findAllPromotionsIChose();
-
-
 }

@@ -1,5 +1,5 @@
 <div class="card my-5">
-    <div class="card-body">
+    <div *ngIf="isTutor || isUser" class="card-body">
         <h2>{{ title1 }}</h2>
         <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger1">
             <thead class="thead-dark">
@@ -25,7 +25,7 @@
             </tbody>
         </table>
     </div>
-    <div class="card-body">
+    <div *ngIf="isBoatOwner || isUser" class="card-body">
         <h2>{{ title2 }}</h2>
         <table class="table table-bordered table-striped table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger2">
             <thead class="thead-dark">
