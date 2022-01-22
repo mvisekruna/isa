@@ -1,6 +1,6 @@
 # ISA20-21
 
-# Pharmacy system
+# Fishing system
 
 ## Tehnologije: 
 * MySQL
